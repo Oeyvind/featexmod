@@ -1,0 +1,7 @@
+*.pyc
+*.sfk
+*.wav
+*.dll
+*.vst
+test.csd
+test.wav

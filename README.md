@@ -19,6 +19,8 @@
 A toolkit to analyze features of an audio signal, and using these features as control signals to modulate parameters of other processes.
 Typically used to modulate effect processing parameters. Used on the same sound it provides adaptive effects, used on another source sound it provides cross-adaptive effects.
 
+The Feature-Extract-Modulator is a further development of the "interprocessing" Signal Interaction Toolkit of 2015. 
+
 * How to use:
 - Compile the VST plugins from the .csd files using Cabbage (https://github.com/rorywalsh/cabbage/releases)
 - Insert the analyzer plugin on one track (track 1) of your VST host, route audio to it
