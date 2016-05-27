@@ -20,6 +20,9 @@ A toolkit to analyze features of an audio signal, and using these features as co
 Typically used to modulate effect processing parameters. Used on the same sound it provides adaptive effects, used on another source sound it provides cross-adaptive effects.
 
 The Feature-Extract-Modulator is a further development of the "interprocessing" Signal Interaction Toolkit of 2015. 
+Due to possible conflicts of VST id's it is advised not to have both the "interprocessing" and the "featexmod" toolkit installed in your VST path.
+Move your VST/interprocessing folder (if you have one) to another location on your computer and you should be fine.
+
 
 * How to use:
 - Compile the VST plugins from the .csd files using Cabbage (https://github.com/rorywalsh/cabbage/releases)

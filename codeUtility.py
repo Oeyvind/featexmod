@@ -1,42 +1,26 @@
 #!/usr/bin/python
 # -*- coding: latin-1 -*-
 
-#    Copyright 2015 Oeyvind Brandtsegg 
+#    Copyright 2016 Oeyvind Brandtsegg 
 #
-#    This file is part of the Signal Interaction Toolkit
+#    This file is part of the Feature-Extract-Modulator package
 #
-#    The Signal Interaction Toolkit is free software: you can redistribute it and/or modify
+#    The Feature-Extract-Modulator is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License version 3 
 #    as published by the Free Software Foundation.
 #
-#    The Signal Interaction Toolkit is distributed in the hope that it will be useful,
+#    The Feature-Extract-Modulator is distributed in the hope that it will be useful,
 #    but WITHOUT ANY WARRANTY; without even the implied warranty of
 #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #    GNU General Public License for more details.
 #
 #    You should have received a copy of the GNU General Public License
-#    along with The Signal Interaction Toolkit.  
+#    along with The Feature-Extract-Modulator package.  
 #    If not, see <http://www.gnu.org/licenses/>.
+
 
 import sys
 
-if sys.argv[1] == 'template':
-    effectname = 'template'
-    parameters = [('Vol', (0.0, 1.0, 0.5, 0.25, 0.00001))] 
-                # pName, (min, max, default, skew, increment)
-                # where skew is a dynamic adjustment of exp/lin/log translation if the GUI widget
-                # and increment is the smallest change allowed by the GUI widget
-
-if sys.argv[1] == 'stereopan':
-    effectname = 'stereopan'
-    parameters = [('Pan', (0.0, 1.0, 0.5, 1, 0.001)),
-                  ('Mix', (0.0, 1.0, 0.5, 1, 0.001))] 
-
-if sys.argv[1] == 'tremolam':
-    effectname = 'tremolam'
-    parameters = [('Depth', (0.0, 1.0, 0.5, 0.25, 0.001)),
-                  ('RateLow', (0.0, 10.0, 0.5, 0.25, 0.001)),
-                  ('RateHigh', (0.0, 500.0, 0.5, 0.25, 0.001))] 
 
 if sys.argv[1] == 'vst_mediator':
     effectname = 'vst_mediator'
@@ -49,6 +33,9 @@ if sys.argv[1] == 'vst_mediator':
                   ('parm7', (0.0, 1.0, 0.5, 1, 0.001)), 
                   ('parm8', (0.0, 1.0, 0.5, 1, 0.001))
                   ]
+                # pName, (min, max, default, skew, increment)
+                # where skew is a dynamic adjustment of exp/lin/log translation if the GUI widget
+                # and increment is the smallest change allowed by the GUI widget
 
 if sys.argv[1] == 'vst_MIDIator':
     effectname = 'vst_MIDIator'
@@ -62,92 +49,6 @@ if sys.argv[1] == 'vst_MIDIator':
                   ('parm8', (0.0, 1.0, 0.5, 1, 0.001))
                   ]
 
-if sys.argv[1] == 'stereodelay':
-    effectname = 'stereodelay'
-    parameters = [('delaytime', (0.0008, 2.0, 0.5, 0.25, 0.00001)), 
-                  ('filt_fq', (100, 10000, 1000, 0.35, 1)),
-                  ('feedback', (0.0, 0.9999, 0.3, 1.9, 0.0001))
-                  ]
-              
-if sys.argv[1] == 'pluck':
-    effectname = 'pluck'
-    parameters = [('inlevel', (0, 1.0, 1, 0.3, 0.01)), 
-                  ('freq', (1, 1450, 400, 0.3, 0.01)), 
-                  ('filt_fq', (1000, 16000, 7000, 0.35, 1)),
-                  ('feedback', (0.8, 0.9999, 0.95, 1.9, 0.0001)),
-                  ('mix', (0, 1.0, 1, 0.3, 0.01))
-                  ]
-
-if sys.argv[1] == 'lpf18dist':
-    effectname = 'lpf18dist'
-    parameters = [('Drive', (1, 12, 2, 1, 0.1)), 
-                  ('Freq', (20, 10000, 3000, 0.35, 1)),
-                  ('Resonance', (0.001, 0.95, 0.3, 1, 0.001)),
-                  ('Dist', (0.001, 10, 0.2, 0.5, 0.001)),
-                  ('Mix', (0.0, 1.0, 1.0, 1, 0.01)),
-                  ]
-
-if sys.argv[1] == 'screverb':
-    effectname = 'screverb'
-    parameters = [('InLevel', (0, 1.0, 0.2, 0.3, 0.01)), 
-                  ('Feed', (0.0, 1.0, 0.85, 1.2, 0.01)), 
-                  ('FiltFq', (100, 14000, 7000, 0.6, 1)), 
-                  ('PitchMod', (0.0, 4.0, 0.9, 1, 0.01)), 
-                  ('PreDly', (0.0, 500, 120, 1, 1)), 
-                  ('LfRoll', (20, 500, 90, 1, 1)), 
-                  ('Mix', (0.0, 1.0, 1.0, 1, 0.01))
-                  ]
-
-if sys.argv[1] == 'freeverb':
-    effectname = 'freeverb'
-    parameters = [('inlevel', (0, 1.0, 1.0, 0.3, 0.01)), 
-                  ('reverbtime', (0.0, 8.0, 1.5, 0.4, 0.01)), 
-                  ('reverbdamp', (0.0, 1.0, 0.25, 0.6, 0.01)), 
-                  ('reverbmix', (0.0, 1.0, 0.7, 1, 0.01))
-                  ]
-
-if sys.argv[1] == 'mincertime':
-    effectname = 'mincertime'
-    parameters = [('inlevel', (0, 1.0, 1, 0.3, 0.01)), 
-                  ('timpoint', (0, 0.99, 0.1, 0.4, 0.001)), 
-                  ('pitch', (0.0, 2.0, 1.0, 1, 0.01)),
-                  ('feedback', (0.0, 1.0, 0.0, 1, 0.01)),
-                  ('mix', (0, 1.0, 1, 0.3, 0.01))
-                  ]
-
-if sys.argv[1] == 'plucktremlpfverb':
-    effectname = 'plucktremlpfverb'
-    parameters = [('inlevel', (0, 1.0, 1, 0.3, 0.01)), 
-                  ('pluckfreq', (1, 1450, 400, 0.3, 0.01)), 
-                  ('pluckfilt', (1000, 16000, 7000, 0.35, 1)),
-                  ('pluckfeed', (0.8, 0.9999, 0.95, 1.9, 0.0001)),
-                  ('pluckmix', (0, 1.0, 1, 0.3, 0.01)),
-                  ('tremDepth', (0.0, 1.0, 0.5, 0.25, 0.001)),
-                  ('tRateLow', (0.0, 10.0, 0.5, 0.25, 0.001)),
-                  ('tRateHigh', (0.0, 500.0, 0.5, 0.25, 0.001)),  
-                  ('lpfDrive', (1, 12, 2, 1, 0.1)), 
-                  ('lpfFreq', (20, 10000, 3000, 0.35, 1)),
-                  ('lpfResonance', (0.001, 0.95, 0.3, 1, 0.001)),
-                  ('lpfDist', (0.001, 10, 0.2, 0.5, 0.001)),
-                  ('lpfMix', (0.0, 1.0, 1.0, 1, 0.01)),
-                  ('reverbtime', (0.0, 8.0, 1.5, 0.4, 0.01)), 
-                  ('reverbdamp', (0.0, 1.0, 0.25, 0.6, 0.01)), 
-                  ('reverbmix', (0.0, 1.0, 0.7, 1, 0.01))
-                  ]
-
-if sys.argv[1] == 'mincerpanverb':
-    effectname = 'mincerpanverb'
-    parameters = [('inlevel', (0, 1.0, 1, 0.3, 0.01)), 
-                  ('mincertime', (0, 0.99, 0.1, 0.4, 0.001)), 
-                  ('mincerpitch', (0.0, 2.0, 1.0, 1, 0.01)),
-                  ('mincerfeed', (0.0, 1.0, 0.0, 1, 0.01)),
-                  ('mincermix', (0, 1.0, 1, 0.3, 0.01)),
-                  ('Pan', (0.0, 1.0, 0.5, 1, 0.001)),
-                  ('panMix', (0.0, 1.0, 0.5, 1, 0.001)),
-                  ('reverbtime', (0.0, 8.0, 1.5, 0.4, 0.01)), 
-                  ('reverbdamp', (0.0, 1.0, 0.25, 0.6, 0.01)), 
-                  ('reverbmix', (0.0, 1.0, 0.7, 1, 0.01))
-                  ]
 
 #
 scorefile = open(effectname+'_score_events.inc', 'w')

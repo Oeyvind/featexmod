@@ -1,18 +1,18 @@
-;    Copyright 2015 Oeyvind Brandtsegg 
+;    Copyright 2016 Oeyvind Brandtsegg 
 ;
-;    This file is part of the Signal Interaction Toolkit
+;    This file is part of the Feature-Extract-Modulator package
 ;
-;    The Signal Interaction Toolkit is free software: you can redistribute it and/or modify
+;    The Feature-Extract-Modulator is free software: you can redistribute it and/or modify
 ;    it under the terms of the GNU General Public License version 3 
 ;    as published by the Free Software Foundation.
 ;
-;    The Signal Interaction Toolkit is distributed in the hope that it will be useful,
+;    The Feature-Extract-Modulator is distributed in the hope that it will be useful,
 ;    but WITHOUT ANY WARRANTY; without even the implied warranty of
 ;    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ;    GNU General Public License for more details.
 ;
 ;    You should have received a copy of the GNU General Public License
-;    along with The Signal Interaction Toolkit.  
+;    along with The Feature-Extract-Modulator package.  
 ;    If not, see <http://www.gnu.org/licenses/>.
 
         ichan           chnget "chan"
