@@ -56,7 +56,7 @@
 ;  istartempo = 110
 ;  k1 tempest krms, iprd, imindur, imemdur, ihp, ithresh, ihtim, ixfdbak, istartempo, gifnTempomem
 ;printk2 k1
-        
+
 ; ***************
 ;analyze amplitude transients
 	iresponse	        = 10 			                ; response time in milliseconds
@@ -111,6 +111,45 @@ rireturn
         ;katransDensEnv   = (katranCount+(iA*(katransDensEnv-katranCount)))
         
 ; ***************
+; rhythmic analysis
+
+ibufsize_ry = 256
+kcnt_ry init 0
+kArr_ry[] init ibufsize_ry
+kdeviation_ry chnget "rhythmComplexityDeviation"
+
+if krms_tran0 > 0 then
+kArr_ry[kcnt_ry] = ktime
+k_0 = kArr_ry[kcnt_ry]
+k_1 = kArr_ry[wrap(kcnt_ry-1,0,ibufsize_ry)]
+k_2 = kArr_ry[wrap(kcnt_ry-2,0,ibufsize_ry)]
+k_3 = kArr_ry[wrap(kcnt_ry-3,0,ibufsize_ry)]
+k_4 = kArr_ry[wrap(kcnt_ry-4,0,ibufsize_ry)]
+kdist1 = (k_0 - k_1)
+kdist2 = (k_1 - k_2)
+kdist3 = (k_2 - k_3)
+kdist4 = (k_3 - k_4)
+krel1 divz kdist1, kdist2, 1
+krel2 divz kdist1, kdist3, 1
+krel3 divz kdist1, kdist4, 1
+
+knom1, kdenom1 pycall2 "r.farey", krel1, 64, kdeviation_ry
+knom2, kdenom2 pycall2 "r.farey", krel2, 64, kdeviation_ry*2
+knom3, kdenom3 pycall2 "r.farey", krel3, 64, kdeviation_ry*3
+
+;Tenney height is log2(Benedetti height)
+kben3p2p1p = log2(knom1*kdenom1)+log2(knom2*kdenom2)+log2(knom3*kdenom3)
+
+; Average Tenney height over 3 last IOT's, relative to the tempo of the 2 last IOT's
+kben3p2p1p_t = (kben3p2p1p+1)*(2/(kdist1+kdist2))
+
+kcnt_ry wrap (kcnt_ry+1), 0, ibufsize_ry
+endif
+
+krhythm_complexity = kben3p2p1p_t/100
+
+        
+; ***************
 ; spectral analysis
 
 	iwtype 			= 1
@@ -142,52 +181,17 @@ if (kdoflag > 0) && (kflag > 0) then
 	kcorrSum		= 0
 	kthisSum2		= 0
 	kprevSum2		= 0
-	kMelAmps[]              init    33              ; amps for 32 mel freq bands
 
- process1:
-	kArrCorr[kindx]		= kArrA[kindx]*kArrAprev[kindx]
-	knormAmp		divz kArrA[kindx], ksumAmp, 0
-	kcentroid		= kcentroid + (kArrF[kindx]*knormAmp)
-	kmelFq                  table kArrF[kindx], gifqToMelTab        ; get mel freq of this band
-	kmelBand                table kmelFq, gi32melBands              ; get the mel band where this freq belongs (fractional value)
-        kmelBand1               = floor(kmelBand)
-	kMelAmps[kmelBand1]     = kMelAmps[kmelBand1]+(kArrA[kindx]*(1-frac(kmelBand)))
-	kMelAmps[kmelBand1+1]   = kMelAmps[kmelBand1+1]+(kArrA[kindx]*frac(kmelBand))
-	kindx 			= kindx + 1
-  if kindx < giFftTabSize then
-  kgoto process1
-  endif
-        kMelCepsInput[]		init    128
-        kindx                   = 0
-
-fillCeps:
-        kindx                   = kindx + 1
-        kmelBandFq              table kindx, gi32melBandFqs
-        kMelCepsInput[kindx*2]  = (kMelAmps[kindx])
-        kMelCepsInput[(kindx*2)+1]  = kmelBandFq
-  if kindx < 31 then
-  kgoto fillCeps         
-  endif
-        kMelCeps[]		init    128
-        kMelCepsIn[]		init    128
-        kMelCepsIn2[]		init    128
-/*
-        kMelCepsIn              ceps mags(rfft(kMelCepsInput)), 20
-
-        printk 0.4, kMelCepsInput[2]
-        kmelceps_b1             = kMelCepsIn[2];sqrt((kMelCeps[2]^2)+(kMelCeps[3]^2))
-        kmelceps_b2             = kMelCepsIn[4];sqrt((kMelCeps[4]^2)+(kMelCeps[5]^2))
-        kmelceps_b3             = kMelCepsIn[6];sqrt((kMelCeps[6]^2)+(kMelCeps[7]^2))
-        kmelceps_b4             = kMelCepsIn[8];sqrt((kMelCeps[8]^2)+(kMelCeps[9]^2))
-*/
+        kcentroid               pvscent fsin
         
-; separate loop for spread, skewness, kurtosis (as they depend on centroid being previously calculated) 
+; loop for spread, skewness, kurtosis (depend on centroid being previously calculated) 
 	kindx 			= 0
 	kspread			= 0
 	kskewness		= 0
 	kurtosis		= 0
 	kmean_geo               = 1
  process2:
+	kArrCorr[kindx]		= kArrA[kindx]*kArrAprev[kindx]
 	knormAmp		divz kArrA[kindx], ksumAmp, 0
 	kspread			= kspread+ (((kArrF[kindx] - kcentroid)^2)*knormAmp)
 	kskewness		= kskewness + ((kArrF[kindx] - kcentroid)^3)*knormAmp
@@ -246,15 +250,23 @@ endif
         ;kurtosis                mediank kurtosis, 11, 11
 
 ; ***************
-; cepstrum
-        kCeps[]  		init    giFftTabSize
-        kCeps                   pvsceps fsin
-        kceps_b1                = sqrt((kCeps[0]^2)+(kCeps[1]^2))
-        kceps_b2                = sqrt((kCeps[2]^2)+(kCeps[3]^2))
-        kceps_b3                = sqrt((kCeps[4]^2)+(kCeps[5]^2))
-        kceps_b4                = sqrt((kCeps[6]^2)+(kCeps[7]^2))
-        kceps_b100              = sqrt((kCeps[198]^2)+(kCeps[199]^2))
-        
+; cepstrum, mfcc
+
+ ibins init gifftsize/2
+ kIn[] init gifftsize
+ kcnt init 0
+ kIn shiftin a1
+ kcnt += ksmps
+ if kcnt == gifftsize then
+  kFFT[] = rfft(kIn)
+  kPows[] = pows(kFFT)
+  kMFB[] = log(mfb(kPows,300,8000,32))
+  kmfcc[] = dct(kMFB)
+  kcnt = 0
+ endif
+
+
+
 ; ***************
 ;analyze centroid transients
 
@@ -432,11 +444,21 @@ rireturn
         kpitch_n        = limit(divz(kcps-kpitch_low, kpitch_high-kpitch_low, 1), 0, 1)    ; normalized and offset
         kcentroid_n     = kcentroidf / (sr*0.2)
         kspread_n       = kspread / (sr*0.25)
-        kskewness_n     = kskewness / 7
-        kurtosis_n      = kurtosis / 15
+        kskewness_n     = kskewness / 50
+        kurtosis_n      = kurtosis / 150
         kcrest_n        = kcrest / 250
         kflux_n         = kfluxf * 4
         kautocorr_n     = kautocorr * 2
+        imfccscale      = 1/200
+        kmax            maxarray kmfcc
+        kmin            minarray kmfcc
+        ;printk2 kmin
+        ;printk2 kmax, 10
+        kmfcc1          = kmfcc[1]*imfccscale
+        kmfcc2          = kmfcc[2]*imfccscale
+        kmfcc3          = kmfcc[3]*imfccscale
+        kmfcc4          = kmfcc[4]*imfccscale
+        kmfcc5          = kmfcc[5]*imfccscale
 
 ; auto-normalize
         kcalibrate      chnget "autocalibrate"
@@ -454,6 +476,12 @@ rireturn
         kcrest_a        AutoNormalize kcrest_n, kreset, kcalibrate, knormalize, iperiod
         kflux_a         AutoNormalize kflux_n, kreset, kcalibrate, knormalize, iperiod
 
+;        kmfcc1          AutoNormalize kmfcc[1], kreset, kcalibrate, knormalize, iperiod
+;        kmfcc2          AutoNormalize kmfcc[2], kreset, kcalibrate, knormalize, iperiod
+;        kmfcc3          AutoNormalize kmfcc[3], kreset, kcalibrate, knormalize, iperiod
+;        kmfcc4          AutoNormalize kmfcc[4], kreset, kcalibrate, knormalize, iperiod
+;        kmfcc5          AutoNormalize kmfcc[5], kreset, kcalibrate, knormalize, iperiod
+
         krms            limit krms, 0, 1
         krms_preEq      limit krms_preEq, 0, 1
         kpitch_a        limit kpitch_a, 0, 1
@@ -464,3 +492,8 @@ rireturn
         kflatness_a     limit kflatness_a, 0, 1
         kcrest_a        limit kcrest_a, 0, 1
         kflux_a         limit kflux_a, 0, 1
+        ;kmfcc1          limit kmfcc1, 0, 1
+        ;kmfcc2          limit kmfcc2, 0, 1
+        ;kmfcc3          limit kmfcc3, 0, 1
+        ;kmfcc4          limit kmfcc4, 0, 1
+        ;kmfcc5          limit kmfcc5, 0, 1

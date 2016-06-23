@@ -16,7 +16,7 @@
 ;    If not, see <http://www.gnu.org/licenses/>.
 
 <Cabbage>
-form size(740, 750), caption("Analyzer"), pluginID("anlz")
+form size(740, 750), caption("Analyzer"), pluginID("anlz"), guirefresh(1) 
 image bounds(0, 0, 740, 500), file("background.jpg"), shape("round")
 
 label text("channel"), bounds(15, 16, 75, 12)
@@ -29,7 +29,7 @@ button channel("pitchMonitor"),bounds(90, 88, 120, 15), text("pitch monitor"), c
 
 checkbox channel("pause"),bounds(220, 5, 15, 15), value(0)
 label bounds(170, 5, 50, 12), text("pause"),  colour(50, 50, 50, 255)
-checkbox channel("enableDisplay"),bounds(345, 5, 15, 15), value(0)
+checkbox channel("enableDisplay"),bounds(345, 5, 15, 15), value(1)
 label bounds(255, 5, 90, 12), text("enableDisplay"),  colour(50, 50, 50, 255)
 
 checkbox channel("autonormalize"),bounds(220, 20, 15, 15), value(0)
@@ -77,7 +77,7 @@ label text("pitch"), bounds(12, 429, 70, 12)
 checkbox channel("puptransientDisplay"),bounds(42, 445, 15, 15), value(0)
 checkbox channel("pdwntransientDisplay"),bounds(42, 460, 15, 15), value(0)
 
-gentable bounds(370,  5, 320, 240), identchannel("displays"), tablenumber(1), tablecolour("lightblue"), tablegridcolour(0,0,0,0), amprange(-.03,1,1), zoom(-1), samplerange(0,16)
+gentable bounds(370,  5, 320, 240), identchannel("displays"), tablenumber(1), tablecolour("lightblue"), tablegridcolour(0,0,0,0), amprange(-.3,1,1), zoom(-1), samplerange(0,16)
 image bounds(370, 5, 80,240), shape("sharp"), colour(175, 50,255, 40), identchannel("group1")	
 label text("noisefloor"), bounds(385, 250, 200, 15), align("left"), rotate(1.5708, 0, 0)
 label text("krms"), bounds(405, 250, 200, 15), align("left"), rotate(1.5708, 0, 0)
@@ -107,6 +107,13 @@ label text("0"), bounds(370, 360, 200, 15), align("left"), identchannel("ampTran
 label text("centr transient density"), bounds(370, 380, 200, 15), align("left")
 label text("0"), bounds(370, 400, 200, 15), align("left"), identchannel("cenTransDensity")	
 
+label text("rhythm complexity"), bounds(370, 430, 200, 15), align("left")
+label text("0"), bounds(370, 450, 200, 15), align("left"), identchannel("rhythmComplexity")	
+label text("rd deviation"), bounds(550, 430, 200, 15), align("left")
+numberbox bounds(550, 450, 60, 15), channel("rhythmComplexityDeviation"), range(0.00, 0.20, 0.05)
+gentable bounds(370, 470, 320, 140), identchannel("rhythm_complex"), tablenumber(5), tablecolour("lightblue"), tablegridcolour(0,0,0,0), amprange(0,1,5), zoom(-1), samplerange(0,32)
+
+
 csoundoutput bounds(5, 500, 290, 250), text("Output")
 </Cabbage>
 <CsoundSynthesizer>
@@ -117,25 +124,22 @@ csoundoutput bounds(5, 500, 290, 250), text("Output")
 <CsInstruments>
 
         sr = 48000
-        ksmps = 128
+        ksmps = 64
 	nchnls = 2
 	0dbfs = 1
+	
+	pyinit
+        pyruni "import rational_approx as r"
 
-        gi1     ftgen   1, 0, 16, -2, 0 
+
+        gi1     ftgen   1, 0, 16, -2, 0  ; analysis signal display
+        gi5     ftgen   5, 0, 32, -2, 0  ; rhythm complexity display
 	giSine	ftgen	0, 0, 65536, 10, 1			; sine wave
 	gifftsize 	= 1024
 			chnset gifftsize, "fftsize"
 	giFftTabSize	= (gifftsize / 2)+1
 	gifna     	ftgen   1 ,0 ,giFftTabSize, 7, 0, giFftTabSize, 0   	; for pvs analysis
 	gifnf     	ftgen   2 ,0 ,giFftTabSize, 7, 0, giFftTabSize, 0   	; for pvs analysis
-
-        gifqToMelMax    = 16384
-        gifqToMelTab    ftgen   0, 0, gifqToMelMax, 2, 0        ; table to be filled with mel frequency map
-        gimelMax        = 1125*log(1+(gifqToMelMax/700))
-        print gimelMax
-        gi32melBands    ftgen   0, 0, 4096, -7, 0, gimelMax, 31, 4096-gimelMax, 31      ; divide mel scale evenly into 32 bands
-        gi32melFqs      ftgen   0, 0, 32, -7, 0, 32, gimelMax                           ; mel frequencies for the 32 bands
-        gi32melBandFqs  ftgen   0, 0, 32, 2, 0                                          ; to be filled with the frequencies for those 32 mel frequencies
 
         ;gifnTempomem    ftgen   0, 0, 128, 16, 1, 128, 1, 0
 
@@ -167,76 +171,13 @@ csoundoutput bounds(5, 500, 290, 250), text("Output")
         tablew kflatness_a, 8, gi1 
         tablew kcrest_a, 9, gi1 
         tablew kflux_a, 10, gi1 
+        tablew kmfcc1, 11, gi1
+        tablew kmfcc2, 12, gi1
+        tablew kmfcc3, 13, gi1
+        tablew kmfcc4, 14, gi1
+        tablew kmfcc5, 15, gi1
 
-/*        
-        inormsize       = kr*4
-        kNormArr[]      init inormsize
-        kcalibrate      chnget "autocalibrate"
-        kreset          trigger kcalibrate, 0.5, 0
-        kval            = pow(krms,0.4);kcentroid_a
-        kval_max        init 0
-        kval_min        init 2^64
-        kval_min_ok     init 0
-        kval_max_ok     init 0
-        kqMaxval        init 0
-        kqMinval        init 2^64
-        kqhighthresh    = 0.9
-        kqlowthresh     = 0.1
-        knormindex      init 0
-        kcalibrated     init 0
-        if kreset > 0 then
-        kqMaxval        = 0
-        kqMinval        = 2^64
-        kqMax           = 0
-        kqMin           = 2^64
-        kval_max        = 0
-        kval_min        = 2^64
-        knormindex      = 0
-        kcalibrated     = 0
-        endif
-        if kcalibrate > 0 then
-          norm:
-          kNormArr[knormindex] = kval
-          knormindex += 1
-          if knormindex == inormsize then
-            knormindex2 = 0
-            interquartile:
-            kqMax,kqMaxIndx maxarray kNormArr
-            kqMaxval max kqMaxval, kqMax
-            if kqMax > kqMaxval*kqhighthresh then
-              kNormArr[kqMaxIndx] = kqMax*kqhighthresh
-            endif
-            kqMin,kqMinIndx minarray kNormArr
-            if kqMin < kqMaxval*kqlowthresh then ; lowthresh relative to max
-              kNormArr[kqMinIndx] = kqMaxval*kqlowthresh
-            endif
-            knormindex2 += 1
-            if knormindex2 < inormsize then
-              kgoto interquartile
-            endif
-            kqMax maxarray kNormArr
-            kqMin minarray kNormArr
-            kcalibrated = 1
-            knormindex = 0
-          endif
-        endif
-        kval_max        max kval_max, kqMax
-        kval_min        min kval_min, kqMin
-        if kcalibrated > 0 then
-        kval_min_ok     = kval_min
-        kval_max_ok     = kval_max
-        endif
- */       
-        ;tablew kval_min_ok, 11, gi1
-        ;tablew kval_max_ok, 12, gi1
-
-        /*
-        tablew kmelceps_b1, 11, gi1
-        tablew kmelceps_b2, 12, gi1
-        tablew kmelceps_b3, 13, gi1
-        tablew kmelceps_b4, 14, gi1
-        */
-        kupd    metro 30
+        kupd    metro 100
         kenableDisplay chnget "enableDisplay"
         if kupd*kenableDisplay > 0 then
  	chnset	"tablenumber(1)", "displays"	; update table display	
@@ -246,6 +187,15 @@ csoundoutput bounds(5, 500, 290, 250), text("Output")
  	chnset	SctranD, "cenTransDensity"	; update gui	
         endif
 
+        if changed(krhythm_complexity)>0 then
+        krc_indx init 0
+ 	SrcomplexD sprintfk "text(%.3f)", krhythm_complexity
+        chnset	SrcomplexD, "rhythmComplexity"
+        krc_indx = (krc_indx+1)%32
+        tablew krhythm_complexity, krc_indx, gi5
+ 	chnset	"tablenumber(5)", "rhythm_complex" ; update table display	
+        endif
+        
         kchan           chnget "chan"
         kchanged        changed kchan
         if kchanged > 0 then
@@ -264,7 +214,7 @@ skip:
 </CsInstruments>
 <CsScore>
 #define SCORELEN #86400#
-i1	0.1	1
+;i1	0.1	1               ; init gui values, for running without Cabbage
 i2	.1	$SCORELEN
 e
 </CsScore>

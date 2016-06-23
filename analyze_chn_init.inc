@@ -50,17 +50,3 @@
         chnset 0.01, "pitch_transientDoubleLimit"       ; minimum duration between transients, (double trig limit)
 
 
-/*
-; fill the mel frequency map (converts from frequency to mel)
-        kfq             init 0
-        while kfq < gifqToMelMax do
-                        tablew 1125*log(1+(kfq/700)), kfq, gifqToMelTab
-        kfq             += 1
-        od
-        kband           init 0
-        while kband < 32 do
-        kmelFq          table kband, gi32melFqs                                         ; get mel frequency for band
-                        tablew 700*(exp(kmelFq/1125)-1), kband, gi32melBandFqs          ; store the freq for this mel freq
-        kband           = kband + 1
-        od
-*/
