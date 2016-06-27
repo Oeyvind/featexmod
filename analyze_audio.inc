@@ -116,7 +116,8 @@ rireturn
 ibufsize_ry = 256
 kcnt_ry init 0
 kArr_ry[] init ibufsize_ry
-kdeviation_ry chnget "rhythmComplexityDeviation"
+kdeviation_ry chnget "rhythmConsonanceDeviation"
+
 
 if krms_tran0 > 0 then
 kArr_ry[kcnt_ry] = ktime
@@ -137,6 +138,11 @@ knom1, kdenom1 pycall2 "r.farey", krel1, 64, kdeviation_ry
 knom2, kdenom2 pycall2 "r.farey", krel2, 64, kdeviation_ry*2
 knom3, kdenom3 pycall2 "r.farey", krel3, 64, kdeviation_ry*3
 
+;Benedetti height
+kben321 = (knom1*kdenom1)+(knom2*kdenom2)+(knom3*kdenom3)
+kben21 = (knom1*kdenom1)+(knom2*kdenom2)
+kben1 = (knom1*kdenom1)
+
 ;Tenney height is log2(Benedetti height)
 kben3p2p1p = log2(knom1*kdenom1)+log2(knom2*kdenom2)+log2(knom3*kdenom3)
 
@@ -146,7 +152,17 @@ kben3p2p1p_t = (kben3p2p1p+1)*(2/(kdist1+kdist2))
 kcnt_ry wrap (kcnt_ry+1), 0, ibufsize_ry
 endif
 
-krhythm_complexity = kben3p2p1p_t/100
+krhythm_consonance = kben3p2p1p/12;kben3p2p1p/10;kben3p2p1p_t/100
+
+; ** rhythm correlation
+
+kra_shapedur chnget "rhythmAutocorrEnvShape"
+kra_sort_threshold chnget "rhythmAutocorrThresh"
+irhythm_sr = 80
+ira_fftsize = 256
+ira_overlaps = 4
+
+kraAuto[], kraAutoSort[], kraAutoSortIndx[] RhythmAutoCorr krms_tran0, kra_shapedur, kra_sort_threshold, irhythm_sr, ira_fftsize, ira_overlaps
 
         
 ; ***************

@@ -49,9 +49,9 @@ rslider bounds(145, 135, 65, 65), text("HiBoost"), channel("preEqHiShelfGain"), 
 
 label text("transients"), bounds(15, 210, 335, 12), colour(50, 50, 50, 255)
 rslider bounds(80, 226, 65, 65), text("Thresh"), channel("amp_transientThresh"), range(0, 9, 2) 
-rslider bounds(145, 226, 65, 65), text("DecThresh"), channel("amp_transientDecThresh"), range(0, 12, 5) 
+rslider bounds(145, 226, 65, 65), text("DecThresh"), channel("amp_transientDecThresh"), range(0, 12, 4) 
 rslider bounds(210, 226, 65, 65), text("DecTime"), channel("amp_transientDecTime"), range(0.1, 2.0, 0.5) 
-rslider bounds(275, 226, 65, 65), text("DblLimit"), channel("amp_transientDoubleLimit"), range(0.1, 1.0, 0.2) 
+rslider bounds(275, 226, 65, 65), text("DblLimit"), channel("amp_transientDoubleLimit"), range(0.1, 1.0, 0.1) 
 label text("amp"), bounds(15, 230, 70, 12)
 checkbox channel("transientDisplay"),bounds(42, 245, 15, 15), value(0)
 
@@ -107,11 +107,32 @@ label text("0"), bounds(370, 360, 200, 15), align("left"), identchannel("ampTran
 label text("centr transient density"), bounds(370, 380, 200, 15), align("left")
 label text("0"), bounds(370, 400, 200, 15), align("left"), identchannel("cenTransDensity")	
 
-label text("rhythm complexity"), bounds(370, 430, 200, 15), align("left")
-label text("0"), bounds(370, 450, 200, 15), align("left"), identchannel("rhythmComplexity")	
-label text("rd deviation"), bounds(550, 430, 200, 15), align("left")
-numberbox bounds(550, 450, 60, 15), channel("rhythmComplexityDeviation"), range(0.00, 0.20, 0.05)
-gentable bounds(370, 470, 320, 140), identchannel("rhythm_complex"), tablenumber(5), tablecolour("lightblue"), tablegridcolour(0,0,0,0), amprange(0,1,5), zoom(-1), samplerange(0,32)
+label text("rhythm consonance"), bounds(370, 430, 200, 15), align("left")
+label text("0"), bounds(370, 450, 200, 15), align("left"), identchannel("rhythmConsonance")	
+numberbox bounds(435, 450, 40, 15), channel("rhythmConsonanceDeviation"), range(0.00, 0.90, 0.1)
+label text("rd dev"), bounds(480, 450, 200, 15), align("left")
+gentable bounds(370, 470, 160, 140), identchannel("rhythm_consonance"), tablenumber(5), tablecolour("lightblue"), tablegridcolour(0,0,0,0), amprange(0,1,5), zoom(-1), samplerange(0,32)
+label text("latest rhythm ratios"), bounds(370, 620, 200, 15), align("left")
+label text("0"), bounds(370, 640, 100, 15), align("left"), identchannel("rhythmratio1")	
+label text("0"), bounds(420, 640, 100, 15), align("left"), identchannel("rhythmratio2")	
+label text("0"), bounds(470, 640, 100, 15), align("left"), identchannel("rhythmratio3")	
+
+label text("rhythm autocorr"), bounds(540, 430, 200, 15), align("left")
+gentable bounds(540, 470, 160, 140), identchannel("rhythm_autocorr"), tablenumber(10), tablecolour("lightblue"), tablegridcolour(0,0,0,0), amprange(0,1,10), zoom(-1), samplerange(0,128)
+numberbox bounds(540, 450, 40, 15), channel("rhythmAutocorrEnvShape"), range(0.001, 0.20, 0.1)
+label text("ra env"), bounds(585, 450, 200, 15), align("left")
+
+numberbox bounds(540, 620, 40, 15), channel("rhythmAutocorrThresh"), range(0.01, 0.50, 0.1)
+label text("ra thresh"), bounds(585, 620, 200, 15), align("left")
+
+label text("autocorr peaks"), bounds(540, 640, 200, 15), align("left")
+label text("0"), bounds(540, 660, 100, 15), align("left"), identchannel("rhythmauto1indx")	
+label text("0"), bounds(590, 660, 100, 15), align("left"), identchannel("rhythmauto2indx")	
+label text("0"), bounds(640, 660, 100, 15), align("left"), identchannel("rhythmauto3indx")	
+label text("0"), bounds(540, 680, 100, 15), align("left"), identchannel("rhythmauto1")	
+label text("0"), bounds(590, 680, 100, 15), align("left"), identchannel("rhythmauto2")	
+label text("0"), bounds(640, 680, 100, 15), align("left"), identchannel("rhythmauto3")	
+
 
 
 csoundoutput bounds(5, 500, 290, 250), text("Output")
@@ -124,7 +145,7 @@ csoundoutput bounds(5, 500, 290, 250), text("Output")
 <CsInstruments>
 
         sr = 48000
-        ksmps = 64
+        ksmps = 32
 	nchnls = 2
 	0dbfs = 1
 	
@@ -133,13 +154,16 @@ csoundoutput bounds(5, 500, 290, 250), text("Output")
 
 
         gi1     ftgen   1, 0, 16, -2, 0  ; analysis signal display
-        gi5     ftgen   5, 0, 32, -2, 0  ; rhythm complexity display
+        gi5     ftgen   5, 0, 32, -2, 0  ; rhythm consonance display
+        gi10    ftgen   10, 0, 256, -2, 0 ; rhythm autocorr display
 	giSine	ftgen	0, 0, 65536, 10, 1			; sine wave
 	gifftsize 	= 1024
 			chnset gifftsize, "fftsize"
 	giFftTabSize	= (gifftsize / 2)+1
 	gifna     	ftgen   1 ,0 ,giFftTabSize, 7, 0, giFftTabSize, 0   	; for pvs analysis
 	gifnf     	ftgen   2 ,0 ,giFftTabSize, 7, 0, giFftTabSize, 0   	; for pvs analysis
+
+	giSinEnv        ftgen   0, 0, 8192, 19, 1, 0.5, 270, 0.5        ; sinoid transient envelope shape for autocorr
 
         ;gifnTempomem    ftgen   0, 0, 128, 16, 1, 128, 1, 0
 
@@ -153,6 +177,7 @@ csoundoutput bounds(5, 500, 290, 250), text("Output")
 ;**************************
         instr 2
 	a1,a2	        ins
+
 ;	                outs a1, a2
         kpause chnget "pause"
         if kpause > 0 kgoto skip
@@ -185,15 +210,38 @@ csoundoutput bounds(5, 500, 290, 250), text("Output")
  	chnset	SatranD, "ampTransDensity"	; update gui	
  	SctranD sprintfk "text(%.1f)", kctransDensEnv
  	chnset	SctranD, "cenTransDensity"	; update gui	
+
+        copya2ftab kraAuto, 10
+ 	chnset	"tablenumber(10)", "rhythm_autocorr"	; update table display	
+ 	Srauto1D sprintfk "text(%.2f)", kraAutoSort[1]
+ 	Srauto2D sprintfk "text(%.2f)", kraAutoSort[2]
+ 	Srauto3D sprintfk "text(%.2f)", kraAutoSort[3]
+ 	Srauto1indxD sprintfk "text(%i)", kraAutoSortIndx[1]
+ 	Srauto2indxD sprintfk "text(%i)", kraAutoSortIndx[2]
+ 	Srauto3indxD sprintfk "text(%i)", kraAutoSortIndx[3]
+ 	chnset	Srauto1D, "rhythmauto1"	; update gui	
+ 	chnset	Srauto2D, "rhythmauto2"	; update gui	
+ 	chnset	Srauto3D, "rhythmauto3"	; update gui	
+ 	chnset	Srauto1indxD, "rhythmauto1indx"	; update gui	
+ 	chnset	Srauto2indxD, "rhythmauto2indx"	; update gui	
+ 	chnset	Srauto3indxD, "rhythmauto3indx"	; update gui	
+
         endif
 
-        if changed(krhythm_complexity)>0 then
+        if krms_tran0>0 then
         krc_indx init 0
- 	SrcomplexD sprintfk "text(%.3f)", krhythm_complexity
-        chnset	SrcomplexD, "rhythmComplexity"
+ 	SrcomplexD sprintfk "text(%.3f)", krhythm_consonance
+        chnset	SrcomplexD, "rhythmConsonance"
+
+ 	Srratio1D sprintfk "text(%.2f)", knom1/kdenom1
+ 	Srratio2D sprintfk "text(%.2f)", knom2/kdenom2
+ 	Srratio3D sprintfk "text(%.2f)", knom3/kdenom3
+        chnset	Srratio1D, "rhythmratio1"
+        chnset	Srratio2D, "rhythmratio2"
+        chnset	Srratio3D, "rhythmratio3"
         krc_indx = (krc_indx+1)%32
-        tablew krhythm_complexity, krc_indx, gi5
- 	chnset	"tablenumber(5)", "rhythm_complex" ; update table display	
+        tablew krhythm_consonance, krc_indx, gi5
+ 	chnset	"tablenumber(5)", "rhythm_consonance" ; update table display	
         endif
         
         kchan           chnget "chan"

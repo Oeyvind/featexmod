@@ -49,4 +49,6 @@
         chnset 0.9, "pitch_transientDecTime"        ; decay time for the envelope follower, filtering the signal before transient detaction
         chnset 0.01, "pitch_transientDoubleLimit"       ; minimum duration between transients, (double trig limit)
 
-
+        chnset 0.1, "rhythmConsonanceDeviation"
+        chnset 0.015, "rhythmAutocorrEnvShape"
+        chnset 0.1, "rhythmAutocorrThresh"
