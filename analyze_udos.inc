@@ -181,7 +181,9 @@ double:
         endop
 
 ;***************************************************
-opcode RhythmAutoCorr, k[]k[]k[], kkkiii
+
+opcode RhythmAutoCorr, k[]k[]kkk, kkkiii
+
 ktrans, kshapedur, ksort_threshold, irhythm_sr, ifftsize, ioverlaps xin
 
 ; sinoid trigger envelope, allows (soft) rhythmic deviation from strict pattern
@@ -194,117 +196,93 @@ kenv table kenvindx, giSinEnv, 1
 rireturn
 
 ; downsampling
-kRclock metro irhythm_sr
-kenv samphold kenv, kRclock
+krclock metro irhythm_sr
+kenv samphold kenv, krclock
 
 ; fft
 ihopsize = ifftsize/ioverlaps
-
 kcnt init 0
 knumtransients[] init ioverlaps
 kArr[][] init ioverlaps, ifftsize
 kArrPad[] init ifftsize*2
-kFFT2[] init ifftsize*2
+kFFT[] init ifftsize*2
 kAuto_temp[] init ifftsize*2
 kAuto[][] init ioverlaps, ifftsize*2
 kAuto2[][] init ioverlaps, ifftsize*2
-kAutoSort[][] init ioverlaps, ifftsize*2
-kAutoSortIndx[][] init ioverlaps, ifftsize*2
+kAutoOut[] init ifftsize
+kAutoPeaks[][] init ioverlaps, ifftsize*2
+kAutoPeaksIndx[][] init ioverlaps, ifftsize*2
+kAutoPeaksOut[][] init 2, ifftsize/2
 kZeros[] init ifftsize
 kZeros2[] init ifftsize*2
 knumtransients += ktrans
-ktest maxarray knumtransients
 
-if kRclock > 0 then 
-kArr[0][kcnt] = kenv
-kArr[1][wrap(kcnt-ihopsize,0,ifftsize)] = kenv
-kArr[2][wrap(kcnt-(ihopsize*2),0,ifftsize)] = kenv
-kArr[3][wrap(kcnt-(ihopsize*3),0,ifftsize)] = kenv
-/*
-kauto = (kAuto[0][kcnt]+
-        kAuto[1][(kcnt+ihopsize)%ifftsize]+
-        kAuto[2][(kcnt+(ihopsize*2))%ifftsize]+
-        kAuto[3][(kcnt+(ihopsize*3))%ifftsize])*(1/ioverlaps)
+if krclock > 0 then 
+  koverlapcount = 0
+  while koverlapcount < ioverlaps do
+    kArr[koverlapcount][wrap(kcnt-(ihopsize*koverlapcount),0,ifftsize)] = kenv
+    koverlapcount += 1
+  od
 
-kauto = kAuto[0][kcnt]
-*/
-;ktest init 0
-;ktest = (kcnt == 0 ? ktest +1 : ktest)
-;printk2 ktest
-        
-kcnt += 1
+  kcnt += 1
+  knewframe = (kcnt%ihopsize == 0 ? 1 : 0)
+  if kcnt%ihopsize == 0 then
+    klayer = (kcnt/ihopsize)-1
 
-if kcnt%ihopsize == 0 then
-klayer = 0
-klayer = (kcnt > ihopsize ? 1 : klayer)
-klayer = (kcnt > ihopsize*2 ? 2 : klayer)
-klayer = (kcnt > ihopsize*3 ? 3 : klayer)
+    ; autocorrelation
+    if knumtransients[klayer] == 0 then
+      kAuto setrow kZeros2, klayer
+    else
+      kArrPad slicearray window(getrow(kArr,klayer),0,0), 0, ifftsize-1; zero padded and windowed
+      kFFT fft kArrPad                                      ; fft
+      kFFT = kFFT*(1/ifftsize)                   ; normalize
+      kFFT =  kFFT * kFFT                          ; square mags
+      kFFT[0] = 0                                    ; zero first bin
+      kAuto_temp fftinv kFFT                               ; and back
+      kbase = kAuto_temp[0]
+      kAuto_temp = kAuto_temp/kbase                             ; normalize
+      kAuto_temp = kAuto_temp * kAuto_temp                          ; square result
+      kAuto_temp = (kAuto_temp*4)/log2(knumtransients[klayer]+1)         ; (attempt to) normalize with regards to the number of pulses in this window
+      kAuto_temp = kAuto_temp*.8
+      kAuto_temp[0] = 0 ; zero the first few bins to conceal correlation at (close to) zero lag
+      kAuto_temp[1] = 0
+      kAuto_temp[2] = 0
+      kAuto_temp[3] = 0
+      kAuto_temp[4] = 0
+      kAuto_temp[5] = 0
+      kAuto_temp[6] = 0
+      kAuto_temp[7] = 0
+      
+      ; peak picker
+      kmax maxarray kAuto_temp
+      kAutoPeaks setrow kZeros2, klayer
+      kAutoPeaksIndx setrow kZeros2, klayer
+      kcnt_fill = 0
+      while kcnt_fill < ifftsize/2 do
+        pycall "p.fill_array", kAuto_temp[kcnt_fill], kcnt_fill, ifftsize/2
+        kcnt_fill += 1
+      od
+      pycall "p.analyze_peaks", ksort_threshold
+      kcnt2 = 0
+      kval = 0
 
-; autocorrelation
-if knumtransients[klayer] == 0 then
-kAuto setrow kZeros2, klayer
-else
-kArrPad init ifftsize*2
-kArrPad slicearray window(getrow(kArr,klayer),0,0), 0, ifftsize-1; zero padded and windowed
-kFFT2 fft kArrPad                                      ; fft
-kFFT2 = kFFT2*(1/ifftsize)                   ; normalize
-kFFT2 =  kFFT2 * kFFT2                          ; square mags
-kFFT2[0] = 0                                    ; zero first bin
-kAuto_temp fftinv kFFT2                               ; and back
-kbase = kAuto_temp[0]
-kAuto_temp = kAuto_temp/kbase                             ; normalize
-kAuto_temp = kAuto_temp * kAuto_temp                          ; square result
-kAuto_temp = (kAuto_temp*4)/log2(knumtransients[klayer]+1)         ; (attempt to) normalize with regards to the number of pulses in this window
-kAuto_temp = kAuto_temp*.8
-kAuto_temp[0] = 0
-kAuto_temp[1] = 0
-kAuto_temp[2] = 0
-kAuto_temp[3] = 0
-kAuto_temp[4] = 0
-kAuto_temp[5] = 0
-kAuto_temp[6] = 0
-kAuto setrow kAuto_temp, klayer
+      while kval >= 0 do
+        kindx, kval pycall2 "p.get_peaks", 0
+        if kval >= 0 then
+          kAutoPeaks[klayer][kcnt2] = kval
+          kAutoPeaksIndx[klayer][kcnt2] = kindx
+        endif
+        kcnt2 += 1
+      od  
 
-; peak picker
-kcnt2 = 0
-kmax maxarray kAuto_temp
-ksort_thresh = kmax*ksort_threshold
-kcomp = ksort_thresh
-ksortindx = 0
-ksortindx_inc = 0
-kAutoSort setrow kZeros2, klayer
-kAutoSortIndx setrow kZeros2, klayer
-while kcnt2 < ifftsize/2 do
-  if kAuto_temp[kcnt2] < ksort_thresh then
-        kcomp = ksort_thresh
+      kAutoOut slicearray kAuto_temp, 0, ifftsize-1
+      kAutoPeaksOut setrow getrow(kAutoPeaks, klayer), 0
+      kAutoPeaksOut setrow getrow(kAutoPeaksIndx, klayer), 1
+
+      knumtransients[klayer] = 0
+    endif
   endif
-  if kAuto_temp[kcnt2] > kcomp then
-    ksortindx_inc = 0
-    kAutoSort[klayer][ksortindx] = kAuto_temp[kcnt2]
-    kAutoSortIndx[klayer][ksortindx] = kcnt2
-    kcomp = kAuto_temp[kcnt2]
-  else
-    ksortindx_inc += 1
-      if ksortindx_inc == 1 then
-      ksortindx += 1
-      endif
-  endif
-  kcnt2 += 1
-od
-/*
-kAuto[klayer][0] = -kAutoSort[klayer][0]
-kAuto[klayer][1] = -kAutoSort[klayer][1]
-kAuto[klayer][2] = -kAutoSort[klayer][2]
-kAuto[klayer][3] = -kAutoSort[klayer][3]
-kAuto[klayer][4] = -kAutoSort[klayer][4]
-kAuto[klayer][5] = -kAutoSort[klayer][5]
-*/
-knumtransients[klayer] = 0
-endif
-endif
-kraAuto1[] = (getrow(kAuto,0)+getrow(kAuto,1)+getrow(kAuto,2)+getrow(kAuto,3))*0.25
-endif
 kcnt = kcnt%ifftsize
-
-        xout kraAuto1, kAutoSort, kAutoSortIndx
+endif
+xout kAutoOut, kAutoPeaksOut, krclock, kenv, knewframe
 endop

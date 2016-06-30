@@ -158,13 +158,14 @@ krhythm_consonance = kben3p2p1p/12;kben3p2p1p/10;kben3p2p1p_t/100
 
 kra_shapedur chnget "rhythmAutocorrEnvShape"
 kra_sort_threshold chnget "rhythmAutocorrThresh"
-irhythm_sr = 80
+irhythm_sr = 160
 ira_fftsize = 256
-ira_overlaps = 4
+ira_overlaps = 8
+kRhythmAuto[] init ira_fftsize
+kRhythmAutoPeaks[][] init 2, ira_fftsize/2
 
-kraAuto[], kraAutoSort[], kraAutoSortIndx[] RhythmAutoCorr krms_tran0, kra_shapedur, kra_sort_threshold, irhythm_sr, ira_fftsize, ira_overlaps
+kRhythmAuto, kRhythmAutoPeaks, krclock, krenv, krnewframe RhythmAutoCorr krms_tran0, kra_shapedur, kra_sort_threshold, irhythm_sr, ira_fftsize, ira_overlaps
 
-        
 ; ***************
 ; spectral analysis
 

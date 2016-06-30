@@ -119,9 +119,8 @@ label text("0"), bounds(470, 640, 100, 15), align("left"), identchannel("rhythmr
 
 label text("rhythm autocorr"), bounds(540, 430, 200, 15), align("left")
 gentable bounds(540, 470, 160, 140), identchannel("rhythm_autocorr"), tablenumber(10), tablecolour("lightblue"), tablegridcolour(0,0,0,0), amprange(0,1,10), zoom(-1), samplerange(0,128)
-numberbox bounds(540, 450, 40, 15), channel("rhythmAutocorrEnvShape"), range(0.001, 0.20, 0.1)
+numberbox bounds(540, 450, 40, 15), channel("rhythmAutocorrEnvShape"), range(0.001, 0.20, 0.05)
 label text("ra env"), bounds(585, 450, 200, 15), align("left")
-
 numberbox bounds(540, 620, 40, 15), channel("rhythmAutocorrThresh"), range(0.01, 0.50, 0.1)
 label text("ra thresh"), bounds(585, 620, 200, 15), align("left")
 
@@ -151,7 +150,10 @@ csoundoutput bounds(5, 500, 290, 250), text("Output")
 	
 	pyinit
         pyruni "import rational_approx as r"
-
+        pyruni "import sys"
+        pyruni "if sys.platform.startswith('win'): sys.path.append('c:\\python27\\DLLs')"
+        pyruni "import peakdetect_wrapper"
+        pyruni "p = peakdetect_wrapper.PeakDetector()"
 
         gi1     ftgen   1, 0, 16, -2, 0  ; analysis signal display
         gi5     ftgen   5, 0, 32, -2, 0  ; rhythm consonance display
@@ -210,15 +212,17 @@ csoundoutput bounds(5, 500, 290, 250), text("Output")
  	chnset	SatranD, "ampTransDensity"	; update gui	
  	SctranD sprintfk "text(%.1f)", kctransDensEnv
  	chnset	SctranD, "cenTransDensity"	; update gui	
+        endif
 
-        copya2ftab kraAuto, 10
+        if krnewframe*kenableDisplay > 0 then
+        copya2ftab kRhythmAuto, 10
  	chnset	"tablenumber(10)", "rhythm_autocorr"	; update table display	
- 	Srauto1D sprintfk "text(%.2f)", kraAutoSort[1]
- 	Srauto2D sprintfk "text(%.2f)", kraAutoSort[2]
- 	Srauto3D sprintfk "text(%.2f)", kraAutoSort[3]
- 	Srauto1indxD sprintfk "text(%i)", kraAutoSortIndx[1]
- 	Srauto2indxD sprintfk "text(%i)", kraAutoSortIndx[2]
- 	Srauto3indxD sprintfk "text(%i)", kraAutoSortIndx[3]
+ 	Srauto1D sprintfk "text(%.2f)", kRhythmAutoPeaks[0][0]
+ 	Srauto2D sprintfk "text(%.2f)", kRhythmAutoPeaks[0][1]
+ 	Srauto3D sprintfk "text(%.2f)", kRhythmAutoPeaks[0][2]
+ 	Srauto1indxD sprintfk "text(%i)", kRhythmAutoPeaks[1][0]
+ 	Srauto2indxD sprintfk "text(%i)", kRhythmAutoPeaks[1][1]
+ 	Srauto3indxD sprintfk "text(%i)", kRhythmAutoPeaks[1][2]
  	chnset	Srauto1D, "rhythmauto1"	; update gui	
  	chnset	Srauto2D, "rhythmauto2"	; update gui	
  	chnset	Srauto3D, "rhythmauto3"	; update gui	
