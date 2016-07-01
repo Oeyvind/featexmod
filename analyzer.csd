@@ -144,16 +144,18 @@ csoundoutput bounds(5, 500, 290, 250), text("Output")
 <CsInstruments>
 
         sr = 48000
-        ksmps = 32
+        ksmps = 64
 	nchnls = 2
 	0dbfs = 1
 	
 	pyinit
-        pyruni "import rational_approx as r"
         pyruni "import sys"
-        pyruni "if sys.platform.startswith('win'): sys.path.append('c:\\python27\\DLLs')"
+	pyruni "import os"
+	pyruni "sys.path.append(os.getcwd())"	; needed for OSX
+        pyruni "if sys.platform.startswith('win'): sys.path.append('c:\\python27\\DLLs')" ; needed for Win
         pyruni "import peakdetect_wrapper"
         pyruni "p = peakdetect_wrapper.PeakDetector()"
+        pyruni "import rational_approx as r"
 
         gi1     ftgen   1, 0, 16, -2, 0  ; analysis signal display
         gi5     ftgen   5, 0, 32, -2, 0  ; rhythm consonance display
