@@ -77,9 +77,8 @@ chn_init_file.write(instr_template.format(parameter_ranges))
 start_x_pos = 30
 start_y_pos = 5
 plant_height = 85
-analysis_parms = '''"rms", "rms_preEq", "cps", "pitch", "centroid", "spread", "skewness", "kurtosis", "flatness", "crest", "flux", 
-                    "amp_trans", "amp_t_dens", "rhythm_cons", "rhythm_ratio1", "rhythm_ratio2", "rhythm_ac", "rhythm_ac1", "rhythm_ac2",  
-                     "rhythm_ac1t", "rhythm_ac2t", "mfcc1", "mfcc2", "mfcc3", "mfcc4", "cps_raw"'''
+analysis_parms = '"rms", "rms_preEq", "cps_n", "pitch_a", "centroid_a", "spread_a", "skewness_a", "kurtosis_a", "flatness_a", "crest_a", "flux_a", "amp_trans", "atransDensEnv", "rhythm_consonance", "rhythm_ratio1", "rhythm_ratio2", "rhythm_ac1", "rhythm_ac2", "rhythm_ac1time", "rhythm_ac2time", "mfcc1", "mfcc2", "mfcc3", "mfcc4", "cps_raw"'
+
 
 
 plant = '''groupbox bounds({start_y}, {start_x}, 564, 81), plant("plant_{pname}"), linethickness("0"){{ 
@@ -88,7 +87,7 @@ combobox channel("chan1_{pname}"), bounds(103, 12, 50, 20), items("1", "2", "3",
 numberbox bounds(158, 14, 35, 15), channel("rise1_{pname}"), range(0.01, 10.0, 0.01)
 numberbox bounds(196, 14, 35, 15), channel("fall1_{pname}"), range(0.01, 10.0, 0.5)
 hslider bounds(233, 12, 86, 20), channel("scale1_{pname}"), range(-1.0, 1.0, 0, 1, 0.01)
-button bounds(320, 12, 29, 19), channel("scale1_x_{pname}"), text("x 1","x 10"), 
+button bounds(320, 12, 29, 19), channel("scale1_x_{pname}"), text("x 1","x 10")
 hslider bounds(349, 12, 86, 20), channel("curve1_{pname}"), range(-5.0, 5.0, 0)
 
 combobox channel("source2_{pname}"), bounds(10, 34, 90, 20), items({analysis_p}), value(1), channeltype("string")
@@ -96,7 +95,7 @@ combobox channel("chan2_{pname}"), bounds(103, 34, 50, 20), items("1", "2", "3",
 numberbox bounds(158, 36, 35, 15), channel("rise2_{pname}"), range(0.01, 10.0, 0.01)
 numberbox bounds(196, 36, 35, 15), channel("fall2_{pname}"), range(0.01, 10.0, 0.5)
 hslider bounds(233, 34, 86, 20), channel("scale2_{pname}"), range(-1.0, 1.0, 0, 1, 0.01)
-button bounds(320, 34, 29, 19), channel("scale2_x_{pname}"), text("x 1","x 10"), 
+button bounds(320, 34, 29, 19), channel("scale2_x_{pname}"), text("x 1","x 10") 
 hslider bounds(349, 34, 86, 20), channel("curve2_{pname}"), range(-5.0, 5.0, 0)
 
 label bounds(10, 58, 90, 12), text("source"), colour(20,20,20,255)

@@ -102,7 +102,6 @@ ibufsize_ry = 256
 kcnt_ry init 0
 kArr_ry[] init ibufsize_ry
 kdeviation_ry chnget "rhythmConsonanceDeviation"
-
 if krms_tran0 > 0 then
 kArr_ry[kcnt_ry] = ktime
 k_0 = kArr_ry[kcnt_ry]

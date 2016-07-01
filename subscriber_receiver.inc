@@ -118,71 +118,93 @@
 ; OSC listener control, write data to chn bus
         instr 6
         isource_chan     = p4
-        Srms            sprintf {{rms%i}}, isource_chan
-        Srms_preEq      sprintf {{rms_preEq%i}}, isource_chan
-        Scps            sprintf {{cps%i}}, isource_chan
-        Spitch          sprintf {{pitch%i}}, isource_chan
-        Scentroid       sprintf {{centroid%i}}, isource_chan
-        Sflatness       sprintf {{flatness%i}}, isource_chan
-        Sspread         sprintf {{spread%i}}, isource_chan
-        Sskewness       sprintf {{skewness%i}}, isource_chan
-        Skurtosis       sprintf {{kurtosis%i}}, isource_chan
-        Screst          sprintf {{crest%i}}, isource_chan
-        Sflux           sprintf {{flux%i}}, isource_chan
-        Sautocorr       sprintf {{autocorr%i}}, isource_chan
-        Samp_trans      sprintf {{amp_trans%i}}, isource_chan
-        Samp_transdens  sprintf {{amp_t_dens%i}}, isource_chan
-        Scentr_trans    sprintf {{centr_trans%i}}, isource_chan
-        Scentr_transdens sprintf {{centr_t_dens%i}}, isource_chan
-        Skurt_trans     sprintf {{kurt_trans%i}}, isource_chan
-        Spitchup_trans  sprintf {{pitchup_trans%i}}, isource_chan
-        Spitchdown_trans sprintf {{pitchdown_trans%i}}, isource_chan
-        Scps_raw        sprintf {{cps_raw%i}}, isource_chan
 
-        SoscName        sprintf {{/%s%i}}, "analysis", isource_chan
-        ;print p1
-        krms            init 0
-        krms_preEq      init 0
-        kcps            init 0
-        kpitch          init 0
-        kcentroid       init 0
-        kspread         init 0
-        kskewness       init 0
-        kurtosis        init 0
-        kflatness       init 0
-        kcrest          init 0
-        kflux           init 0
-        kautocorr       init 0
-        kamp_trans      init 0
-        katransDensEnv  init 0
-        kcentr_trans    init 0
-        kctransDensEnv  init 0
-        kkurt_trans     init 0
-        kpitchup_trans  init 0
-        kpitchdwn_trans init 0
-        kcps_raw        init 0
+Srms sprintf {{rms%i}}, isource_chan 
+Srms_preEq sprintf {{rms_preEq%i}}, isource_chan 
+Scps_n sprintf {{cps_n%i}}, isource_chan 
+Spitch_a sprintf {{pitch_a%i}}, isource_chan 
+Scentroid_a sprintf {{centroid_a%i}}, isource_chan 
+Sspread_a sprintf {{spread_a%i}}, isource_chan 
+Sskewness_a sprintf {{skewness_a%i}}, isource_chan 
+Skurtosis_a sprintf {{kurtosis_a%i}}, isource_chan 
+Sflatness_a sprintf {{flatness_a%i}}, isource_chan 
+Screst_a sprintf {{crest_a%i}}, isource_chan 
+Sflux_a sprintf {{flux_a%i}}, isource_chan 
+Samp_trans sprintf {{amp_trans%i}}, isource_chan 
+SatransDensEnv sprintf {{atransDensEnv%i}}, isource_chan 
+Srhythm_consonance sprintf {{rhythm_consonance%i}}, isource_chan
+Srhythm_ratio1 sprintf {{rhythm_ratio1%i}}, isource_chan 
+Srhythm_ratio2 sprintf {{rhythm_ratio2%i}}, isource_chan 
+Srhythm_ac1 sprintf {{rhythm_ac1%i}}, isource_chan 
+Srhythm_ac2 sprintf {{rhythm_ac2%i}}, isource_chan  
+Srhythm_ac1time sprintf {{rhythm_ac1time%i}}, isource_chan 
+Srhythm_ac2time sprintf {{rhythm_ac2time%i}}, isource_chan 
+Smfcc1 sprintf {{mfcc1%i}}, isource_chan 
+Smfcc2 sprintf {{mfcc2%i}}, isource_chan 
+Smfcc3 sprintf {{mfcc3%i}}, isource_chan 
+Smfcc4 sprintf {{mfcc4%i}}, isource_chan 
+Scps_raw sprintf {{cps_raw%i}}, isource_chan
+
+SoscName        sprintf {{/%s%i}}, "analysis", isource_chan
+
+krms init 0 
+krms_preEq init 0 
+kcps_n init 0 
+kpitch_a init 0 
+kcentroid_a init 0 
+kspread_a init 0 
+kskewness_a init 0 
+kurtosis_a init 0 
+kflatness_a init 0 
+kcrest_a init 0 
+kflux_a init 0 
+kamp_trans init 0 
+katransDensEnv init 0 
+krhythm_consonance init 0 
+krhythm_ratio1 init 0 
+krhythm_ratio2 init 0 
+krhythm_ac1 init 0 
+krhythm_ac2 init 0  
+krhythm_ac1time init 0 
+krhythm_ac2time init 0 
+kmfcc1 init 0 
+kmfcc2 init 0 
+kmfcc3 init 0 
+kmfcc4 init 0 
+kcps_raw init 0
+
         
 nxt_val:
-    	kk		OSClisten gihandle, SoscName, "fffffffffffffffffff", krms, krms_preEq, kcps, kpitch, kcentroid, kspread, kskewness, kurtosis, kflatness, kcrest, kflux, kamp_trans, katransDensEnv, kcentr_trans, kctransDensEnv, kkurt_trans, kpitchup_trans, kpitchdwn_trans, kcps_raw
-                	chnset krms, Srms               	
-                	chnset krms_preEq, Srms_preEq
-                        chnset kcps, Scps            
-                        chnset kpitch, Spitch            
-                        chnset kcentroid, Scentroid       
-                	chnset kspread, Sspread         
-                	chnset kskewness, Sskewness       
-                	chnset kurtosis, Skurtosis       
-                	chnset kflatness, Sflatness       
-                	chnset kcrest, Screst          
-                	chnset kflux, Sflux           
-                        chnset kamp_trans, Samp_trans          
-                        chnset katransDensEnv, Samp_transdens          
-                        chnset kcentr_trans, Scentr_trans        
-                        chnset kctransDensEnv, Scentr_transdens          
-                        chnset kkurt_trans, Skurt_trans
-                        chnset kpitchup_trans, Spitchup_trans
-                        chnset kpitchdwn_trans, Spitchdown_trans
-                        chnset kcps_raw, Scps_raw   
+    	kk		OSClisten gihandle, SoscName, "fffffffffffffffffffffffff", krms, krms_preEq, kcps_n, kpitch_a, kcentroid_a, kspread_a, 
+                             kskewness_a, kurtosis_a, kflatness_a, kcrest_a, kflux_a, 
+                             kamp_trans, katransDensEnv, krhythm_consonance, krhythm_ratio1, krhythm_ratio2, krhythm_ac1, krhythm_ac2,  
+                             krhythm_ac1time, krhythm_ac2time, kmfcc1, kmfcc2, kmfcc3, kmfcc4, kcps_raw ; (the kcps value is raw, not normalized!)
+
+chnset krms, Srms 
+chnset krms_preEq, Srms_preEq 
+chnset kcps_n, Scps_n 
+chnset kpitch_a, Spitch_a 
+chnset kcentroid_a, Scentroid_a 
+chnset kspread_a, Sspread_a 
+chnset kskewness_a, Sskewness_a 
+chnset kurtosis_a, Skurtosis_a 
+chnset kflatness_a, Sflatness_a 
+chnset kcrest_a, Screst_a 
+chnset kflux_a, Sflux_a 
+chnset kamp_trans, Samp_trans 
+chnset katransDensEnv, SatransDensEnv 
+chnset krhythm_consonance, Srhythm_consonance 
+chnset krhythm_ratio1, Srhythm_ratio1 
+chnset krhythm_ratio2, Srhythm_ratio2 
+chnset krhythm_ac1, Srhythm_ac1 
+chnset krhythm_ac2, Srhythm_ac2 
+chnset krhythm_ac1time, Srhythm_ac1time 
+chnset krhythm_ac2time, Srhythm_ac2time 
+chnset kmfcc1, Smfcc1 
+chnset kmfcc2, Smfcc2 
+chnset kmfcc3, Smfcc3 
+chnset kmfcc4, Smfcc4 
+chnset kcps_raw, Scps_raw
 
 if (kk == 0) goto ex_val
     	kgoto nxt_val
@@ -198,8 +220,8 @@ ex_val:
         idest_mix_chn   = p7    ; for mixing from several sources
         SsourceChan     sprintf {{%s%i}}, Ssource, isource_chan
         kval_0          chnget SsourceChan
-        ;Source_val      sprintfk "param %s instr %f source %s val%f", Sparam, p1, SsourceChan, kval
-        ;puts Source_val, kval
+        ;Source_val      sprintfk "param %s instr %f source %s val%f", Sparam, p1, SsourceChan, kval_0
+        ;puts Source_val, kval_0+1
 
         kraw            strindexk Ssource, "_raw"
         ;kdens           strindexk Ssource, "transdens"

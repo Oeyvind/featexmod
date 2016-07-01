@@ -115,18 +115,9 @@ csoundoutput bounds(5, 500, 290, 250), text("Output")
 <CsInstruments>
 
         sr = 48000
-        ksmps = 32
+        ksmps = 64
 	nchnls = 2
-	0dbfs = 1
-	
-	pyinit
-        pyruni "import sys"
-	pyruni "import os"
-	pyruni "sys.path.append(os.getcwd())"	; needed for OSX
-        pyruni "if sys.platform.startswith('win'): sys.path.append('c:\\python27\\DLLs')" ; needed for Win
-        pyruni "import peakdetect_wrapper"
-        pyruni "p = peakdetect_wrapper.PeakDetector()"
-        pyruni "import rational_approx as r"
+	0dbfs = 1	
 
         gi1     ftgen   1, 0, 16, -2, 0  ; analysis signal display
         gi5     ftgen   5, 0, 32, -2, 0  ; rhythm consonance display
@@ -144,13 +135,37 @@ csoundoutput bounds(5, 500, 290, 250), text("Output")
 
 #include "analyze_udos.inc"
 
+
 ;**************************
 	instr 1
+	pyinit
+        pyruni "import sys"
+	pyruni "import os"
+	
+	pyruni "sys.path.append(os.getcwd())"	; needed for OSX
+        pyruni "sys.path.append('c:\\python27\\DLLs')" ; needed for Win
+        
+	; needed when reloading a saved project in a DAW, as the cwd will have changed
+	Spath 	chnget "CSD_PATH"
+	Schdir	strcat "os.chdir('", Spath
+	Schdir2	strcat Schdir, "')"
+	pyruni Schdir2
+	pyruni "sys.path.append(os.getcwd())"
+	
+        pyruni "import peakdetect_wrapper"
+        pyruni "p = peakdetect_wrapper.PeakDetector()"
+        pyruni "import rational_approx as r"
+
+;#include "analyze_chn_init.inc"
+	endin
+
+;**************************
+	instr 2
 #include "analyze_chn_init.inc"
 	endin
 
 ;**************************
-        instr 2
+        instr 3
 	a1,a2	        ins
 
 ;	                outs a1, a2
@@ -237,8 +252,9 @@ skip:
 </CsInstruments>
 <CsScore>
 #define SCORELEN #86400#
-;i1	0.1	1               ; init gui values, for running without Cabbage
-i2	.1	$SCORELEN
+i1	0.1	1               ; init python, must be run in an instr because of chnget for CSD_PATH
+;i2	0.1	1               ; init gui values, for running without Cabbage
+i3	.1	$SCORELEN
 e
 </CsScore>
 </CsoundSynthesizer>
