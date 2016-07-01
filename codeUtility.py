@@ -77,7 +77,9 @@ chn_init_file.write(instr_template.format(parameter_ranges))
 start_x_pos = 30
 start_y_pos = 5
 plant_height = 85
-analysis_parms = '"rms", "rms_preEq", "cps", "pitch", "centroid", "spread", "skewness", "kurtosis", "flatness", "crest", "flux", "amp_trans", "amp_t_dens", "centr_trans", "centr_t_dens", "kurt_trans", "pitchup_trans", "pitchdown_trans", "cps_raw"'
+analysis_parms = '''"rms", "rms_preEq", "cps", "pitch", "centroid", "spread", "skewness", "kurtosis", "flatness", "crest", "flux", 
+                    "amp_trans", "amp_t_dens", "rhythm_cons", "rhythm_ratio1", "rhythm_ratio2", "rhythm_ac", "rhythm_ac1", "rhythm_ac2",  
+                     "rhythm_ac1t", "rhythm_ac2t", "mfcc1", "mfcc2", "mfcc3", "mfcc4", "cps_raw"'''
 
 
 plant = '''groupbox bounds({start_y}, {start_x}, 564, 81), plant("plant_{pname}"), linethickness("0"){{ 
@@ -157,10 +159,6 @@ x_pos1 = start_x_pos
 y_pos = start_y_pos
 for i in range(len(parameters)):
     parm = parameters[i]
-    if (effectname == 'plucktremlpfverb') and (parm[0] == 'lpfDrive'): 
-        x_pos1 = x_pos
-        x_pos = start_x_pos
-        y_pos = 575
     guifile.write(plant.format(start_x=x_pos, start_y=y_pos, pname=parm[0], analysis_p=analysis_parms,p_min=parm[1][0], p_max=parm[1][1], p_default=parm[1][2], p_skew=parm[1][3], p_incr=parm[1][4]))
     x_pos+=plant_height
 guifile.write(';next x position available below plants is {}'.format(max([x_pos,x_pos1])))

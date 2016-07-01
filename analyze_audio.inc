@@ -45,17 +45,6 @@
 	kgate2		= (dbfsamp(krms) < knoiseFloor_dB+isecond_dB ? 0 : 1)	;  gate when close to noise floor (for sampholding centroid and pitch etc)
         klowscaler      = limit(dbfsamp(krms)-knoiseFloor_dB, 0, isecond_dB)/isecond_dB      ; scaler to fade out different things towards the noise floor
 
-; ** tempo estimation
-;  iprd = 0.01
-;  imindur = 0.1
-;  imemdur = 3
-;  ihp = 1
-;  ithresh = ampdbfs(-40)
-;  ihtim = 0.005
-;  ixfdbak = 0.05
-;  istartempo = 110
-;  k1 tempest krms, iprd, imindur, imemdur, ihp, ithresh, ihtim, ixfdbak, istartempo, gifnTempomem
-;printk2 k1
 
 ; ***************
 ;analyze amplitude transients
@@ -72,16 +61,14 @@
         katranDensity   init 0
 ;Control segment for LEDs displaying transient detection:
         ktrigButn       trigger	krms_tran0, 0.5, 0
-        ;kamp_trans init 0
         if ktrigButn > 0 then
         katranTime      = ktime-kprevaTranTime
         kprevaTranTime  = ktime
-        ;printk2 katranTime
         katranDensity   divz 1, katranTime, 1
 	                reinit lightTransient
         endif
 lightTransient:
-        kamp_trans      linseg 1,0.15,1,0,0,1,0
+        kamp_trans      linseg 1,0.05,1,0,0,1,0
                         chnset kamp_trans, "transientDisplay"
 rireturn
 
@@ -102,13 +89,11 @@ rireturn
         katransDensEnv   init 0
         katransDensEnv   = (katranDensity1>katransDensEnv?(katranDensity1+(iA*(katransDensEnv-katranDensity1))):(katranDensity1+(iB*(katransDensEnv-katranDensity1))))
 
-        ;katranCount     tonek katranCount, 1
         katransDensEnv1 init 0
         iA               = exp(-6.90775527898 * (1/kr))
         katransDensEnv  = katranCount-(katransDensEnv1*iA)
         katransDensEnv1 delayk katransDensEnv, 1/kr
         katransDensEnv  tonek katransDensEnv, 0.6
-        ;katransDensEnv   = (katranCount+(iA*(katransDensEnv-katranCount)))
         
 ; ***************
 ; rhythmic analysis
@@ -117,7 +102,6 @@ ibufsize_ry = 256
 kcnt_ry init 0
 kArr_ry[] init ibufsize_ry
 kdeviation_ry chnget "rhythmConsonanceDeviation"
-
 
 if krms_tran0 > 0 then
 kArr_ry[kcnt_ry] = ktime
@@ -153,6 +137,9 @@ kcnt_ry wrap (kcnt_ry+1), 0, ibufsize_ry
 endif
 
 krhythm_consonance = kben3p2p1p/12;kben3p2p1p/10;kben3p2p1p_t/100
+krhythm_ratio1 = knom1/kdenom1
+krhythm_ratio2 = knom2/kdenom2
+krhythm_ratio3 = knom3/kdenom3
 
 ; ** rhythm correlation
 
@@ -165,6 +152,18 @@ kRhythmAuto[] init ira_fftsize
 kRhythmAutoPeaks[][] init 2, ira_fftsize/2
 
 kRhythmAuto, kRhythmAutoPeaks, krclock, krenv, krnewframe RhythmAutoCorr krms_tran0, kra_shapedur, kra_sort_threshold, irhythm_sr, ira_fftsize, ira_overlaps
+
+krhythm_ac1 = kRhythmAutoPeaks[0][0]
+krhythm_ac2 = kRhythmAutoPeaks[0][1]
+krhythm_ac3 = kRhythmAutoPeaks[0][2]
+krhythm_ac1indx = kRhythmAutoPeaks[1][0]
+krhythm_ac2indx = kRhythmAutoPeaks[1][1]
+krhythm_ac3indx = kRhythmAutoPeaks[1][2]
+krhythm_ac1time = krhythm_ac1indx/irhythm_sr
+krhythm_ac2time = krhythm_ac2indx/irhythm_sr
+krhythm_ac3time = krhythm_ac3indx/irhythm_sr
+
+
 
 ; ***************
 ; spectral analysis
@@ -284,83 +283,6 @@ endif
 
 
 
-; ***************
-;analyze centroid transients
-
-	icresponse	= 10 		                        ; response time in milliseconds
-	kctthresh	chnget "centro_transientThresh"	        ; transient trig threshold (in octaves)
-	kclowThresh	= 1		                        ; lower threshold for transient detection (in octaves)
-	kcdoubleLimit	chnget "centro_transientDoubleLimit"	; minimum duration between events, (double trig limit)
-	kcdecTime	chnget "centro_transientDecTime" 	; envelope follower decay time
-	kcdecThresh	chnget "centro_transientDecThresh" 	; retrig threshold, how much must the level decay from its local max before allowing new transient trig
-        icrise          = 0.001
-	icrise          limit icrise, 1/kr, 10
-	kcdecTime       limit kcdecTime, 1/kr, 10
-        iA              = exp(-6.90775527898 * (1/icrise)/kr)
-        kB              = exp(-6.90775527898 * (1/kcdecTime)/kr)
-        kcentro_env     init 0
-        kcentro_env     = (kcentroid>kcentro_env?(kcentroid+(iA*(kcentro_env-kcentroid))):(kcentroid+(kB*(kcentro_env-kcentroid))))
-	kcentroct	= log2(kcentro_env)
-	;printk 0.4, kcentroct
-
-	kcentr_tran0, kcdiff	TransientDetect kcentroct, icresponse, kctthresh, kclowThresh, kcdecThresh, kcdoubleLimit
-
-        kprevcTranTime  init 0
-        kctranDensity   init 0
-;Control segment for LEDs displaying transient detection:
-        kctrigButn	trigger	kcentr_tran0, 0.5, 0
-        ;kcentr_trans    init 0
-        if kctrigButn > 0 then
-        kctranTime      = ktime-kprevcTranTime
-        kprevcTranTime  = ktime
-        kctranDensity   divz 1, kctranTime, 1
-	                reinit clightTransient
-        endif
-clightTransient:
-        kcentr_trans    linseg 1,0.15,1,0,0,1,0
-                        chnset kcentr_trans, "ctransientDisplay"
-rireturn
-
-        kctranDensity0   init 0
-        kctranDensity    = kctranDensity-(kctranDensity0*5/kr) ; hipass
-        kctranDensity0   = kctranDensity
-        kctranDensity1   = kctranDensity*1.1
-        ictranrise       = 0.001
-	ictrandec        = 2
-        iA               = exp(-6.90775527898 * (1/ictranrise)/kr)
-        iB               = exp(-6.90775527898 * (1/ictrandec)/kr)
-        kctransDensEnv   init 0
-        kctransDensEnv   = (kctranDensity1>kctransDensEnv?(kctranDensity1+(iA*(kctransDensEnv-kctranDensity1))):(kctranDensity1+(iB*(kctransDensEnv-kctranDensity1))))
-
-; ***************
-;analyze kurtosis transients
-	ikresponse	= 10 		                        ; response time in milliseconds
-	kktthresh	chnget "kurt_transientThresh"	        ; transient trig threshold 
-	kklowThresh	= 1		                        ; lower threshold for transient detection
-	kkdoubleLimit	chnget "kurt_transientDoubleLimit"	; minimum duration between events, (double trig limit)
-	kkdecTime	chnget "kurt_transientDecTime" 	; envelope follower decay time
-	kkdecThresh	chnget "kurt_transientDecThresh" 	; retrig threshold, how much must the level decay from its local max before allowing new transient trig
-
-        ikrise          = 0.001
-	ikrise          limit ikrise, 1/kr, 10
-	kkdecTime       limit kkdecTime, 1/kr, 10
-        ikA             = exp(-6.90775527898 * (1/ikrise)/kr)
-        kkB             = exp(-6.90775527898 * (1/kkdecTime)/kr)
-        kkurt_env       init 0
-        kkurt_env     = (kurtosis>kkurt_env?(kurtosis+(ikA*(kkurt_env-kurtosis))):(kurtosis+(kkB*(kkurt_env-kurtosis))))
-
-	kkurt_tran0, kkdiff	TransientDetect kkurt_env, ikresponse, kktthresh, kklowThresh, kkdecThresh, kkdoubleLimit
-
-;Control segment for LEDs displaying transient detection:
-        kktrigButn	changed	kkurt_tran0
-        kkurt_trans     init 0
-        if kktrigButn > 0 then
-	                reinit sklightTransient
-        endif
-sklightTransient:
-        kkurt_trans     linseg 1,0.15,1,0,0,1,0
-                        chnset kkurt_trans, "ktransientDisplay"
-rireturn
 
 ; ***************
 ; pitch tracking
@@ -411,50 +333,7 @@ endif
 	kcps		samphold kcps, kgate0
         ksemitone       = limit:k((log2(kcps/440)*12)+69, 0, 127)
         
-; ***************
-;analyze pitch transients
 
-	ipresponse	= 15 		                        ; response time in milliseconds
-	kptthresh	chnget "pitch_transientThresh"	        ; transient trig threshold (in semitones)
-	kplowThresh	= 24		                        ; lower threshold for transient detection
-	kpdoubleLimit	chnget "pitch_transientDoubleLimit"	; minimum duration between events, (double trig limit)
-	kpdecTime	chnget "pitch_transientDecTime" 	; envelope follower decay time
-	kpdecThresh	chnget "pitch_transientDecThresh" 	; retrig threshold, how much must the level decay from its local max before allowing new transient trig
-
-        iprise          = 0.001
-	iprise          limit iprise, 1/kr, 10
-	kpdecTime       limit kpdecTime, 1/kr, 10
-        ipA             = exp(-6.90775527898 * (1/iprise)/kr)
-        kpB             = exp(-6.90775527898 * (1/kpdecTime)/kr)
-        kpitchup_env    init 0
-        kpitchup_env    = (ksemitone>kpitchup_env?(ksemitone+(ipA*(kpitchup_env-ksemitone))):(ksemitone+(kpB*(kpitchup_env-ksemitone))))
-        kpitchdwn_env   init 0
-        kpitchdwn_env   = ((127-ksemitone)>kpitchdwn_env?((127-ksemitone)+(ipA*(kpitchdwn_env-(127-ksemitone)))):((127-ksemitone)+(kpB*(kpitchdwn_env-(127-ksemitone)))))
-
-
-	kpitchup_tran0, kpdiff	TransientDetect kpitchup_env, ipresponse, kptthresh, kplowThresh, kpdecThresh, kpdoubleLimit
-	kpitchdwn_tran0, kpdiff	TransientDetect kpitchdwn_env, ipresponse, kptthresh, kplowThresh, kpdecThresh, kpdoubleLimit
-        
-;Control segment for LEDs displaying transient detection:
-        kpuptrigButn	changed	kpitchup_tran0
-        kpitchup_trans  init 0
-        if kpuptrigButn > 0 then
-	                reinit puplightTransient
-        endif
-puplightTransient:
-        kpitchup_trans  linseg 1,0.15,1,0,0,1,0
-                        chnset kpitchup_trans, "puptransientDisplay"
-rireturn
-
-        kpdwntrigButn	changed	kpitchdwn_tran0
-        kpitchdwn_trans init 0
-        if kpdwntrigButn > 0 then
-	                reinit pdwnlightTransient
-        endif
-pdwnlightTransient:
-        kpitchdwn_trans linseg 1,0.15,1,0,0,1,0
-                        chnset kpitchdwn_trans, "pdwntransientDisplay"
-rireturn
 ; ***************
 ; normalization
         kcps_n          = divz(kcps, kpitch_high, 1)
@@ -469,8 +348,6 @@ rireturn
         imfccscale      = 1/200
         kmax            maxarray kmfcc
         kmin            minarray kmfcc
-        ;printk2 kmin
-        ;printk2 kmax, 10
         kmfcc1          = kmfcc[1]*imfccscale
         kmfcc2          = kmfcc[2]*imfccscale
         kmfcc3          = kmfcc[3]*imfccscale

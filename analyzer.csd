@@ -55,28 +55,6 @@ rslider bounds(275, 226, 65, 65), text("DblLimit"), channel("amp_transientDouble
 label text("amp"), bounds(15, 230, 70, 12)
 checkbox channel("transientDisplay"),bounds(42, 245, 15, 15), value(0)
 
-rslider bounds(80, 295, 65, 65), text("Thresh"), channel("centr_transientThresh"), range(0.0, 1.0, 0.2) 
-rslider bounds(145, 295, 65, 65), text("DecThresh"), channel("centr_transientDecThresh"), range(0.0, 1.0, 0.0) 
-rslider bounds(210, 295, 65, 65), text("DecTime"), channel("centr_transientDecTime"), range(0.1, 2.0, 2.0) 
-rslider bounds(275, 295, 65, 65), text("DblLimit"), channel("centr_doubleLimit"), range(0.1, 1.0, 0.1) 
-label text("centroid"), bounds(15, 299, 70, 12)
-checkbox channel("ctransientDisplay"),bounds(42, 315, 15, 15), value(0)
-
-rslider bounds(80, 360, 65, 65), text("Thresh"), channel("kurt_transientThresh"), range(0.0, 6, 0.8) 
-rslider bounds(145, 360, 65, 65), text("DecThresh"), channel("kurt_transientDecThresh"), range(0.0, 6, 0) 
-rslider bounds(210, 360, 65, 65), text("DecTime"), channel("kurt_transientDecTime"), range(0.1, 2.0, 0.5) 
-rslider bounds(275, 360, 65, 65), text("DblLimit"), channel("kurt_doubleLimit"), range(0.1, 1.0, 0.2) 
-label text("kurtosis"), bounds(15, 364, 70, 12)
-checkbox channel("ktransientDisplay"),bounds(42, 380, 15, 15), value(0)
-
-rslider bounds(80, 425, 65, 65), text("Thresh"), channel("pitch_transientThresh"), range(0.0, 12.0, 1.5) 
-rslider bounds(145, 425, 65, 65), text("DecThresh"), channel("pitch_transientDecThresh"), range(0.0, 12.0, 0.0) 
-rslider bounds(210, 425, 65, 65), text("DecTime"), channel("pitch_transientDecTime"), range(0.1, 2.0, 0.5) 
-rslider bounds(275, 425, 65, 65), text("DblLimit"), channel("pitch_doubleLimit"), range(0.1, 1.0, 0.7) 
-label text("pitch"), bounds(12, 429, 70, 12)
-checkbox channel("puptransientDisplay"),bounds(42, 445, 15, 15), value(0)
-checkbox channel("pdwntransientDisplay"),bounds(42, 460, 15, 15), value(0)
-
 gentable bounds(370,  5, 320, 240), identchannel("displays"), tablenumber(1), tablecolour("lightblue"), tablegridcolour(0,0,0,0), amprange(-.3,1,1), zoom(-1), samplerange(0,16)
 image bounds(370, 5, 80,240), shape("sharp"), colour(175, 50,255, 40), identchannel("group1")	
 label text("noisefloor"), bounds(385, 250, 200, 15), align("left"), rotate(1.5708, 0, 0)
@@ -96,16 +74,9 @@ label text("crest"), bounds(565, 250, 165, 15), align("left"), rotate(1.5708, 0,
 label text("flux"), bounds(585, 250, 145, 15), align("left"), rotate(1.5708, 0, 0)
 
 image bounds(590, 5, 100,240), shape("sharp"), colour(255,255, 50, 20), identchannel("group4")	
-;label text("amp_t"), bounds(605, 250, 200, 15), align("left"), rotate(1.5708, 0, 0)
-;label text("centr_t"), bounds(625, 250, 200, 15), align("left"), rotate(1.5708, 0, 0)
-;label text("kurt_t"), bounds(645, 250, 200, 15), align("left"), rotate(1.5708, 0, 0)
-;label text("pup_t"), bounds(665, 250, 200, 15), align("left"), rotate(1.5708, 0, 0)
-;label text("pdwn_t"), bounds(685, 250, 200, 15), align("left"), rotate(1.5708, 0, 0)
 
 label text("amp transient density"), bounds(370, 340, 200, 15), align("left")
 label text("0"), bounds(370, 360, 200, 15), align("left"), identchannel("ampTransDensity")	
-label text("centr transient density"), bounds(370, 380, 200, 15), align("left")
-label text("0"), bounds(370, 400, 200, 15), align("left"), identchannel("cenTransDensity")	
 
 label text("rhythm consonance"), bounds(370, 430, 200, 15), align("left")
 label text("0"), bounds(370, 450, 200, 15), align("left"), identchannel("rhythmConsonance")	
@@ -144,7 +115,7 @@ csoundoutput bounds(5, 500, 290, 250), text("Output")
 <CsInstruments>
 
         sr = 48000
-        ksmps = 64
+        ksmps = 32
 	nchnls = 2
 	0dbfs = 1
 	
@@ -212,19 +183,17 @@ csoundoutput bounds(5, 500, 290, 250), text("Output")
  	chnset	"tablenumber(1)", "displays"	; update table display	
  	SatranD sprintfk "text(%.1f)", katransDensEnv
  	chnset	SatranD, "ampTransDensity"	; update gui	
- 	SctranD sprintfk "text(%.1f)", kctransDensEnv
- 	chnset	SctranD, "cenTransDensity"	; update gui	
         endif
 
         if krnewframe*kenableDisplay > 0 then
         copya2ftab kRhythmAuto, 10
  	chnset	"tablenumber(10)", "rhythm_autocorr"	; update table display	
- 	Srauto1D sprintfk "text(%.2f)", kRhythmAutoPeaks[0][0]
- 	Srauto2D sprintfk "text(%.2f)", kRhythmAutoPeaks[0][1]
- 	Srauto3D sprintfk "text(%.2f)", kRhythmAutoPeaks[0][2]
- 	Srauto1indxD sprintfk "text(%i)", kRhythmAutoPeaks[1][0]
- 	Srauto2indxD sprintfk "text(%i)", kRhythmAutoPeaks[1][1]
- 	Srauto3indxD sprintfk "text(%i)", kRhythmAutoPeaks[1][2]
+ 	Srauto1D sprintfk "text(%.2f)", krhythm_ac1
+ 	Srauto2D sprintfk "text(%.2f)", krhythm_ac2
+ 	Srauto3D sprintfk "text(%.2f)", krhythm_ac3
+ 	Srauto1indxD sprintfk "text(%i)", krhythm_ac1indx;krhythm_ac1time
+ 	Srauto2indxD sprintfk "text(%i)", krhythm_ac2indx
+ 	Srauto3indxD sprintfk "text(%i)", krhythm_ac3indx
  	chnset	Srauto1D, "rhythmauto1"	; update gui	
  	chnset	Srauto2D, "rhythmauto2"	; update gui	
  	chnset	Srauto3D, "rhythmauto3"	; update gui	
@@ -239,9 +208,9 @@ csoundoutput bounds(5, 500, 290, 250), text("Output")
  	SrcomplexD sprintfk "text(%.3f)", krhythm_consonance
         chnset	SrcomplexD, "rhythmConsonance"
 
- 	Srratio1D sprintfk "text(%.2f)", knom1/kdenom1
- 	Srratio2D sprintfk "text(%.2f)", knom2/kdenom2
- 	Srratio3D sprintfk "text(%.2f)", knom3/kdenom3
+ 	Srratio1D sprintfk "text(%.2f)", krhythm_ratio1
+ 	Srratio2D sprintfk "text(%.2f)", krhythm_ratio2
+ 	Srratio3D sprintfk "text(%.2f)", krhythm_ratio3
         chnset	Srratio1D, "rhythmratio1"
         chnset	Srratio2D, "rhythmratio2"
         chnset	Srratio3D, "rhythmratio3"
