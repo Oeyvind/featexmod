@@ -98,7 +98,7 @@ rireturn
 ; ***************
 ; rhythmic analysis
 
-ibufsize_ry = 256
+ibufsize_ry = 8
 kcnt_ry init 0
 kArr_ry[] init ibufsize_ry
 kdeviation_ry chnget "rhythmConsonanceDeviation"
@@ -118,8 +118,21 @@ krel2 divz kdist1, kdist3, 1
 krel3 divz kdist1, kdist4, 1
 
 knom1, kdenom1 pycall2 "r.farey", krel1, 64, kdeviation_ry
-knom2, kdenom2 pycall2 "r.farey", krel2, 64, kdeviation_ry*2
-knom3, kdenom3 pycall2 "r.farey", krel3, 64, kdeviation_ry*3
+knom2, kdenom2 pycall2 "r.farey", krel2, 64, kdeviation_ry;*2
+knom3, kdenom3 pycall2 "r.farey", krel3, 64, kdeviation_ry;*3
+
+/*
+; attempt to quantize second last distance, to make it more stable... failed
+printk2 krel1
+krel1Q = knom1/kdenom1
+kdist2Q = kdist2/(krel1/krel1Q)
+printk2 kdist2, 20
+printk2 kdist2Q, 25
+krel1 divz kdist1, kdist2Q, 1
+knom1, kdenom1 pycall2 "r.farey", krel1, 64, kdeviation_ry
+printk2 krel1, 5
+*/
+
 
 ;Benedetti height
 kben321 = (knom1*kdenom1)+(knom2*kdenom2)+(knom3*kdenom3)
@@ -135,7 +148,14 @@ kben3p2p1p_t = (kben3p2p1p+1)*(2/(kdist1+kdist2))
 kcnt_ry wrap (kcnt_ry+1), 0, ibufsize_ry
 endif
 
-krhythm_consonance = kben3p2p1p/12;kben3p2p1p/10;kben3p2p1p_t/100
+krhythm_consonance = kben1/12;kben3p2p1p/12;kben3p2p1p/10;kben3p2p1p_t/100
+;krhythm_consonance_m1 mediank krhythm_consonance, 5, 8
+krhythm_consonance_m2 init 0
+krhythm_consonance_m2 = (krhythm_consonance_m2*0.7)+(krhythm_consonance*0.3)
+krhythm_consonance_m max krhythm_consonance_m2, krhythm_consonance
+
+;printk2 krhythm_consonance
+;printk2 krhythm_consonance_m, 10
 krhythm_ratio1 = knom1/kdenom1
 krhythm_ratio2 = knom2/kdenom2
 krhythm_ratio3 = knom3/kdenom3

@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# -*- coding: latin-1 -*-
+
 def farey(x, N, dev):
     if x*(1+dev)>1>x/(1+dev):
         return 1, 1
