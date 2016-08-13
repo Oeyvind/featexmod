@@ -98,10 +98,16 @@ rireturn
 ; ***************
 ; rhythmic analysis
 
+; one measure of rhythhmic irrregularity is the relative time ratios between conescutive transients
+; we measure here the ratio between the currnet and the previous, the current and the next last, and the current and the third last deltatimes
+; we multiply these three measures, as it will give a higher regularity measure if there is some short term repetition
+
+; another measure of irregularity is the distance from a 1:1 ratio (regular beat), where large changes in tempo give high irregularity
+
 ibufsize_ry = 8
 kcnt_ry init 0
 kArr_ry[] init ibufsize_ry
-kdeviation_ry chnget "rhythmConsonanceDeviation"
+
 if krms_tran0 > 0 then
 kArr_ry[kcnt_ry] = ktime
 k_0 = kArr_ry[kcnt_ry]
@@ -117,49 +123,148 @@ krel1 divz kdist1, kdist2, 1
 krel2 divz kdist1, kdist3, 1
 krel3 divz kdist1, kdist4, 1
 
-knom1, kdenom1 pycall2 "r.farey", krel1, 64, kdeviation_ry
-knom2, kdenom2 pycall2 "r.farey", krel2, 64, kdeviation_ry;*2
-knom3, kdenom3 pycall2 "r.farey", krel3, 64, kdeviation_ry;*3
+; for rational approximation, we use table lookup since there are a lot of specific fractions sthat we do not want
+; up to 1.0
+iAfra1[] fillarray 0.0625,  0.125,   0.1666,  0.25,    0.333,   0.5,     0.667,   0.75,    1.0
+iAnom1[] fillarray 1,       1,       1,       1,       1,       1,       2,       3,       1
+iAden1[] fillarray 16,      8,       6,       4,       3,       2,       3,       4,       1
+; from 1.0 and up
+iAfra2[] fillarray 1.0,     1.33,    1.5,     2.0,     3.0,     4.0,     6.0,     8.0,     12.0,    16.0
+iAnom2[] fillarray 1,       4,       3,       2,       3,       4,       6,       8,       12,      16        
+iAden2[] fillarray 1,       3,       2,       1,       1,       1,       1,       1,       1,       1
 
-/*
-; attempt to quantize second last distance, to make it more stable... failed
-printk2 krel1
-krel1Q = knom1/kdenom1
-kdist2Q = kdist2/(krel1/krel1Q)
-printk2 kdist2, 20
-printk2 kdist2Q, 25
-krel1 divz kdist1, kdist2Q, 1
-knom1, kdenom1 pycall2 "r.farey", krel1, 64, kdeviation_ry
-printk2 krel1, 5
-*/
+ifra2max maxarray iAfra2
+inomtablen = 512
 
+inomtab1  ftgen 0, 0, inomtablen, -17,  0, iAnom1[0],
+                                     int((iAfra1[1]-((iAfra1[1]-iAfra1[0])/2))*inomtablen), iAnom1[1],
+                                     int((iAfra1[2]-((iAfra1[2]-iAfra1[1])/2))*inomtablen), iAnom1[2],
+                                     int((iAfra1[3]-((iAfra1[3]-iAfra1[2])/2))*inomtablen), iAnom1[3],
+                                     int((iAfra1[4]-((iAfra1[4]-iAfra1[3])/2))*inomtablen), iAnom1[4],
+                                     int((iAfra1[5]-((iAfra1[5]-iAfra1[4])/2))*inomtablen), iAnom1[5],
+                                     int((iAfra1[6]-((iAfra1[6]-iAfra1[5])/2))*inomtablen), iAnom1[6],
+                                     int((iAfra1[7]-((iAfra1[7]-iAfra1[6])/2))*inomtablen), iAnom1[7],
+                                     int((iAfra1[8]-((iAfra1[8]-iAfra1[7])/2))*inomtablen), iAnom1[8]
+
+identab1  ftgen 0, 0, inomtablen, -17,  0, iAden1[0],
+                                     int((iAfra1[1]-((iAfra1[1]-iAfra1[0])/2))*inomtablen), iAden1[1],
+                                     int((iAfra1[2]-((iAfra1[2]-iAfra1[1])/2))*inomtablen), iAden1[2],
+                                     int((iAfra1[3]-((iAfra1[3]-iAfra1[2])/2))*inomtablen), iAden1[3],
+                                     int((iAfra1[4]-((iAfra1[4]-iAfra1[3])/2))*inomtablen), iAden1[4],
+                                     int((iAfra1[5]-((iAfra1[5]-iAfra1[4])/2))*inomtablen), iAden1[5],
+                                     int((iAfra1[6]-((iAfra1[6]-iAfra1[5])/2))*inomtablen), iAden1[6],
+                                     int((iAfra1[7]-((iAfra1[7]-iAfra1[6])/2))*inomtablen), iAden1[7],
+                                     int((iAfra1[8]-((iAfra1[8]-iAfra1[7])/2))*inomtablen), iAden1[8]
+
+
+inomtab2  ftgen 0, 0, inomtablen, -17,  0, iAnom2[0],
+                                     int((iAfra2[1]-((iAfra2[1]-iAfra2[0])/2))*inomtablen/ifra2max), iAnom2[1],
+                                     int((iAfra2[2]-((iAfra2[2]-iAfra2[1])/2))*inomtablen/ifra2max), iAnom2[2],
+                                     int((iAfra2[3]-((iAfra2[3]-iAfra2[2])/2))*inomtablen/ifra2max), iAnom2[3],
+                                     int((iAfra2[4]-((iAfra2[4]-iAfra2[3])/2))*inomtablen/ifra2max), iAnom2[4],
+                                     int((iAfra2[5]-((iAfra2[5]-iAfra2[4])/2))*inomtablen/ifra2max), iAnom2[5],
+                                     int((iAfra2[6]-((iAfra2[6]-iAfra2[5])/2))*inomtablen/ifra2max), iAnom2[6],
+                                     int((iAfra2[7]-((iAfra2[7]-iAfra2[6])/2))*inomtablen/ifra2max), iAnom2[7],
+                                     int((iAfra2[8]-((iAfra2[8]-iAfra2[7])/2))*inomtablen/ifra2max), iAnom2[8],
+                                     int((iAfra2[9]-((iAfra2[9]-iAfra2[8])/2))*inomtablen/ifra2max), iAnom2[9]
+
+print  (iAfra2[1]-((iAfra2[1]-iAfra2[0])/2))
+                                     
+identab2  ftgen 0, 0, inomtablen, -17,  0, iAden2[0],
+                                     int((iAfra2[1]-((iAfra2[1]-iAfra2[0])/2))*inomtablen/ifra2max), iAden2[1],
+                                     int((iAfra2[2]-((iAfra2[2]-iAfra2[1])/2))*inomtablen/ifra2max), iAden2[2],
+                                     int((iAfra2[3]-((iAfra2[3]-iAfra2[2])/2))*inomtablen/ifra2max), iAden2[3],
+                                     int((iAfra2[4]-((iAfra2[4]-iAfra2[3])/2))*inomtablen/ifra2max), iAden2[4],
+                                     int((iAfra2[5]-((iAfra2[5]-iAfra2[4])/2))*inomtablen/ifra2max), iAden2[5],
+                                     int((iAfra2[6]-((iAfra2[6]-iAfra2[5])/2))*inomtablen/ifra2max), iAden2[6],
+                                     int((iAfra2[7]-((iAfra2[7]-iAfra2[6])/2))*inomtablen/ifra2max), iAden2[7],
+                                     int((iAfra2[8]-((iAfra2[8]-iAfra2[7])/2))*inomtablen/ifra2max), iAden2[8],
+                                     int((iAfra2[9]-((iAfra2[9]-iAfra2[8])/2))*inomtablen/ifra2max), iAden2[9]
+
+if krel1 <= 1 then
+knom1 table krel1, inomtab1, 1
+kden1 table krel1, identab1, 1
+kfrom_one1 = 1-krel1
+else
+knom1 table krel1*(inomtablen/ifra2max), inomtab2
+kden1 table krel1*(inomtablen/ifra2max), identab2
+kfrom_one1 = krel1/ifra2max
+endif
+kquant1 = knom1/kden1
+kdev1 = abs(krel1-kquant1)
+
+if krel2 <= 1 then
+knom2 table krel2, inomtab1, 1
+kden2 table krel2, identab1, 1
+kfrom_one2 = 1-krel2
+else
+knom2 table krel2*(inomtablen/ifra2max), inomtab2
+kden2 table krel2*(inomtablen/ifra2max), identab2
+kfrom_one2 = krel2/ifra2max
+endif
+kquant2 = knom2/kden2
+kdev2 = abs(krel2-kquant2)
+
+if krel3 <= 1 then
+knom3 table krel3, inomtab1, 1
+kden3 table krel3, identab1, 1
+kfrom_one3 = 1-krel3
+else
+knom3 table krel3*(inomtablen/ifra2max), inomtab2
+kden3 table krel3*(inomtablen/ifra2max), identab2
+kfrom_one3 = krel3/ifra2max
+endif
+kquant3 = knom3/kden3
+kdev3 = abs(krel3-kquant3)
+
+krhythm_consonance_deviation = (kdev1);+kdev2+kdev3)/3
 
 ;Benedetti height
-kben321 = (knom1*kdenom1)+(knom2*kdenom2)+(knom3*kdenom3)
-kben21 = (knom1*kdenom1)+(knom2*kdenom2)
-kben1 = (knom1*kdenom1)
+kben1 = (knom1*kden1)
+kben2 = (knom2*kden2)
+kben3 = (knom3*kden3)
 
 ;Tenney height is log2(Benedetti height)
-kben3p2p1p = log2(knom1*kdenom1)+log2(knom2*kdenom2)+log2(knom3*kdenom3)
+kten1 = (log(knom1*kden1)/3)+0.2
+kten2 = (log(knom2*kden2)/3)+0.2
+kten3 = (log(knom3*kden3)/3)+0.2
 
-; Average Tenney height over 3 last IOT's, relative to the tempo of the 2 last IOT's
-kben3p2p1p_t = (kben3p2p1p+1)*(2/(kdist1+kdist2))
+; multiply the last three tenney heights
+; it will allow for low values when there is some short term repetition
+krhythm_cons_x = kten1*kten2*kten3
+
+;fir
+krhythm_cons_x0 init 0
+krhythm_cons_x = (krhythm_cons_x+krhythm_cons_x0)/2
+krhythm_cons_x0 = krhythm_cons_x
+;iir
+krhythm_cons_y init 0
+ircfilter_a = 0.4
+ircfilter_b = 0.6
+krhythm_cons_y = (krhythm_cons_x*ircfilter_a) + (krhythm_cons_y*ircfilter_b)
+krhythm_consonance = krhythm_cons_y
+
+; filter the "distance from one" measure
+; multiply the two highest out of the last three
+kfrom_ox = max(kfrom_one1,kfrom_one2)*max(kfrom_one2,kfrom_one3)
+; fir
+kfrom_ox0 init 0
+kfrom_ox = (kfrom_ox+kfrom_ox0)/2
+kfrom_ox0 = kfrom_ox
+; iir
+kfrom_oy init 0
+kfrom_oy = (kfrom_ox*ircfilter_a) + (kfrom_oy*ircfilter_b)
+kfrom_one = kfrom_oy
+
+krhythm_ratio1 = knom1/kden1
+krhythm_ratio2 = knom2/kden2
+krhythm_ratio3 = knom3/kden3
 
 kcnt_ry wrap (kcnt_ry+1), 0, ibufsize_ry
 endif
 
-krhythm_consonance = kben1/12;kben3p2p1p/12;kben3p2p1p/10;kben3p2p1p_t/100
-;krhythm_consonance_m1 mediank krhythm_consonance, 5, 8
-krhythm_consonance_m2 init 0
-krhythm_consonance_m2 = (krhythm_consonance_m2*0.7)+(krhythm_consonance*0.3)
-krhythm_consonance_m max krhythm_consonance_m2, krhythm_consonance
 
-;printk2 krhythm_consonance
-;printk2 krhythm_consonance_m, 10
-krhythm_ratio1 = knom1/kdenom1
-krhythm_ratio2 = knom2/kdenom2
-krhythm_ratio3 = knom3/kdenom3
-
+;*************************************
 ; ** rhythm correlation
 
 kra_shapedur chnget "rhythmAutocorrEnvShape"

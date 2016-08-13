@@ -79,17 +79,15 @@ label text("amp transient density"), bounds(370, 340, 200, 15), align("left")
 label text("0"), bounds(370, 360, 200, 15), align("left"), identchannel("ampTransDensity")	
 
 label text("rhythm consonance"), bounds(370, 430, 200, 15), align("left")
-label text("0"), bounds(370, 450, 200, 15), align("left"), identchannel("rhythmConsonance")	
-numberbox bounds(435, 450, 40, 15), channel("rhythmConsonanceDeviation"), range(0.00, 0.90, 0.1)
-label text("rd dev"), bounds(480, 450, 200, 15), align("left")
+label text("0"), bounds(370, 450, 40, 15), align("left"), identchannel("rhythmFromOne")	
+label text("0"), bounds(410, 450, 40, 15), align("left"), identchannel("rhythmConsonance")	
+label text("0"), bounds(450, 450, 40, 15), align("left"), identchannel("rhythmConsonanceDeviation")
+label text("dev"), bounds(495, 450, 200, 15), align("left")
 gentable bounds(370, 470, 160, 140), identchannel("rhythm_consonance"), tablenumber(5,6,7), tablecolour("lightblue", "red", "darkolivegreen"), tablegridcolour(0,0,0,0), amprange(0,1,5), amprange(0,1,6), amprange(0,1,7), zoom(-1), samplerange(0,32)
 label text("latest rhythm ratios"), bounds(370, 620, 200, 15), align("left")
 label text("0"), bounds(370, 640, 100, 15), align("left"), identchannel("rhythmratio1")	
 label text("0"), bounds(420, 640, 100, 15), align("left"), identchannel("rhythmratio2")	
 label text("0"), bounds(470, 640, 100, 15), align("left"), identchannel("rhythmratio3")	
-label text("0"), bounds(370, 670, 100, 15), align("left"), identchannel("rhythmratio1a")	
-label text("0"), bounds(420, 670, 100, 15), align("left"), identchannel("rhythmratio2a")	
-label text("0"), bounds(470, 670, 100, 15), align("left"), identchannel("rhythmratio3a")	
 
 label text("rhythm autocorr"), bounds(540, 430, 200, 15), align("left")
 gentable bounds(540, 470, 160, 140), identchannel("rhythm_autocorr"), tablenumber(10), tablecolour("lightblue"), tablegridcolour(0,0,0,0), amprange(0,1,10), zoom(-1), samplerange(0,128)
@@ -154,7 +152,7 @@ csoundoutput bounds(5, 350, 290, 400), text("Output")
 	Spath 	chnget "CSD_PATH"
 	Schdir	strcat "os.chdir('", Spath
 	Schdir2	strcat Schdir, "')"
-	pyruni Schdir2
+	;pyruni Schdir2
 	pyruni "sys.path.append(os.getcwd())"
 	
         pyruni "import peakdetect_wrapper"
@@ -225,8 +223,15 @@ csoundoutput bounds(5, 350, 290, 400), text("Output")
 
         if krms_tran0>0 then
         krc_indx init 0
- 	SrcomplexD sprintfk "text(%.3f)", krhythm_consonance
+ 	SrcomplexD sprintfk "text(%.2f)", krhythm_consonance
         chnset	SrcomplexD, "rhythmConsonance"
+
+ 	SrcomplexdevD sprintfk "text(%.2f)", krhythm_consonance_deviation
+        chnset	SrcomplexdevD, "rhythmConsonanceDeviation"
+
+ 	SrhythmFromOneD sprintfk "text(%.2f)", kfrom_one
+        chnset	SrhythmFromOneD, "rhythmFromOne"
+
 
  	Srratio1D sprintfk "text(%.2f)", krhythm_ratio1
  	Srratio2D sprintfk "text(%.2f)", krhythm_ratio2
@@ -234,22 +239,10 @@ csoundoutput bounds(5, 350, 290, 400), text("Output")
         chnset	Srratio1D, "rhythmratio1"
         chnset	Srratio2D, "rhythmratio2"
         chnset	Srratio3D, "rhythmratio3"
-        
- 	Srratio1Da sprintfk "text(%.2f)", krel1
- 	Srratio2Da sprintfk "text(%.2f)", krel2
- 	Srratio3Da sprintfk "text(%.2f)", krel3
-        chnset	Srratio1Da, "rhythmratio1a"
-        chnset	Srratio2Da, "rhythmratio2a"
-        chnset	Srratio3Da, "rhythmratio3a"
-        
-        
-        ;Sdebug sprintfk "ratios %.2f %.2f %.2f, rels %.2f %.2f %.2f n", krhythm_ratio1, krhythm_ratio2, krhythm_ratio3, krel1, krel2, krel3
-        ;Sdebug sprintfk "cons %.2f, t=%.3f, ratios %.2f, rel %.2f", krhythm_consonance,ktime, krhythm_ratio1,  krel1
-        ;puts Sdebug,krc_indx
-        
+                
         krc_indx = (krc_indx+1)%32
-        tablew krhythm_consonance, krc_indx, gi5
-        tablew krhythm_consonance_m, krc_indx, gi6              ; median filtered
+        tablew kfrom_one, krc_indx, gi5
+        tablew krhythm_consonance, krc_indx, gi6              ; 
         tablew 1, krc_indx, gi7                                 ; set (display) locator into table
         tablew 0, krc_indx-1, gi7, 0, 0, 1                      ; reset previous locator (with wrap)
  	chnset	"tablenumber(5,6,7)", "rhythm_consonance" ; update table display	
