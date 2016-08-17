@@ -16,7 +16,7 @@
 ;    If not, see <http://www.gnu.org/licenses/>.
 
 <Cabbage>
-form size(740, 760), caption("Analyzer"), pluginID("anlz"), guirefresh(1) 
+form size(1740, 760), caption("Analyzer"), pluginID("anlz"), guirefresh(1) 
 image bounds(0, 0, 740, 760), file("background.jpg"), shape("round")
 
 label text("channel"), bounds(15, 16, 75, 12)
@@ -122,10 +122,10 @@ label text("0"), bounds(420, 640, 100, 15), align("left"), identchannel("rhythmr
 label text("0"), bounds(470, 640, 100, 15), align("left"), identchannel("rhythmratio3")	
 
 label text("rhythm autocorr"), bounds(540, 430, 200, 15), align("left")
-gentable bounds(540, 470, 160, 140), identchannel("rhythm_autocorr"), tablenumber(10), tablecolour("lightblue"), tablegridcolour(0,0,0,0), amprange(0,1,10), zoom(-1), samplerange(0,128)
+gentable bounds(540, 470, 1160, 140), identchannel("rhythm_autocorr"), tablenumber(10), tablecolour("lightblue"), tablegridcolour(0,0,0,0), amprange(0,1,10), zoom(-1), samplerange(0,1024)
 ;numberbox bounds(540, 450, 40, 15), channel("rhythmAutocorrEnvShape"), range(0.001, 0.20, 0.05)
 ;label text("ra env"), bounds(585, 450, 200, 15), align("left")
-numberbox bounds(540, 620, 40, 15), channel("rhythmAutocorrThresh"), range(0.01, 0.50, 0.1)
+numberbox bounds(540, 620, 40, 15), channel("rhythmAutocorrPeakDelta"), range(0.01, 0.50, 0.1)
 label text("ra thresh"), bounds(585, 620, 200, 15), align("left")
 
 label text("autocorr peaks"), bounds(540, 640, 200, 15), align("left")
@@ -154,7 +154,7 @@ label text("0"), bounds(640, 680, 100, 15), align("left"), identchannel("rhythma
         gi5     ftgen   5, 0, 32, -2, 0  ; rhythm consonance display
         gi6     ftgen   6, 0, 32, -2, 0  ; rhythm consonance display
         gi7     ftgen   7, 0, 32, -2, 0  ; rhythm consonance display
-        gi10    ftgen   10, 0, 256, -2, 0 ; rhythm autocorr display
+        gi10    ftgen   10, 0, 1024, -2, 0 ; rhythm autocorr display
 	giSine	ftgen	0, 0, 65536, 10, 1			; sine wave
 	gifftsize 	= 1024
 			chnset gifftsize, "fftsize"

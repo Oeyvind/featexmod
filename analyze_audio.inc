@@ -266,15 +266,14 @@ endif
 ;*************************************
 ; ** rhythm autocorrelation
 
-kra_shapedur = 0.03 ; transient envelope duration;chnget "rhythmAutocorrEnvShape"
-kra_sort_threshold chnget "rhythmAutocorrThresh" ; peak picking delta 
-irhythm_sr = 30
+kra_peak_delta chnget "rhythmAutocorrPeakDelta" ; peak picking delta 
+irhythm_sr = 120
 ira_fftsize = 512
-ira_overlaps = 32
+ira_overlaps = 1
 kRhythmAuto[] init ira_fftsize
 kRhythmAutoPeaks[][] init 2, ira_fftsize/2
 
-kRhythmAuto, kRhythmAutoPeaks, krclock, krenv, krnewframe RhythmAutoCorr krms, kra_shapedur, kra_sort_threshold, irhythm_sr, ira_fftsize, ira_overlaps
+kRhythmAuto, kRhythmAutoPeaks, krnewframe RhythmAutoCorr krms, kra_peak_delta, irhythm_sr, ira_fftsize, ira_overlaps
 
 krhythm_ac1 = kRhythmAutoPeaks[0][0]
 krhythm_ac2 = kRhythmAutoPeaks[0][1]
