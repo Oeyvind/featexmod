@@ -16,8 +16,8 @@
 ;    If not, see <http://www.gnu.org/licenses/>.
 
 <Cabbage>
-form size(740, 750), caption("Analyzer"), pluginID("anlz"), guirefresh(1) 
-image bounds(0, 0, 740, 500), file("background.jpg"), shape("round")
+form size(740, 760), caption("Analyzer"), pluginID("anlz"), guirefresh(1) 
+image bounds(0, 0, 740, 760), file("background.jpg"), shape("round")
 
 label text("channel"), bounds(15, 16, 75, 12)
 combobox channel("chan"), bounds(80, 12, 60, 25), items("1", "2", "3", "4"), value(1)
@@ -55,6 +55,38 @@ rslider bounds(275, 226, 65, 65), text("DblLimit"), channel("amp_transientDouble
 label text("amp"), bounds(15, 230, 70, 12)
 checkbox channel("transientDisplay"),bounds(42, 245, 15, 15), value(0)
 
+label text("plot"), bounds(5, 295, 40, 15), align("left")
+button bounds(40, 295, 50, 15), channel("plotenable"), text("not","plot"), value(0), colour("gray"), fontcolour("blue")
+button bounds(90, 295, 50, 15), channel("plotclear"), text("clear","-"), value(0), colour("gray"), fontcolour("blue"), latched(0)
+label text("update"), bounds(160, 295, 100, 15), align("left")
+combobox channel("plotupdatemethod"), bounds(215, 295, 70, 15), items("metro", "transient"), value(1)
+numberbox bounds(290, 295, 40, 15), channel("plotmetrorate"), range(1, 50, 10)
+
+label text("x"), bounds(270, 315, 15, 15), align("left")
+combobox channel("plot_x"), bounds(270, 332, 90, 18), items("rms", "cps_n", "pitch_a", "centroid_a", "spread_a", "skewness_a", "kurtosis_a", "flatness_a", "crest_a", "flux_a", "amp_trans", "atransDensEnv", "rhythm_consonance", "rhythmFromOne", "rhythm_ratio1", "rhythm_ratio2", "rhythm_ac1", "rhythm_ac2", "rhythm_ac1time", "rhythm_ac2time", "mfcc1", "mfcc2", "mfcc3", "mfcc4", "mfcc5"), value(1), channeltype("string")
+label text("scale  offset"), bounds(270, 352, 90, 15), align("left")
+numberbox bounds(270, 375, 40, 15), channel("plot_x_scale"), range(0.0, 99, 1.0)
+numberbox bounds(320, 375, 40, 15), channel("plot_x_offset"), range(-1.0, 1.0, 0.0)
+
+label text("y"), bounds(270, 395, 15, 15), align("left")
+combobox channel("plot_y"), bounds(270, 412, 90, 18), items("rms", "cps_n", "pitch_a", "centroid_a", "spread_a", "skewness_a", "kurtosis_a", "flatness_a", "crest_a", "flux_a", "amp_trans", "atransDensEnv", "rhythm_consonance", "rhythmFromOne", "rhythm_ratio1", "rhythm_ratio2", "rhythm_ac1", "rhythm_ac2", "rhythm_ac1time", "rhythm_ac2time", "mfcc1", "mfcc2", "mfcc3", "mfcc4", "mfcc5"), value(1), channeltype("string")
+label text("scale  offset"), bounds(270, 432, 90, 15), align("left")
+numberbox bounds(270, 455, 40, 15), channel("plot_y_scale"), range(0.0, 99, 1.0)
+numberbox bounds(320, 455, 40, 15), channel("plot_y_offset"), range(-1.0, 1.0, 0.0)
+
+label text("c"), bounds(270, 475, 15, 15), align("left")
+combobox channel("plot_c"), bounds(270, 492, 90, 18), items("rms", "cps_n", "pitch_a", "centroid_a", "spread_a", "skewness_a", "kurtosis_a", "flatness_a", "crest_a", "flux_a", "amp_trans", "atransDensEnv", "rhythm_consonance", "rhythmFromOne", "rhythm_ratio1", "rhythm_ratio2", "rhythm_ac1", "rhythm_ac2", "rhythm_ac1time", "rhythm_ac2time", "mfcc1", "mfcc2", "mfcc3", "mfcc4", "mfcc5"), value(1), channeltype("string")
+label text("scale  offset"), bounds(270, 512, 90, 15), align("left")
+numberbox bounds(270, 535, 40, 15), channel("plot_c_scale"), range(0.0, 99, 1.0)
+numberbox bounds(320, 535, 40, 15), channel("plot_c_offset"), range(-1.0, 1.0, 0.0)
+
+image bounds(5, 315, 260, 260), shape("sharp"), colour(0, 0, 0)
+image bounds(-100, -100, 1, 1), widgetarray("plot", 200), shape("ellipse"), colour(255, 255, 255)
+
+csoundoutput bounds(5, 585, 360, 145), text("Output")
+
+
+
 gentable bounds(370,  5, 320, 240), identchannel("displays"), tablenumber(1), tablecolour("lightblue"), tablegridcolour(0,0,0,0), amprange(-.3,1,1), zoom(-1), samplerange(0,16)
 image bounds(370, 5, 80,240), shape("sharp"), colour(175, 50,255, 40), identchannel("group1")	
 label text("noisefloor"), bounds(385, 250, 200, 15), align("left"), rotate(1.5708, 0, 0)
@@ -91,8 +123,8 @@ label text("0"), bounds(470, 640, 100, 15), align("left"), identchannel("rhythmr
 
 label text("rhythm autocorr"), bounds(540, 430, 200, 15), align("left")
 gentable bounds(540, 470, 160, 140), identchannel("rhythm_autocorr"), tablenumber(10), tablecolour("lightblue"), tablegridcolour(0,0,0,0), amprange(0,1,10), zoom(-1), samplerange(0,128)
-numberbox bounds(540, 450, 40, 15), channel("rhythmAutocorrEnvShape"), range(0.001, 0.20, 0.05)
-label text("ra env"), bounds(585, 450, 200, 15), align("left")
+;numberbox bounds(540, 450, 40, 15), channel("rhythmAutocorrEnvShape"), range(0.001, 0.20, 0.05)
+;label text("ra env"), bounds(585, 450, 200, 15), align("left")
 numberbox bounds(540, 620, 40, 15), channel("rhythmAutocorrThresh"), range(0.01, 0.50, 0.1)
 label text("ra thresh"), bounds(585, 620, 200, 15), align("left")
 
@@ -105,8 +137,6 @@ label text("0"), bounds(590, 680, 100, 15), align("left"), identchannel("rhythma
 label text("0"), bounds(640, 680, 100, 15), align("left"), identchannel("rhythmauto3")	
 
 
-
-csoundoutput bounds(5, 350, 290, 400), text("Output")
 </Cabbage>
 <CsoundSynthesizer>
 <CsOptions>
@@ -135,6 +165,13 @@ csoundoutput bounds(5, 350, 290, 400), text("Output")
 	giSinEnv        ftgen   0, 0, 8192, 19, 1, 0.5, 270, 0.5        ; sinoid transient envelope shape for autocorr
 
         ;gifnTempomem    ftgen   0, 0, 128, 16, 1, 128, 1, 0
+
+        ; colourspace index 0-96 (6*16)
+        gicolourindxlength = 72 ; (use only red-to-blue colur spectrum, skip the purple so we know that blue is max value for plot display)
+        giRed   ftgen 0, 0, 256, -7, 255, 16, 255, 16, 0, 32, 0, 16, 255, 16, 255
+        giGreen ftgen 0, 0, 256, -7,   0, 16, 255, 32, 255, 16, 0, 32, 0
+        giBlue  ftgen 0, 0, 256, -7,   0, 32, 0, 16, 255, 32, 255, 16, 0
+
 
 #include "analyze_udos.inc"
 
@@ -229,7 +266,7 @@ csoundoutput bounds(5, 350, 290, 400), text("Output")
  	SrcomplexdevD sprintfk "text(%.2f)", krhythm_consonance_deviation
         chnset	SrcomplexdevD, "rhythmConsonanceDeviation"
 
- 	SrhythmFromOneD sprintfk "text(%.2f)", kfrom_one
+ 	SrhythmFromOneD sprintfk "text(%.2f)", krhythmFromOne
         chnset	SrhythmFromOneD, "rhythmFromOne"
 
 
@@ -241,11 +278,63 @@ csoundoutput bounds(5, 350, 290, 400), text("Output")
         chnset	Srratio3D, "rhythmratio3"
                 
         krc_indx = (krc_indx+1)%32
-        tablew kfrom_one, krc_indx, gi5
+        tablew krhythmFromOne, krc_indx, gi5
         tablew krhythm_consonance, krc_indx, gi6              ; 
         tablew 1, krc_indx, gi7                                 ; set (display) locator into table
         tablew 0, krc_indx-1, gi7, 0, 0, 1                      ; reset previous locator (with wrap)
  	chnset	"tablenumber(5,6,7)", "rhythm_consonance" ; update table display	
+        endif
+        
+        kplotcnt init 0
+        kplotenable chnget "plotenable" 
+        kplotmetrorate chnget "plotmetrorate"
+        kplotmetro metro kplotmetrorate
+        kplotupdatemeth chnget "plotupdatemethod"
+        kplotupdate = 0
+        kplotupdate = (kplotupdatemeth == 1 ? kplotmetro*kplotenable : kplotupdate)
+        kplotupdate = (kplotupdatemeth == 2 ? krms_tran0*kplotenable : kplotupdate)
+        iplotlength = 200
+
+        iplotmin_x = 5
+        iplotrange_x = 260
+        iplotmin_y = 315
+        iplotrange_y = 260
+
+        if kplotupdate > 0 then        
+        kx Plotchannel "plot_x", krms, kcps_n, kpitch_a, kcentroid_a, kspread_a, kskewness_a, kurtosis_a, kflatness_a, kcrest_a, kflux_a, kamp_trans, katransDensEnv, krhythm_consonance, krhythmFromOne, krhythm_ratio1, krhythm_ratio2, krhythm_ac1, krhythm_ac2, krhythm_ac1time, krhythm_ac2time, kmfcc1, kmfcc2, kmfcc3, kmfcc4, kmfcc5
+        ky Plotchannel "plot_y", krms, kcps_n, kpitch_a, kcentroid_a, kspread_a, kskewness_a, kurtosis_a, kflatness_a, kcrest_a, kflux_a, kamp_trans, katransDensEnv, krhythm_consonance, krhythmFromOne, krhythm_ratio1, krhythm_ratio2, krhythm_ac1, krhythm_ac2, krhythm_ac1time, krhythm_ac2time, kmfcc1, kmfcc2, kmfcc3, kmfcc4, kmfcc5
+        kc Plotchannel "plot_c", krms, kcps_n, kpitch_a, kcentroid_a, kspread_a, kskewness_a, kurtosis_a, kflatness_a, kcrest_a, kflux_a, kamp_trans, katransDensEnv, krhythm_consonance, krhythmFromOne, krhythm_ratio1, krhythm_ratio2, krhythm_ac1, krhythm_ac2, krhythm_ac1time, krhythm_ac2time, kmfcc1, kmfcc2, kmfcc3, kmfcc4, kmfcc5
+        kplot_x_scale chnget "plot_x_scale"
+        kplot_y_scale chnget "plot_y_scale"
+        kplot_c_scale chnget "plot_c_scale"
+        kplot_x_offset chnget "plot_x_offset"
+        kplot_y_offset chnget "plot_y_offset"
+        kplot_c_offset chnget "plot_c_offset"
+        kx = limit((kx*kplot_x_scale)+kplot_x_offset, 0, 1)
+        ky = 1-limit((ky*kplot_y_scale)+kplot_y_offset, 0, 1)
+        kc = limit((kc*kplot_c_scale)+kplot_c_offset, 0, 1)
+        
+        kx = (kx*iplotrange_x)+iplotmin_x
+        ky = (ky*iplotrange_y)+iplotmin_y
+        kcoulourindx = (kc*gicolourindxlength)
+        kred table kcoulourindx, giRed
+        kgreen table kcoulourindx, giGreen
+        kblue table kcoulourindx, giBlue
+        S1 sprintfk "pos(%d, %d), size(4, 4), colour(%d,%d,%d)", kx, ky, kred, kgreen, kblue
+        S2 sprintfk "plot_ident%d", kplotcnt+1
+        chnset S1, S2
+        kplotcnt = (kplotcnt+1)%iplotlength
+        endif
+
+        kplotclear chnget "plotclear"
+        if kplotclear > 0 then
+        kclearcnt = 0
+        while kclearcnt < iplotlength do
+        S1 sprintfk "pos(%d, %d), size(4, 4), colour(%d,%d,%d)", 0,0,0,0,0
+        S2 sprintfk "plot_ident%d", kclearcnt+1
+        chnset S1, S2
+        kclearcnt += 1
+        od
         endif
         
         kchan           chnget "chan"
@@ -253,6 +342,7 @@ csoundoutput bounds(5, 350, 290, 400), text("Output")
         if kchanged > 0 then
         reinit send
         endif
+        
 send:
 #include "analyze_send.inc"
         kmonitor        chnget "pitchMonitor"

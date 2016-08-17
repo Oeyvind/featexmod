@@ -185,7 +185,7 @@ double:
 opcode RhythmAutoCorr, k[]k[]kkk, kkkiii
 
 ktrans, kshapedur, ksort_threshold, irhythm_sr, ifftsize, ioverlaps xin
-
+/*
 ; sinoid trigger envelope, allows (soft) rhythmic deviation from strict pattern
 if ktrans == 1 then
 reinit triggershape
@@ -194,6 +194,8 @@ triggershape:
 kenvindx linseg 0, i(kshapedur), 1, 1, 1
 kenv table kenvindx, giSinEnv, 1
 rireturn
+*/
+kenv = ktrans
 
 ; downsampling
 krclock metro irhythm_sr
@@ -239,11 +241,11 @@ if krclock > 0 then
       kFFT =  kFFT * kFFT                          ; square mags
       kFFT[0] = 0                                    ; zero first bin
       kAuto_temp fftinv kFFT                               ; and back
-      kbase = kAuto_temp[0]
+      kbase = (kAuto_temp[0] == 0 ? 1 : kAuto_temp[0]) ; (divz)
       kAuto_temp = kAuto_temp/kbase                             ; normalize
       kAuto_temp = kAuto_temp * kAuto_temp                          ; square result
-      kAuto_temp = (kAuto_temp*4)/log2(knumtransients[klayer]+1)         ; (attempt to) normalize with regards to the number of pulses in this window
-      kAuto_temp = kAuto_temp*.8
+      ;kAuto_temp = (kAuto_temp*4)/log2(knumtransients[klayer]+1)         ; (attempt to) normalize with regards to the number of pulses in this window
+      ;kAuto_temp = kAuto_temp*.8
       kAuto_temp[0] = 0 ; zero the first few bins to conceal correlation at (close to) zero lag
       kAuto_temp[1] = 0
       kAuto_temp[2] = 0
@@ -286,3 +288,36 @@ kcnt = kcnt%ifftsize
 endif
 xout kAutoOut, kAutoPeaksOut, krclock, kenv, knewframe
 endop
+
+;***********
+opcode Plotchannel, k, Skkkkkkkkkkkkkkkkkkkkkkkkk
+        Splotchan, krms, kcps_n, kpitch_a, kcentroid_a, kspread_a, kskewness_a, kurtosis_a, kflatness_a, kcrest_a, kflux_a, kamp_trans, katransDensEnv, krhythm_consonance, krhythmFromOne, krhythm_ratio1, krhythm_ratio2, krhythm_ac1, krhythm_ac2, krhythm_ac1time, krhythm_ac2time, kmfcc1, kmfcc2, kmfcc3, kmfcc4, kmfcc5 xin
+        Splot_x chnget Splotchan
+        kx init 0
+        kx = (strcmpk(Splot_x,"rms") == 0 ? krms : kx)
+        kx = (strcmpk(Splot_x,"cps_n") == 0 ? kcps_n : kx)
+        kx = (strcmpk(Splot_x,"pitch_a") == 0 ? kpitch_a : kx)
+        kx = (strcmpk(Splot_x,"centroid_a") == 0 ? kcentroid_a : kx)
+        kx = (strcmpk(Splot_x,"spread_a") == 0 ? kspread_a : kx)
+        kx = (strcmpk(Splot_x,"skewness_a") == 0 ? kskewness_a : kx)
+        kx = (strcmpk(Splot_x,"kurtosis_a") == 0 ? krms : kurtosis_a)
+        kx = (strcmpk(Splot_x,"flatness_a") == 0 ? kflatness_a : kx)
+        kx = (strcmpk(Splot_x,"crest_a") == 0 ? kcrest_a : kx)
+        kx = (strcmpk(Splot_x,"flux_a") == 0 ? kflux_a : kx)
+        kx = (strcmpk(Splot_x,"amp_trans") == 0 ? kamp_trans : kx)
+        kx = (strcmpk(Splot_x,"atransDensEnv") == 0 ? katransDensEnv : kx)
+        kx = (strcmpk(Splot_x,"rhythm_consonance") == 0 ? krhythm_consonance : kx)
+        kx = (strcmpk(Splot_x,"rhythmFromOne") == 0 ? krhythmFromOne : kx)
+        kx = (strcmpk(Splot_x,"rhythm_ratio1") == 0 ? krhythm_ratio1 : kx)
+        kx = (strcmpk(Splot_x,"rhythm_ratio2") == 0 ? krhythm_ratio2 : kx)
+        kx = (strcmpk(Splot_x,"rhythm_ac1") == 0 ? krhythm_ac1 : kx)
+        kx = (strcmpk(Splot_x,"rhythm_ac2") == 0 ? krhythm_ac2 : kx)
+        kx = (strcmpk(Splot_x,"rhythm_ac1time") == 0 ? krhythm_ac1time : kx)
+        kx = (strcmpk(Splot_x,"rhythm_ac2time") == 0 ? krhythm_ac2time : kx)
+        kx = (strcmpk(Splot_x,"mfcc1") == 0 ? kmfcc1 : kx)
+        kx = (strcmpk(Splot_x,"mfcc2") == 0 ? kmfcc2 : kx)
+        kx = (strcmpk(Splot_x,"mfcc3") == 0 ? kmfcc3 : kx)
+        kx = (strcmpk(Splot_x,"mfcc4") == 0 ? kmfcc4 : kx)
+        kx = (strcmpk(Splot_x,"mfcc5") == 0 ? kmfcc5 : kx)
+        xout kx
+        endop

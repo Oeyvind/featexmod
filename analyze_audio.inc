@@ -168,7 +168,6 @@ inomtab2  ftgen 0, 0, inomtablen, -17,  0, iAnom2[0],
                                      int((iAfra2[8]-((iAfra2[8]-iAfra2[7])/2))*inomtablen/ifra2max), iAnom2[8],
                                      int((iAfra2[9]-((iAfra2[9]-iAfra2[8])/2))*inomtablen/ifra2max), iAnom2[9]
 
-print  (iAfra2[1]-((iAfra2[1]-iAfra2[0])/2))
                                      
 identab2  ftgen 0, 0, inomtablen, -17,  0, iAden2[0],
                                      int((iAfra2[1]-((iAfra2[1]-iAfra2[0])/2))*inomtablen/ifra2max), iAden2[1],
@@ -254,7 +253,7 @@ kfrom_ox0 = kfrom_ox
 ; iir
 kfrom_oy init 0
 kfrom_oy = (kfrom_ox*ircfilter_a) + (kfrom_oy*ircfilter_b)
-kfrom_one = kfrom_oy
+krhythmFromOne = kfrom_oy
 
 krhythm_ratio1 = knom1/kden1
 krhythm_ratio2 = knom2/kden2
@@ -265,17 +264,17 @@ endif
 
 
 ;*************************************
-; ** rhythm correlation
+; ** rhythm autocorrelation
 
-kra_shapedur chnget "rhythmAutocorrEnvShape"
-kra_sort_threshold chnget "rhythmAutocorrThresh"
-irhythm_sr = 160
-ira_fftsize = 256
-ira_overlaps = 8
+kra_shapedur = 0.03 ; transient envelope duration;chnget "rhythmAutocorrEnvShape"
+kra_sort_threshold chnget "rhythmAutocorrThresh" ; peak picking delta 
+irhythm_sr = 30
+ira_fftsize = 512
+ira_overlaps = 32
 kRhythmAuto[] init ira_fftsize
 kRhythmAutoPeaks[][] init 2, ira_fftsize/2
 
-kRhythmAuto, kRhythmAutoPeaks, krclock, krenv, krnewframe RhythmAutoCorr krms_tran0, kra_shapedur, kra_sort_threshold, irhythm_sr, ira_fftsize, ira_overlaps
+kRhythmAuto, kRhythmAutoPeaks, krclock, krenv, krnewframe RhythmAutoCorr krms, kra_shapedur, kra_sort_threshold, irhythm_sr, ira_fftsize, ira_overlaps
 
 krhythm_ac1 = kRhythmAutoPeaks[0][0]
 krhythm_ac2 = kRhythmAutoPeaks[0][1]
