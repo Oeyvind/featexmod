@@ -182,9 +182,19 @@ double:
 
 ;***************************************************
 
-opcode RhythmAutoCorr, k[]k[]k, kkiii
+opcode RhythmAutoCorr, k[]k[]k, kkkiii
 
-kenv, kpeak_delta, irhythm_sr, ifftsize, ioverlaps xin
+ktrans, krms, kpeak_delta, irhythm_sr, ifftsize, ioverlaps xin
+
+; sinoid trigger envelope, allows (soft) rhythmic deviation from strict pattern
+ishapedur = 0.05
+if ktrans == 1 then
+reinit triggershape
+endif
+triggershape:
+kenv linseg 1, ishapedur, 0, 1, 0
+kenv = kenv * krms
+rireturn
 
 ; downsampling
 krclock metro irhythm_sr
@@ -193,58 +203,65 @@ kenv samphold kenv, krclock
 ; fft
 ihopsize = ifftsize/ioverlaps
 kcnt init 0
-kArr[][] init ioverlaps, ifftsize
+kArr[] init ifftsize*2
+kArrBuf[] init ifftsize
+kArrWin[] init ifftsize
 kArrPad[] init ifftsize*2
+
 kFFT[] init ifftsize*2
-kAuto_temp[] init ifftsize*2
-kAuto[][] init ioverlaps, ifftsize*2
-kAuto2[][] init ioverlaps, ifftsize*2
-kAutoOut[] init ifftsize
-kAutoPeaks[][] init ioverlaps, ifftsize*2
-kAutoPeaksIndx[][] init ioverlaps, ifftsize*2
+kAuto[] init ifftsize*2
+
+kAutoPeaks[] init ifftsize*2
+kAutoPeaksIndx[] init ifftsize*2
 kAutoPeaksOut[][] init 2, ifftsize/2
 kZeros[] init ifftsize
 kZeros2[] init ifftsize*2
 
 if krclock > 0 then 
-  koverlapcount = 0
-  while koverlapcount < ioverlaps do
-    kArr[koverlapcount][wrap(kcnt-(ihopsize*koverlapcount),0,ifftsize)] = kenv
-    koverlapcount += 1
-  od
-
+  kArr[kcnt] = kenv
+  kArr[kcnt+ifftsize] = kenv
+  
   kcnt += 1
   knewframe = (kcnt%ihopsize == 0 ? 1 : 0)
   if knewframe == 1 then
-    klayer = (kcnt/ihopsize)%ioverlaps
 
+    reinit buffer
+    buffer:
+    kArrBuf slicearray kArr, i(kcnt), i(kcnt)+ifftsize-1   ; get current buffer 
+    rireturn
+
+    kArrWin window kArrBuf                                 ; windowing
+    kArrPad slicearray kArrWin, 0, ifftsize-1              ; zero padding 
+    
     ; autocorrelation
-    kArrPad slicearray getrow(kArr,klayer), 0, ifftsize-1; zero padded and windowed
-    kFFT fft kArrPad                           ; fft
-    kFFT = kFFT*(1/ifftsize)                   ; normalize
-    kFFT =  kFFT * kFFT                        ; square mags
-    kFFT[0] = 0                                ; zero first bin
-    kAuto_temp fftinv kFFT                     ; and back
-    kbase = (kAuto_temp[0] == 0 ? 1 : kAuto_temp[0]) ; (divz)
-    ;printk2 kbase*10000
-    kAuto_temp = (kAuto_temp/pow(kbase,0.66))*100              ; normalize
-    kAuto_temp = kAuto_temp * kAuto_temp       ; square result
-    kAuto_temp[0] = 0 ; zero the first few bins to conceal correlation at (close to) zero lag
-    kAuto_temp[1] = 0
-    kAuto_temp[2] = 0
-    kAuto_temp[3] = 0
-    kAuto_temp[4] = 0
-    kAuto_temp[5] = 0
-    kAuto_temp[6] = 0
-    kAuto_temp[7] = 0
+    kFFT fft kArrPad                            ; fft
+    kFFT = kFFT*(1/ifftsize)                    ; normalize
+    kFFT =  kFFT * kFFT                         ; square mags
+    kFFT[0] = 0                                 ; zero first bin
+    kAuto fftinv kFFT                           ; and back
+    kAuto = kAuto * kAuto                       ; square result
+    kzeroX = 0                                  ; zero the first few
+    while kzeroX < 6 do
+      kAuto[kzeroX] = 0
+      kzeroX += 1
+    od
+    /*
+    kzeroX = ifftsize/2                         ; and zero the second half
+    while kzeroX < ifftsize do
+      kAuto[kzeroX] = 0
+      kzeroX += 1
+    od
+    */
+    kmax maxarray kAuto                         ; get max, for normalization
+    kmax = (kmax == 0 ? 1 : kmax)               ; (divz)
+    kAuto = kAuto/kmax
     
     ; peak picker
-    kmax maxarray kAuto_temp
-    kAutoPeaks setrow kZeros2, klayer
-    kAutoPeaksIndx setrow kZeros2, klayer
+    kAutoPeaks = kZeros2
+    kAutoPeaksIndx = kZeros2
     kcnt_fill = 0
     while kcnt_fill < ifftsize/2 do
-      pycall "p.fill_array", kAuto_temp[kcnt_fill], kcnt_fill, ifftsize/2
+      pycall "p.fill_array", kAuto[kcnt_fill], kcnt_fill, ifftsize/2
       kcnt_fill += 1
     od
     pycall "p.analyze_peaks", kpeak_delta
@@ -254,20 +271,19 @@ if krclock > 0 then
     while kval >= 0 do
       kindx, kval pycall2 "p.get_peaks", 0
       if kval >= 0 then
-        kAutoPeaks[klayer][kcnt2] = kval
-        kAutoPeaksIndx[klayer][kcnt2] = kindx
+        kAutoPeaks[kcnt2] = kval
+        kAutoPeaksIndx[kcnt2] = kindx
       endif
       kcnt2 += 1
     od  
 
-    kAutoOut slicearray kAuto_temp, 0, ifftsize-1
-    kAutoPeaksOut setrow getrow(kAutoPeaks, klayer), 0
-    kAutoPeaksOut setrow getrow(kAutoPeaksIndx, klayer), 1
+    kAutoPeaksOut setrow kAutoPeaks, 0
+    kAutoPeaksOut setrow kAutoPeaksIndx, 1
     
   endif
 kcnt = kcnt%ifftsize
 endif
-xout kAutoOut, kAutoPeaksOut, knewframe
+xout kAuto, kAutoPeaksOut, knewframe
 endop
 
 ;***********

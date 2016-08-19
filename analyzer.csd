@@ -51,7 +51,7 @@ label text("transients"), bounds(15, 210, 335, 12), colour(50, 50, 50, 255)
 rslider bounds(80, 226, 65, 65), text("Thresh"), channel("amp_transientThresh"), range(0, 9, 2) 
 rslider bounds(145, 226, 65, 65), text("DecThresh"), channel("amp_transientDecThresh"), range(0, 12, 4) 
 rslider bounds(210, 226, 65, 65), text("DecTime"), channel("amp_transientDecTime"), range(0.1, 2.0, 0.5) 
-rslider bounds(275, 226, 65, 65), text("DblLimit"), channel("amp_transientDoubleLimit"), range(0.1, 1.0, 0.1) 
+rslider bounds(275, 226, 65, 65), text("DblLimit"), channel("amp_transientDoubleLimit"), range(0.02, 1.0, 0.05, 0.35, 0.01) 
 label text("amp"), bounds(15, 230, 70, 12)
 checkbox channel("transientDisplay"),bounds(42, 245, 15, 15), value(0)
 
@@ -65,7 +65,7 @@ numberbox bounds(290, 295, 40, 15), channel("plotmetrorate"), range(1, 50, 10)
 label text("x"), bounds(270, 315, 15, 15), align("left")
 combobox channel("plot_x"), bounds(270, 332, 90, 18), items("rms", "cps_n", "pitch_a", "centroid_a", "spread_a", "skewness_a", "kurtosis_a", "flatness_a", "crest_a", "flux_a", "amp_trans", "atransDensEnv", "rhythm_consonance", "rhythmFromOne", "rhythm_ratio1", "rhythm_ratio2", "rhythm_ac1", "rhythm_ac2", "rhythm_ac1time", "rhythm_ac2time", "mfcc1", "mfcc2", "mfcc3", "mfcc4", "mfcc5"), value(1), channeltype("string")
 label text("scale  offset"), bounds(270, 352, 90, 15), align("left")
-numberbox bounds(270, 375, 40, 15), channel("plot_x_scale"), range(0.0, 99, 1.0)
+numberbox bounds(270, 375, 40, 15), channel("plot_x_scale"), range(0.0, 99.0, 1.0)
 numberbox bounds(320, 375, 40, 15), channel("plot_x_offset"), range(-1.0, 1.0, 0.0)
 
 label text("y"), bounds(270, 395, 15, 15), align("left")
@@ -87,28 +87,43 @@ csoundoutput bounds(5, 585, 360, 145), text("Output")
 
 
 
-gentable bounds(370,  5, 320, 240), identchannel("displays"), tablenumber(1), tablecolour("lightblue"), tablegridcolour(0,0,0,0), amprange(-.3,1,1), zoom(-1), samplerange(0,16)
-image bounds(370, 5, 80,240), shape("sharp"), colour(175, 50,255, 40), identchannel("group1")	
-label text("noisefloor"), bounds(385, 250, 200, 15), align("left"), rotate(1.5708, 0, 0)
-label text("krms"), bounds(405, 250, 200, 15), align("left"), rotate(1.5708, 0, 0)
-label text("cps"), bounds(425, 250, 200, 15), align("left"), rotate(1.5708, 0, 0)
-label text("pitch"), bounds(445, 250, 200, 15), align("left"), rotate(1.5708, 0, 0)
+gentable bounds(370,  5, 320, 240), identchannel("displays"), tablenumber(1), tablecolour("lightblue"), tablegridcolour(0,0,0,0), amprange(-.03,1,1), zoom(-1), samplerange(0,20)
 
-image bounds(450, 5, 80,240), shape("sharp"), colour(75,255, 75, 40), identchannel("group2")	
-label text("centroid"), bounds(465, 250, 200, 15), align("left"), rotate(1.5708, 0, 0)
-label text("spread"), bounds(485, 250, 200, 15), align("left"), rotate(1.5708, 0, 0)
-label text("skewness"), bounds(505, 250, 200, 15), align("left"), rotate(1.5708, 0, 0)
-label text("kurtosis"), bounds(525, 250, 200, 15), align("left"), rotate(1.5708, 0, 0)
+image bounds(370, 5, 64,240), shape("sharp"), colour(175, 50,255, 40), identchannel("group_amp")	
+label text("noisefloor"), bounds(386, 250, 200, 15), align("left"), rotate(1.5708, 0, 0)
+label text("krms"), bounds(402, 250, 200, 15), align("left"), rotate(1.5708, 0, 0)
+label text("trans dens"), bounds(418, 250, 200, 15), align("left"), rotate(1.5708, 0, 0)
+label text("env crest"), bounds(434, 250, 200, 15), align("left"), rotate(1.5708, 0, 0)
 
-image bounds(530, 5, 60,240), shape("sharp"), colour(45, 45,255, 40), identchannel("group3")	
-label text("flatness"), bounds(545, 250, 190, 15), align("left"), rotate(1.5708, 0, 0)
-label text("crest"), bounds(565, 250, 165, 15), align("left"), rotate(1.5708, 0, 0)
-label text("flux"), bounds(585, 250, 145, 15), align("left"), rotate(1.5708, 0, 0)
+image bounds(434, 5, 32 ,240), shape("sharp"), colour(75,255, 75, 40), identchannel("group_pitch")	
+label text("cps"), bounds(450, 250, 200, 15), align("left"), rotate(1.5708, 0, 0)
+label text("pitch"), bounds(466, 250, 200, 15), align("left"), rotate(1.5708, 0, 0)
 
-image bounds(590, 5, 100,240), shape("sharp"), colour(255,255, 50, 20), identchannel("group4")	
+image bounds(466, 5, 64,240), shape("sharp"), colour(45, 45,255, 40), identchannel("group_spectral1")	
+label text("centroid"), bounds(482, 250, 200, 15), align("left"), rotate(1.5708, 0, 0)
+label text("spread"), bounds(498, 250, 200, 15), align("left"), rotate(1.5708, 0, 0)
+label text("skewness"), bounds(514, 250, 200, 15), align("left"), rotate(1.5708, 0, 0)
+label text("kurtosis"), bounds(530, 250, 200, 15), align("left"), rotate(1.5708, 0, 0)
 
-label text("amp transient density"), bounds(370, 340, 200, 15), align("left")
+image bounds(530, 5, 48,240), shape("sharp"), colour(255,255, 50, 20), identchannel("group_spectral2")	
+label text("flatness"), bounds(546, 250, 190, 15), align("left"), rotate(1.5708, 0, 0)
+label text("crest"), bounds(562, 250, 165, 15), align("left"), rotate(1.5708, 0, 0)
+label text("flux"), bounds(578, 250, 145, 15), align("left"), rotate(1.5708, 0, 0)
+
+image bounds(578, 5, 96,240), shape("sharp"), colour(50,200, 255, 20), identchannel("group_mfcc")	
+label text("mfcc1"), bounds(594, 250, 145, 15), align("left"), rotate(1.5708, 0, 0)
+label text("2"), bounds(610, 250, 145, 15), align("left"), rotate(1.5708, 0, 0)
+label text("3"), bounds(626, 250, 145, 15), align("left"), rotate(1.5708, 0, 0)
+label text("4"), bounds(642, 250, 145, 15), align("left"), rotate(1.5708, 0, 0)
+label text("5"), bounds(658, 250, 145, 15), align("left"), rotate(1.5708, 0, 0)
+label text("6"), bounds(674, 250, 145, 15), align("left"), rotate(1.5708, 0, 0)
+label text("mfccdiff"), bounds(690, 250, 145, 15), align("left"), rotate(1.5708, 0, 0)
+
+label text("transient dens"), bounds(370, 340, 120, 15), align("left")
 label text("0"), bounds(370, 360, 200, 15), align("left"), identchannel("ampTransDensity")	
+label text("env crest"), bounds(490, 340, 120, 15), align("left")
+label text("0"), bounds(490, 360, 200, 15), align("left"), identchannel("envCrest")	
+
 
 label text("rhythm consonance"), bounds(370, 430, 200, 15), align("left")
 label text("0"), bounds(370, 450, 40, 15), align("left"), identchannel("rhythmFromOne")	
@@ -136,6 +151,9 @@ label text("0"), bounds(540, 680, 100, 15), align("left"), identchannel("rhythma
 label text("0"), bounds(590, 680, 100, 15), align("left"), identchannel("rhythmauto2")	
 label text("0"), bounds(640, 680, 100, 15), align("left"), identchannel("rhythmauto3")	
 
+label text("autocorr crest"), bounds(540, 700, 200, 15), align("left")
+label text("0"), bounds(540, 720, 100, 15), align("left"), identchannel("rhythmautocrest")	
+
 
 </Cabbage>
 <CsoundSynthesizer>
@@ -150,7 +168,7 @@ label text("0"), bounds(640, 680, 100, 15), align("left"), identchannel("rhythma
 	nchnls = 2
 	0dbfs = 1	
 
-        gi1     ftgen   1, 0, 16, -2, 0  ; analysis signal display
+        gi1     ftgen   1, 0, 32, -2, 0  ; analysis signal display
         gi5     ftgen   5, 0, 32, -2, 0  ; rhythm consonance display
         gi6     ftgen   6, 0, 32, -2, 0  ; rhythm consonance display
         gi7     ftgen   7, 0, 32, -2, 0  ; rhythm consonance display
@@ -217,20 +235,27 @@ label text("0"), bounds(640, 680, 100, 15), align("left"), identchannel("rhythma
 ; analysis sig display in gui table
         tablew pow(ampdbfs(knoiseFloor_dB),0.4), 0, gi1 
         tablew pow(krms,0.4), 1, gi1 
-        tablew kcps_n, 2, gi1 
-        tablew kpitch_a, 3, gi1 
-        tablew kcentroid_a, 4, gi1 
-        tablew kspread_a, 5, gi1 
-        tablew kskewness_a, 6, gi1 
-        tablew kurtosis_a, 7, gi1 
-        tablew kflatness_a, 8, gi1 
-        tablew kcrest_a, 9, gi1 
-        tablew kflux_a, 10, gi1 
-        tablew kmfcc1, 11, gi1
-        tablew kmfcc2, 12, gi1
-        tablew kmfcc3, 13, gi1
-        tablew kmfcc4, 14, gi1
-        tablew kmfcc5, 15, gi1
+        tablew katransDensEnv/8, 2, gi1 
+        tablew kenv_crest1/35, 3, gi1 
+        tablew kcps_n, 4, gi1 
+        tablew kpitch_a, 5, gi1 
+        tablew kcentroid_a, 6, gi1 
+        tablew kspread_a, 7, gi1 
+        tablew kskewness_a, 8, gi1 
+        tablew kurtosis_a, 9, gi1 
+        tablew kflatness_a, 10, gi1 
+        tablew kcrest_a, 11, gi1 
+        tablew kflux_a, 12, gi1 
+        imfcc_min = -0.3
+        imfcc_max = 1.0
+        imfcc_range = imfcc_max-imfcc_min
+        tablew (kmfcc1*imfcc_range)-imfcc_min, 13, gi1
+        tablew (kmfcc2*imfcc_range)-imfcc_min, 14, gi1
+        tablew (kmfcc3*imfcc_range)-imfcc_min, 15, gi1
+        tablew (kmfcc4*imfcc_range)-imfcc_min, 16, gi1
+        tablew (kmfcc5*imfcc_range)-imfcc_min, 17, gi1
+        tablew (kmfcc6*imfcc_range)-imfcc_min, 18, gi1
+        tablew kmfccdiff, 19, gi1
 
         kupd    metro 100
         kenableDisplay chnget "enableDisplay"
@@ -238,10 +263,12 @@ label text("0"), bounds(640, 680, 100, 15), align("left"), identchannel("rhythma
  	chnset	"tablenumber(1)", "displays"	; update table display	
  	SatranD sprintfk "text(%.1f)", katransDensEnv
  	chnset	SatranD, "ampTransDensity"	; update gui	
+ 	SacrestD sprintfk "text(%.1f)", kenv_crest1
+ 	chnset	SacrestD, "envCrest"	; update gui	
         endif
 
         if krnewframe*kenableDisplay > 0 then
-        copya2ftab kRhythmAuto, 10
+        copya2ftab kRhythmAuto, gi10
  	chnset	"tablenumber(10)", "rhythm_autocorr"	; update table display	
  	Srauto1D sprintfk "text(%.2f)", krhythm_ac1
  	Srauto2D sprintfk "text(%.2f)", krhythm_ac2
@@ -255,6 +282,9 @@ label text("0"), bounds(640, 680, 100, 15), align("left"), identchannel("rhythma
  	chnset	Srauto1indxD, "rhythmauto1indx"	; update gui	
  	chnset	Srauto2indxD, "rhythmauto2indx"	; update gui	
  	chnset	Srauto3indxD, "rhythmauto3indx"	; update gui	
+
+ 	SrautocrestD sprintfk "text(%i)", krhythm_ac_crest
+ 	chnset	SrautocrestD, "rhythmautocrest"	; update gui	
 
         endif
 
@@ -289,10 +319,11 @@ label text("0"), bounds(640, 680, 100, 15), align("left"), identchannel("rhythma
         kplotenable chnget "plotenable" 
         kplotmetrorate chnget "plotmetrorate"
         kplotmetro metro kplotmetrorate
+        kplot_trans vdel_k krms_tran0, kplotmetrorate/1000, 0.1
         kplotupdatemeth chnget "plotupdatemethod"
         kplotupdate = 0
         kplotupdate = (kplotupdatemeth == 1 ? kplotmetro*kplotenable : kplotupdate)
-        kplotupdate = (kplotupdatemeth == 2 ? krms_tran0*kplotenable : kplotupdate)
+        kplotupdate = (kplotupdatemeth == 2 ? kplot_trans*kplotenable : kplotupdate)
         iplotlength = 200
 
         iplotmin_x = 5

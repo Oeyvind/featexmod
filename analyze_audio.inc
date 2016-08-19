@@ -33,6 +33,21 @@
 	krms_preEq      = krms_preEq*2
 	krms		rms a1			    		; simple level measure 
 	krms            = krms*2
+
+        icrestrate      = 4
+        kcrestmetro     metro icrestrate
+        krms_max        init 0
+        krms_max        max krms_max, krms
+        krms_max        = (kcrestmetro > 0 ? 0 : krms_max)
+	icrestrise      = 1.5
+	icrestfall      = 3
+        kenv_crest0     divz krms_max, krms, 1
+        icrestA         = 0.001^(1/(icrestrise*kr))
+        icrestB         = 0.001^(1/(icrestfall*kr))
+        kenv_crest      init 0
+        kenv_crest      = (kenv_crest0>kenv_crest?(kenv_crest0+(icrestA*(kenv_crest-kenv_crest0))):(kenv_crest0+(icrestB*(kenv_crest-kenv_crest0))))
+        kenv_crest1     = dbamp(kenv_crest)
+        
 	kAttack		= 0.001				        ; envelope follower attack
 	kRelease        chnget "amp_transientDecTime"           ; envelope follower release
 	a_env		follow2	a1preEq, kAttack, kRelease	; envelope follower
@@ -64,7 +79,7 @@
         if ktrigButn > 0 then
         katranTime      = ktime-kprevaTranTime
         kprevaTranTime  = ktime
-        katranDensity   divz 1, katranTime, 1
+        katranDensity_t divz 1, katranTime, 1           ; this will be accurate for slow tempi, but not if you play e.g. two fast consecutive transients followed by a puase
 	                reinit lightTransient
         endif
 lightTransient:
@@ -72,28 +87,21 @@ lightTransient:
                         chnset kamp_trans, "transientDisplay"
 rireturn
 
-        katran1second   delayk ktrigButn, 1
-        katran05second  delayk ktrigButn, 0.5
+        katran1second   delayk krms_tran0, 1
         katranCount     init 0
-        katranCount     += ktrigButn
-        katranCount     -= (katran1second+katran05second)*0.5
-        
-        katranDensity0   init 0
-        katranDensity    = katranDensity-(katranDensity0*1/kr) ; hipass
-        katranDensity0   = tonek(katranDensity, 1) ; lowpass
-        katranDensity1   = katranDensity*1.1
-        iatranrise       = 10000
-	iatrandec        = 2
-        iA               = exp(-6.90775527898 * (1/iatranrise)/kr)
-        iB               = exp(-6.90775527898 * (1/iatrandec)/kr)
-        katransDensEnv   init 0
-        katransDensEnv   = (katranDensity1>katransDensEnv?(katranDensity1+(iA*(katransDensEnv-katranDensity1))):(katranDensity1+(iB*(katransDensEnv-katranDensity1))))
+        katranCount     += krms_tran0
+        katranCount     -= katran1second                ; this will be accurate when playing an integer number of transient within each period  
+                                                        ; but it will have jitter when playing at a tempo of e.g. 3.5 transients per second
 
-        katransDensEnv1 init 0
-        iA               = exp(-6.90775527898 * (1/kr))
-        katransDensEnv  = katranCount-(katransDensEnv1*iA)
-        katransDensEnv1 delayk katransDensEnv, 1/kr
-        katransDensEnv  tonek katransDensEnv, 0.6
+        
+        katranDensity   = (katranDensity_t < 1 ? katranDensity_t : katranCount)
+        katranDensity   = (abs(katranDensity_t-katranCount) < 1 ? katranDensity_t : katranCount)
+        iatranrise      = 0.5
+	iatrandec       = 4
+        itrandensA      = exp(-6.90775527898 * (1/iatranrise)/kr)
+        itrandensB      = exp(-6.90775527898 * (1/iatrandec)/kr)
+        katransDensEnv  init 0
+        katransDensEnv   = (katranDensity>katransDensEnv?(katranDensity+(itrandensA*(katransDensEnv-katranDensity))):(katranDensity+(itrandensB*(katransDensEnv-katranDensity))))
         
 ; ***************
 ; rhythmic analysis
@@ -267,13 +275,15 @@ endif
 ; ** rhythm autocorrelation
 
 kra_peak_delta chnget "rhythmAutocorrPeakDelta" ; peak picking delta 
-irhythm_sr = 120
+irhythm_sr = 60
 ira_fftsize = 512
 ira_overlaps = 1
 kRhythmAuto[] init ira_fftsize
 kRhythmAutoPeaks[][] init 2, ira_fftsize/2
+;k_env, 
 
-kRhythmAuto, kRhythmAutoPeaks, krnewframe RhythmAutoCorr krms, kra_peak_delta, irhythm_sr, ira_fftsize, ira_overlaps
+krhythm_env_in = krms_tran0;krms;pow(krms,7);*kgate
+kRhythmAuto, kRhythmAutoPeaks, krnewframe RhythmAutoCorr krms_tran0, krms, kra_peak_delta, irhythm_sr, ira_fftsize, ira_overlaps
 
 krhythm_ac1 = kRhythmAutoPeaks[0][0]
 krhythm_ac2 = kRhythmAutoPeaks[0][1]
@@ -285,6 +295,9 @@ krhythm_ac1time = krhythm_ac1indx/irhythm_sr
 krhythm_ac2time = krhythm_ac2indx/irhythm_sr
 krhythm_ac3time = krhythm_ac3indx/irhythm_sr
 
+krhythm_ac_rms = sqrt(sumarray(kRhythmAuto*kRhythmAuto)/ira_fftsize)
+krhythm_ac_max = maxarray(kRhythmAuto*kRhythmAuto)
+krhythm_ac_crest divz krhythm_ac_max, krhythm_ac_rms, 1
 
 
 ; ***************
@@ -475,6 +488,14 @@ endif
         kmfcc3          = kmfcc[3]*imfccscale
         kmfcc4          = kmfcc[4]*imfccscale
         kmfcc5          = kmfcc[5]*imfccscale
+        kmfcc6          = kmfcc[6]*imfccscale
+        kmfccdiff       = (abs((kmfcc1-kmfcc2)*0.5)+
+                          abs(kmfcc2-kmfcc3)+
+                          abs(kmfcc3-kmfcc4)+
+                          abs(kmfcc4-kmfcc5)+
+                          abs(kmfcc5-kmfcc6))
+        kmfccdiff       mediank kmfccdiff, 60, 60
+        kmfccdiff       tonek kmfccdiff, 1
 
 ; auto-normalize
         kcalibrate      chnget "autocalibrate"
