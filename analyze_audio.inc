@@ -33,6 +33,8 @@
 	krms_preEq      = krms_preEq*2
 	krms		rms a1			    		; simple level measure 
 	krms            = krms*2
+        krms_dB         = dbfsamp(krms)
+        krms_dB_n       = (krms_dB/96)+1
 
         icrestrate      = 4
         kcrestmetro     metro icrestrate
@@ -54,10 +56,9 @@
         k_env		downsamp a_env	
 
 	knoiseFloor_dB	chnget "inputNoisefloor"
-	kgate		= (dbfsamp(krms) < knoiseFloor_dB ? 0 : 1)	;  gate when below noise floor (for sampholding centroid and pitch etc)
+	kgate		= (krms_dB < knoiseFloor_dB ? 0 : 1)	;  gate when below noise floor (for sampholding centroid and pitch etc)
         isecond_dB      = 9
-	kgate0		= (dbfsamp(krms) < knoiseFloor_dB+isecond_dB ? 0 : 1)	;  gate when far below noise floor (for sampholdingp pitch etc)
-	kgate2		= (dbfsamp(krms) < knoiseFloor_dB+isecond_dB ? 0 : 1)	;  gate when close to noise floor (for sampholding centroid and pitch etc)
+	kgate2		= (krms_dB < knoiseFloor_dB+isecond_dB ? 0 : 1)	;  gate when close to noise floor (for sampholding centroid and pitch etc)
         klowscaler      = limit(dbfsamp(krms)-knoiseFloor_dB, 0, isecond_dB)/isecond_dB      ; scaler to fade out different things towards the noise floor
 
 
@@ -274,16 +275,29 @@ endif
 ;*************************************
 ; ** rhythm autocorrelation
 
-kra_peak_delta chnget "rhythmAutocorrPeakDelta" ; peak picking delta 
+; sinoid trigger envelope, allows (soft) rhythmic deviation from strict pattern
+ishapedur = 0.05
+if krms_tran0 == 1 then
+reinit triggershape
+endif
+triggershape:
+kra_env linseg 0, ishapedur*0.5, 1, ishapedur*0.5, 0, 1, 0
+kra_env = kra_env * krms * kgate
+rireturn
+
+; autocorrelation, done in layers of different fftsize to reduce latency
 irhythm_sr = 60
 ira_fftsize = 512
-ira_overlaps = 1
-kRhythmAuto[] init ira_fftsize
-kRhythmAutoPeaks[][] init 2, ira_fftsize/2
-;k_env, 
+ira_overlaps = 4
+kRhythmAuto[], krnewframe RhythmAutoCorr kra_env, irhythm_sr, ira_fftsize, ira_overlaps
+kRhythmAuto2[], krnewframe2 RhythmAutoCorr kra_env, irhythm_sr, ira_fftsize/2, ira_overlaps
+kRhythmAuto4[], krnewframe4 RhythmAutoCorr kra_env, irhythm_sr, ira_fftsize/4, ira_overlaps
+kRhythmAuto slicearray kRhythmAuto2, 0, ira_fftsize/8
+kRhythmAuto slicearray kRhythmAuto4, 0, ira_fftsize/16
 
-krhythm_env_in = krms_tran0;krms;pow(krms,7);*kgate
-kRhythmAuto, kRhythmAutoPeaks, krnewframe RhythmAutoCorr krms_tran0, krms, kra_peak_delta, irhythm_sr, ira_fftsize, ira_overlaps
+kRhythmAutoPeaks[][] init 2, ira_fftsize/2
+kra_peak_delta chnget "rhythmAutocorrPeakDelta" ; peak picking delta 
+kRhythmAutoPeaks AutoCorrPeaks kRhythmAuto, krnewframe, kra_peak_delta, ira_fftsize
 
 krhythm_ac1 = kRhythmAutoPeaks[0][0]
 krhythm_ac2 = kRhythmAutoPeaks[0][1]
@@ -299,6 +313,35 @@ krhythm_ac_rms = sqrt(sumarray(kRhythmAuto*kRhythmAuto)/ira_fftsize)
 krhythm_ac_max = maxarray(kRhythmAuto*kRhythmAuto)
 krhythm_ac_crest divz krhythm_ac_max, krhythm_ac_rms, 1
 
+/*
+kra_peak_delta chnget "rhythmAutocorrPeakDelta" ; peak picking delta 
+irhythm_sr = 60
+ira_fftsize = 512
+ira_overlaps = 4
+kRhythmAuto[] init ira_fftsize*2
+kRhythmAutoPeaks[][] init 2, ira_fftsize/2
+krms_ac = (krms_dB > knoiseFloor_dB ? krms : 0)
+kRhythmAuto, kRhythmAutoPeaks, krnewframe RhythmAutoCorr krms_tran0, krms_ac, kra_peak_delta, irhythm_sr, ira_fftsize, ira_overlaps
+
+krhythm_ac1 = kRhythmAutoPeaks[0][0]
+krhythm_ac2 = kRhythmAutoPeaks[0][1]
+krhythm_ac3 = kRhythmAutoPeaks[0][2]
+krhythm_ac1indx = kRhythmAutoPeaks[1][0]
+krhythm_ac2indx = kRhythmAutoPeaks[1][1]
+krhythm_ac3indx = kRhythmAutoPeaks[1][2]
+krhythm_ac1time = krhythm_ac1indx/irhythm_sr
+krhythm_ac2time = krhythm_ac2indx/irhythm_sr
+krhythm_ac3time = krhythm_ac3indx/irhythm_sr
+
+kRhythmAuto2[], kRhythmAutoPeaks, krnewframe RhythmAutoCorr krms_tran0, krms_ac, kra_peak_delta, irhythm_sr, ira_fftsize/2, ira_overlaps
+kRhythmAuto4[], kRhythmAutoPeaks, krnewframe RhythmAutoCorr krms_tran0, krms_ac, kra_peak_delta, irhythm_sr, ira_fftsize/4, ira_overlaps
+kRhythmAuto slicearray kRhythmAuto2, 0, ira_fftsize/8
+kRhythmAuto slicearray kRhythmAuto4, 0, ira_fftsize/16
+
+krhythm_ac_rms = sqrt(sumarray(kRhythmAuto*kRhythmAuto)/ira_fftsize)
+krhythm_ac_max = maxarray(kRhythmAuto*kRhythmAuto)
+krhythm_ac_crest divz krhythm_ac_max, krhythm_ac_rms, 1
+*/
 
 ; ***************
 ; spectral analysis
@@ -465,7 +508,7 @@ endif
         kcps            limit kcps, kpitch_low, kpitch_high
         kcps            tonek kcps, 50
 
-	kcps		samphold kcps, kgate0
+	kcps		samphold kcps, kgate2
         ksemitone       = limit:k((log2(kcps/440)*12)+69, 0, 127)
         
 
@@ -473,10 +516,11 @@ endif
 ; normalization
         kcps_n          = divz(kcps, kpitch_high, 1)
         kpitch_n        = limit(divz(kcps-kpitch_low, kpitch_high-kpitch_low, 1), 0, 1)    ; normalized and offset
-        kcentroid_n     = kcentroidf / (sr*0.2)
-        kspread_n       = kspread / (sr*0.25)
-        kskewness_n     = kskewness / 50
-        kurtosis_n      = kurtosis / 150
+        kcentroid_n     = kcentroidf / (sr*0.15)
+        kspread_n       = kspread / (sr*0.2)
+        kskewness_n     = kskewness / 20
+        kurtosis_n      = kurtosis / 250
+        kflatness_n     = kflatness * 3
         kcrest_n        = kcrest / 250
         kflux_n         = kfluxf * 4
         kautocorr_n     = kautocorr * 2
@@ -509,7 +553,7 @@ endif
         kspread_a       AutoNormalize kspread_n, kreset, kcalibrate, knormalize, iperiod
         kskewness_a     AutoNormalize kskewness_n, kreset, kcalibrate, knormalize, iperiod
         kurtosis_a      AutoNormalize kurtosis_n, kreset, kcalibrate, knormalize, iperiod
-        kflatness_a     AutoNormalize kflatness, kreset, kcalibrate, knormalize, iperiod
+        kflatness_a     AutoNormalize kflatness_n, kreset, kcalibrate, knormalize, iperiod
         kcrest_a        AutoNormalize kcrest_n, kreset, kcalibrate, knormalize, iperiod
         kflux_a         AutoNormalize kflux_n, kreset, kcalibrate, knormalize, iperiod
 
@@ -520,6 +564,7 @@ endif
 ;        kmfcc5          AutoNormalize kmfcc[5], kreset, kcalibrate, knormalize, iperiod
 
         krms            limit krms, 0, 1
+        krms_dB_n       limit krms_dB_n, 0, 1
         krms_preEq      limit krms_preEq, 0, 1
         kpitch_a        limit kpitch_a, 0, 1
         kcentroid_a     limit kcentroid_a, 0, 1

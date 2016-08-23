@@ -137,7 +137,7 @@ label text("0"), bounds(420, 640, 100, 15), align("left"), identchannel("rhythmr
 label text("0"), bounds(470, 640, 100, 15), align("left"), identchannel("rhythmratio3")	
 
 label text("rhythm autocorr"), bounds(540, 430, 200, 15), align("left")
-gentable bounds(540, 470, 1160, 140), identchannel("rhythm_autocorr"), tablenumber(10), tablecolour("lightblue"), tablegridcolour(0,0,0,0), amprange(0,1,10), zoom(-1), samplerange(0,1024)
+gentable bounds(540, 470, 1160, 140), identchannel("rhythm_autocorr"), tablenumber(10), tablecolour("lightblue"), tablegridcolour(0,0,0,0), amprange(0,1,10), zoom(-1), samplerange(0,256)
 ;numberbox bounds(540, 450, 40, 15), channel("rhythmAutocorrEnvShape"), range(0.001, 0.20, 0.05)
 ;label text("ra env"), bounds(585, 450, 200, 15), align("left")
 numberbox bounds(540, 620, 40, 15), channel("rhythmAutocorrPeakDelta"), range(0.01, 0.50, 0.1)
@@ -172,7 +172,7 @@ label text("0"), bounds(540, 720, 100, 15), align("left"), identchannel("rhythma
         gi5     ftgen   5, 0, 32, -2, 0  ; rhythm consonance display
         gi6     ftgen   6, 0, 32, -2, 0  ; rhythm consonance display
         gi7     ftgen   7, 0, 32, -2, 0  ; rhythm consonance display
-        gi10    ftgen   10, 0, 1024, -2, 0 ; rhythm autocorr display
+        gi10    ftgen   10, 0, 256, -2, 0 ; rhythm autocorr display
 	giSine	ftgen	0, 0, 65536, 10, 1			; sine wave
 	gifftsize 	= 1024
 			chnset gifftsize, "fftsize"
@@ -233,8 +233,8 @@ label text("0"), bounds(540, 720, 100, 15), align("left"), identchannel("rhythma
 #include "analyze_audio.inc"
 
 ; analysis sig display in gui table
-        tablew pow(ampdbfs(knoiseFloor_dB),0.4), 0, gi1 
-        tablew pow(krms,0.4), 1, gi1 
+        tablew ((knoiseFloor_dB)/96)+1, 0, gi1 
+        tablew krms_dB_n, 1, gi1 
         tablew katransDensEnv/8, 2, gi1 
         tablew kenv_crest1/35, 3, gi1 
         tablew kcps_n, 4, gi1 
