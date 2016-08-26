@@ -16,8 +16,8 @@
 ;    If not, see <http://www.gnu.org/licenses/>.
 
 <Cabbage>
-form size(850, 760), caption("Analyzer"), pluginID("anlz"), guirefresh(1) 
-image bounds(0, 0, 850, 760), shape("sharp"), colour(5,15,20)
+form size(805, 760), caption("Analyzer"), pluginID("anlz"), guirefresh(1) 
+image bounds(0, 0, 805, 760), shape("sharp"), colour(5,15,20)
 
 label text("channel"), bounds(15, 16, 75, 12)
 combobox channel("chan"), bounds(80, 12, 60, 25), items("1", "2", "3", "4"), value(1)
@@ -63,19 +63,19 @@ combobox channel("plotupdatemethod"), bounds(215, 295, 70, 15), items("metro", "
 numberbox bounds(290, 295, 40, 15), channel("plotmetrorate"), range(1, 50, 10)
 
 label text("x"), bounds(270, 315, 15, 15), align("left")
-combobox channel("plot_x"), bounds(270, 332, 90, 18), items("rms", "cps_n", "pitch_a", "centroid_a", "spread_a", "skewness_a", "kurtosis_a", "flatness_a", "crest_a", "flux_a", "amp_trans", "atransDensEnv", "rhythm_consonance", "rhythmFromOne", "rhythm_ratio1", "rhythm_ratio2", "rhythm_ac1", "rhythm_ac2", "rhythm_ac1time", "rhythm_ac2time", "mfcc1", "mfcc2", "mfcc3", "mfcc4", "mfcc5"), value(1), channeltype("string")
+combobox channel("plot_x"), bounds(270, 332, 90, 18), items("rms", "cps_n", "pitch_a", "centroid_a", "spread_a", "skewness_a", "kurtosis_a", "flatness_a", "crest_a", "flux_a", "amp_trans", "atransDensEnv", "rhythm_consonance", "krhythm_irregularity", "rhythm_ratio1", "rhythm_ratio2", "rhythm_ac1", "rhythm_ac2", "rhythm_ac1time", "rhythm_ac2time", "mfcc1", "mfcc2", "mfcc3", "mfcc4", "mfcc5"), value(1), channeltype("string")
 label text("scale  offset"), bounds(270, 352, 90, 15), align("left")
 numberbox bounds(270, 375, 40, 15), channel("plot_x_scale"), range(0.0, 99.0, 1.0)
 numberbox bounds(320, 375, 40, 15), channel("plot_x_offset"), range(-1.0, 1.0, 0.0)
 
 label text("y"), bounds(270, 395, 15, 15), align("left")
-combobox channel("plot_y"), bounds(270, 412, 90, 18), items("rms", "cps_n", "pitch_a", "centroid_a", "spread_a", "skewness_a", "kurtosis_a", "flatness_a", "crest_a", "flux_a", "amp_trans", "atransDensEnv", "rhythm_consonance", "rhythmFromOne", "rhythm_ratio1", "rhythm_ratio2", "rhythm_ac1", "rhythm_ac2", "rhythm_ac1time", "rhythm_ac2time", "mfcc1", "mfcc2", "mfcc3", "mfcc4", "mfcc5"), value(1), channeltype("string")
+combobox channel("plot_y"), bounds(270, 412, 90, 18), items("rms", "cps_n", "pitch_a", "centroid_a", "spread_a", "skewness_a", "kurtosis_a", "flatness_a", "crest_a", "flux_a", "amp_trans", "atransDensEnv", "rhythm_consonance", "krhythm_irregularity", "rhythm_ratio1", "rhythm_ratio2", "rhythm_ac1", "rhythm_ac2", "rhythm_ac1time", "rhythm_ac2time", "mfcc1", "mfcc2", "mfcc3", "mfcc4", "mfcc5"), value(1), channeltype("string")
 label text("scale  offset"), bounds(270, 432, 90, 15), align("left")
 numberbox bounds(270, 455, 40, 15), channel("plot_y_scale"), range(0.0, 99, 1.0)
 numberbox bounds(320, 455, 40, 15), channel("plot_y_offset"), range(-1.0, 1.0, 0.0)
 
 label text("c"), bounds(270, 475, 15, 15), align("left")
-combobox channel("plot_c"), bounds(270, 492, 90, 18), items("rms", "cps_n", "pitch_a", "centroid_a", "spread_a", "skewness_a", "kurtosis_a", "flatness_a", "crest_a", "flux_a", "amp_trans", "atransDensEnv", "rhythm_consonance", "rhythmFromOne", "rhythm_ratio1", "rhythm_ratio2", "rhythm_ac1", "rhythm_ac2", "rhythm_ac1time", "rhythm_ac2time", "mfcc1", "mfcc2", "mfcc3", "mfcc4", "mfcc5"), value(1), channeltype("string")
+combobox channel("plot_c"), bounds(270, 492, 90, 18), items("rms", "cps_n", "pitch_a", "centroid_a", "spread_a", "skewness_a", "kurtosis_a", "flatness_a", "crest_a", "flux_a", "amp_trans", "atransDensEnv", "rhythm_consonance", "krhythm_irregularity", "rhythm_ratio1", "rhythm_ratio2", "rhythm_ac1", "rhythm_ac2", "rhythm_ac1time", "rhythm_ac2time", "mfcc1", "mfcc2", "mfcc3", "mfcc4", "mfcc5"), value(1), channeltype("string")
 label text("scale  offset"), bounds(270, 512, 90, 15), align("left")
 numberbox bounds(270, 535, 40, 15), channel("plot_c_scale"), range(0.0, 99, 1.0)
 numberbox bounds(320, 535, 40, 15), channel("plot_c_offset"), range(-1.0, 1.0, 0.0)
@@ -87,106 +87,110 @@ csoundoutput bounds(5, 585, 360, 145), text("Output")
 
 
 
-gentable bounds(370,  5, 320, 240), identchannel("displays"), tablenumber(1), tablecolour("lightblue"), tablegridcolour(0,0,0,0), amprange(-.03,1,1), zoom(-1), samplerange(0,20)
+gentable bounds(370,  5, 352, 240), identchannel("displays"), tablenumber(1), tablecolour("lightblue"), tablegridcolour(0,0,0,0), amprange(-.03,1,1), zoom(-1), samplerange(0,22)
 
 image bounds(370, 5, 64,240), shape("sharp"), colour(175, 50,255, 40), identchannel("group_amp")	
-label text("noisefloor"), bounds(386, 250, 200, 15), align("left"), rotate(1.5708, 0, 0)
-label text("krms"), bounds(402, 250, 200, 15), align("left"), rotate(1.5708, 0, 0)
-label text("trans dens"), bounds(418, 250, 200, 15), align("left"), rotate(1.5708, 0, 0)
-label text("env crest"), bounds(434, 250, 200, 15), align("left"), rotate(1.5708, 0, 0)
+label text("noisefloor"), bounds(386, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
+label text("krms"), bounds(402, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
+label text("trans dens"), bounds(418, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
+label text("env crest"), bounds(434, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
 
 image bounds(434, 5, 32 ,240), shape("sharp"), colour(75,255, 75, 40), identchannel("group_pitch")	
-label text("cps"), bounds(450, 250, 200, 15), align("left"), rotate(1.5708, 0, 0)
-label text("pitch"), bounds(466, 250, 200, 15), align("left"), rotate(1.5708, 0, 0)
+label text("cps"), bounds(450, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
+label text("pitch"), bounds(466, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
 
 image bounds(466, 5, 64,240), shape("sharp"), colour(45, 45,255, 40), identchannel("group_spectral1")	
-label text("centroid"), bounds(482, 250, 200, 15), align("left"), rotate(1.5708, 0, 0)
-label text("spread"), bounds(498, 250, 200, 15), align("left"), rotate(1.5708, 0, 0)
-label text("skewness"), bounds(514, 250, 200, 15), align("left"), rotate(1.5708, 0, 0)
-label text("kurtosis"), bounds(530, 250, 200, 15), align("left"), rotate(1.5708, 0, 0)
+label text("centroid"), bounds(482, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
+label text("spread"), bounds(498, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
+label text("skewness"), bounds(514, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
+label text("kurtosis"), bounds(530, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
 
-image bounds(530, 5, 48,240), shape("sharp"), colour(255,255, 50, 20), identchannel("group_spectral2")	
-label text("flatness"), bounds(546, 250, 190, 15), align("left"), rotate(1.5708, 0, 0)
-label text("crest"), bounds(562, 250, 165, 15), align("left"), rotate(1.5708, 0, 0)
-label text("flux"), bounds(578, 250, 145, 15), align("left"), rotate(1.5708, 0, 0)
+image bounds(530, 5, 64,240), shape("sharp"), colour(255,255, 50, 20), identchannel("group_spectral2")	
+label text("flatness"), bounds(546, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
+label text("crest"), bounds(562, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
+label text("flux"), bounds(578, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
+label text("autocorr"), bounds(594, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
 
-image bounds(578, 5, 96,240), shape("sharp"), colour(50,200, 255, 20), identchannel("group_mfcc")	
-label text("mfcc1"), bounds(594, 250, 145, 15), align("left"), rotate(1.5708, 0, 0)
-label text("2"), bounds(610, 250, 145, 15), align("left"), rotate(1.5708, 0, 0)
-label text("3"), bounds(626, 250, 145, 15), align("left"), rotate(1.5708, 0, 0)
-label text("4"), bounds(642, 250, 145, 15), align("left"), rotate(1.5708, 0, 0)
-label text("5"), bounds(658, 250, 145, 15), align("left"), rotate(1.5708, 0, 0)
-label text("6"), bounds(674, 250, 145, 15), align("left"), rotate(1.5708, 0, 0)
-label text("mfccdiff"), bounds(690, 250, 145, 15), align("left"), rotate(1.5708, 0, 0)
+image bounds(594, 5, 112,240), shape("sharp"), colour(50,200, 255, 20), identchannel("group_mfcc")	
+label text("mfcc1"), bounds(610, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
+label text("2"), bounds(626, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
+label text("3"), bounds(642, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
+label text("4"), bounds(658, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
+label text("5"), bounds(674, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
+label text("6"), bounds(690, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
+label text("mfccdiff"), bounds(706, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
 
 label text("transient dens"), bounds(370, 340, 120, 15), align("left")
-label text("0"), bounds(370, 360, 200, 15), align("left"), identchannel("ampTransDensity")	
+label text("0"), bounds(370, 360, 50, 15), align("left"), identchannel("ampTransDensity")	
 label text("env crest"), bounds(490, 340, 120, 15), align("left")
-label text("0"), bounds(490, 360, 200, 15), align("left"), identchannel("envCrest")	
+label text("0"), bounds(490, 360, 50, 15), align("left"), identchannel("envCrest")	
 
 
-label text("rhythm consonance"), bounds(370, 430, 200, 15), align("left")
-label text("0"), bounds(370, 450, 40, 15), align("left"), identchannel("rhythmFromOne")	
-label text("0"), bounds(410, 450, 40, 15), align("left"), identchannel("rhythmConsonance")	
-label text("0"), bounds(450, 450, 40, 15), align("left"), identchannel("rhythmConsonanceDeviation")
-label text("dev"), bounds(495, 450, 200, 15), align("left")
-gentable bounds(370, 470, 160, 140), identchannel("rhythm_consonance"), tablenumber(5,6,7), tablecolour("lightblue", "red", "darkolivegreen"), tablegridcolour(0,0,0,0), amprange(-0.1,1,5), amprange(-0.1,1,6), amprange(-0.1,1,7), zoom(-1), samplerange(0,32)
+label text("rhythm relations"), bounds(370, 410, 200, 15), align("left")
+label text("irreg"), bounds(370, 430, 50, 15), align("left")
+label text("conso"), bounds(420, 430, 50, 15), align("left")
+label text("dev"), bounds(470, 430, 50, 15), align("left")
+label text("0"), bounds(370, 450, 50, 15), align("left"), identchannel("rhythm_irregularity")	
+label text("0"), bounds(420, 450, 50, 15), align("left"), identchannel("rhythm_consonance")	
+label text("0"), bounds(470, 450, 50, 15), align("left"), identchannel("rhythm_consonance_deviation")
+
+gentable bounds(370, 470, 160, 140), identchannel("rhythm_consonance_tab"), tablenumber(5,6,7), tablecolour("lightblue", "red", "darkolivegreen"), tablegridcolour(0,0,0,0), amprange(-0.1,1,5), amprange(-0.1,1,6), amprange(-0.1,1,7), zoom(-1), samplerange(0,32)
 label text("latest rhythm ratios"), bounds(370, 620, 200, 15), align("left")
-label text("0"), bounds(370, 640, 100, 15), align("left"), identchannel("rhythmratio1")	
-label text("0"), bounds(420, 640, 100, 15), align("left"), identchannel("rhythmratio2")	
-label text("0"), bounds(470, 640, 100, 15), align("left"), identchannel("rhythmratio3")	
+label text("0"), bounds(370, 640, 50, 15), align("left"), identchannel("rhythmratio1")	
+label text("0"), bounds(420, 640, 50, 15), align("left"), identchannel("rhythmratio2")	
+label text("0"), bounds(470, 640, 50, 15), align("left"), identchannel("rhythmratio3")	
 
-label text("rhythm autocorrelation), bounds(540, 410, 256, 15), align("left")
+label text("rhythm autocorrelation), bounds(540, 410, 200, 15), align("left")
 
-label text("crest"), bounds(540, 430, 100, 15), align("left")
-label text("c2"), bounds(590, 430, 100, 15), align("left")
-label text("grid"), bounds(640, 430, 100, 15), align("left")
-label text("denom"), bounds(690, 430, 100, 15), align("left")
+label text("crest"), bounds(540, 430, 50, 15), align("left")
+;label text("c2"), bounds(600, 430, 50, 15), align("left")
+label text("gridness"), bounds(655, 430, 60, 15), align("left")
+label text("subdiv"), bounds(725, 430, 50, 15), align("left")
 
-label text("0"), bounds(540, 450, 100, 15), align("left"), identchannel("rhythmautocrest")	
-label text("0"), bounds(590, 450, 100, 15), align("left"), identchannel("rhythmautocrest2")	
-label text("0"), bounds(640, 450, 100, 15), align("left"), identchannel("ac_grid_affirm")	
-label text("0"), bounds(690, 450, 100, 15), align("left"), identchannel("ac_grid_denom")	
+label text("0"), bounds(540, 450, 50, 15), align("left"), identchannel("rhythmautocrest")	
+;label text("0"), bounds(600, 450, 50, 15), align("left"), identchannel("rhythmautocrest2")	
+label text("0"), bounds(655, 450, 50, 15), align("left"), identchannel("ac_gridness")	
+label text("0"), bounds(725, 450, 50, 15), align("left"), identchannel("ac_grid_subdiv")	
 
 ; (normal width 160)
 gentable bounds(540, 470, 256, 140), identchannel("rhythm_autocorr"), tablenumber(10,11,12), tablecolour("darkolivegreen", "lightblue", "red"), tablegridcolour(0,0,0,0), amprange(-0.1,1,10), amprange(-0.1,1,11), amprange(-0.1,1,12), zoom(-1), samplerange(0,256)
 
-label text("AC peaks:"), bounds(540, 620, 256, 15), align("left")
+label text("AC peaks:"), bounds(540, 620, 70, 15), align("left")
 numberbox bounds(740, 620, 50, 15), channel("rhythmAutocorrPeakDelta"), range(0.001, 0.20, 0.01, 1, 0.001)
 label text("delta"), bounds(696, 620, 40, 15), align("left")
 
-label text("1st"), bounds(540, 640, 100, 15), align("left")
-label text("clos"), bounds(590, 640, 100, 15), align("left")
-label text("max"), bounds(640, 640, 100, 15), align("left")
-label text("m2"), bounds(690, 640, 100, 15), align("left")
-label text("m3"), bounds(740, 640, 100, 15), align("left")
+label text("1st"), bounds(540, 640, 50, 15), align("left")
+label text("clos"), bounds(590, 640, 50, 15), align("left")
+label text("max"), bounds(640, 640, 50, 15), align("left")
+label text("m2"), bounds(690, 640, 50, 15), align("left")
+label text("m3"), bounds(740, 640, 50, 15), align("left")
 
-label text("0"), bounds(540, 660, 100, 15), align("left"), identchannel("rhythmauto_1st_indx")	
-label text("0"), bounds(590, 660, 100, 15), align("left"), identchannel("rhythmauto_clos_indx")	
-label text("0"), bounds(640, 660, 100, 15), align("left"), identchannel("rhythmauto_m1_indx")	
-label text("0"), bounds(690, 660, 100, 15), align("left"), identchannel("rhythmauto_m2_indx")	
-label text("0"), bounds(740, 660, 100, 15), align("left"), identchannel("rhythmauto_m3_indx")	
+label text("0"), bounds(540, 660, 50, 15), align("left"), identchannel("rhythmauto_1st_indx")	
+label text("0"), bounds(590, 660, 50, 15), align("left"), identchannel("rhythmauto_clos_indx")	
+label text("0"), bounds(640, 660, 50, 15), align("left"), identchannel("rhythmauto_m1_indx")	
+label text("0"), bounds(690, 660, 50, 15), align("left"), identchannel("rhythmauto_m2_indx")	
+label text("0"), bounds(740, 660, 50, 15), align("left"), identchannel("rhythmauto_m3_indx")	
 label text("i"), bounds(786, 660, 10, 15), align("left")
 
-label text("0"), bounds(540, 680, 100, 15), align("left"), identchannel("rhythmauto_1st_val")	
-label text("0"), bounds(590, 680, 100, 15), align("left"), identchannel("rhythmauto_clos_val")	
-label text("0"), bounds(640, 680, 100, 15), align("left"), identchannel("rhythmauto_m1_val")	
-label text("0"), bounds(690, 680, 100, 15), align("left"), identchannel("rhythmauto_m2_val")	
-label text("0"), bounds(740, 680, 100, 15), align("left"), identchannel("rhythmauto_m3_val")	
+label text("0"), bounds(540, 680, 50, 15), align("left"), identchannel("rhythmauto_1st_val")	
+label text("0"), bounds(590, 680, 50, 15), align("left"), identchannel("rhythmauto_clos_val")	
+label text("0"), bounds(640, 680, 50, 15), align("left"), identchannel("rhythmauto_m1_val")	
+label text("0"), bounds(690, 680, 50, 15), align("left"), identchannel("rhythmauto_m2_val")	
+label text("0"), bounds(740, 680, 50, 15), align("left"), identchannel("rhythmauto_m3_val")	
 label text("v"), bounds(786, 680, 10, 15), align("left")
 
-label text("0"), bounds(540, 700, 100, 15), align("left"), identchannel("rhythmauto_1st_tim")	
-label text("0"), bounds(590, 700, 100, 15), align("left"), identchannel("rhythmauto_clos_tim")	
-label text("0"), bounds(640, 700, 100, 15), align("left"), identchannel("rhythmauto_m1_tim")	
-label text("0"), bounds(690, 700, 100, 15), align("left"), identchannel("rhythmauto_m2_tim")	
-label text("0"), bounds(740, 700, 100, 15), align("left"), identchannel("rhythmauto_m3_tim")	
+label text("0"), bounds(540, 700, 50, 15), align("left"), identchannel("rhythmauto_1st_tim")	
+label text("0"), bounds(590, 700, 50, 15), align("left"), identchannel("rhythmauto_clos_tim")	
+label text("0"), bounds(640, 700, 50, 15), align("left"), identchannel("rhythmauto_m1_tim")	
+label text("0"), bounds(690, 700, 50, 15), align("left"), identchannel("rhythmauto_m2_tim")	
+label text("0"), bounds(740, 700, 50, 15), align("left"), identchannel("rhythmauto_m3_tim")	
 label text("t"), bounds(786, 700, 10, 15), align("left")
 
-label text("0"), bounds(540, 720, 100, 15), align("left"), identchannel("rhythmauto_1st_denom")	
-label text("0"), bounds(590, 720, 100, 15), align("left"), identchannel("rhythmauto_clos_denom")	
-label text("1"), bounds(640, 720, 100, 15), align("left"), identchannel("rhythmauto_m1_denom")	
-label text("0"), bounds(690, 720, 100, 15), align("left"), identchannel("rhythmauto_m2_denom")	
-label text("0"), bounds(740, 720, 100, 15), align("left"), identchannel("rhythmauto_m3_denom")	
+label text("0"), bounds(540, 720, 50, 15), align("left"), identchannel("rhythmauto_1st_denom")	
+label text("0"), bounds(590, 720, 50, 15), align("left"), identchannel("rhythmauto_clos_denom")	
+label text("1"), bounds(640, 720, 50, 15), align("left"), identchannel("rhythmauto_m1_denom")	
+label text("0"), bounds(690, 720, 50, 15), align("left"), identchannel("rhythmauto_m2_denom")	
+label text("0"), bounds(740, 720, 50, 15), align("left"), identchannel("rhythmauto_m3_denom")	
 label text("d"), bounds(786, 720, 10, 15), align("left")
 
 </Cabbage>
@@ -285,16 +289,17 @@ label text("d"), bounds(786, 720, 10, 15), align("left")
         tablew kflatness_a, 10, gi1 
         tablew kcrest_a, 11, gi1 
         tablew kflux_a, 12, gi1 
+        tablew kautocorr, 13, gi1 
         imfcc_min = -0.3
         imfcc_max = 1.0
         imfcc_range = imfcc_max-imfcc_min
-        tablew (kmfcc1*imfcc_range)-imfcc_min, 13, gi1
-        tablew (kmfcc2*imfcc_range)-imfcc_min, 14, gi1
-        tablew (kmfcc3*imfcc_range)-imfcc_min, 15, gi1
-        tablew (kmfcc4*imfcc_range)-imfcc_min, 16, gi1
-        tablew (kmfcc5*imfcc_range)-imfcc_min, 17, gi1
-        tablew (kmfcc6*imfcc_range)-imfcc_min, 18, gi1
-        tablew kmfccdiff, 19, gi1
+        tablew (kmfcc1*imfcc_range)-imfcc_min, 14, gi1
+        tablew (kmfcc2*imfcc_range)-imfcc_min, 15, gi1
+        tablew (kmfcc3*imfcc_range)-imfcc_min, 16, gi1
+        tablew (kmfcc4*imfcc_range)-imfcc_min, 17, gi1
+        tablew (kmfcc5*imfcc_range)-imfcc_min, 18, gi1
+        tablew (kmfcc6*imfcc_range)-imfcc_min, 19, gi1
+        tablew kmfccdiff, 20, gi1
 
         kupd    metro 100
         kenableDisplay chnget "enableDisplay"
@@ -365,23 +370,23 @@ label text("d"), bounds(786, 720, 10, 15), align("left")
  	chnset	SrautocrestD, "rhythmautocrest"	; update gui	
  	;Srautocrest2D sprintfk "text(%.2f)", krhythm_ac_crest2
  	;chnset	Srautocrest2D, "rhythmautocrest2"; update gui	
- 	Sragrid_affirmD sprintfk "text(%.2f)", kgrid_affirmativity
- 	chnset	Sragrid_affirmD, "ac_grid_affirm"	; update gui	
+ 	Sragrid_affirmD sprintfk "text(%.2f)", kgridness
+ 	chnset	Sragrid_affirmD, "ac_gridness"	; update gui	
  	Sragrid_denomD sprintfk "text(%.d)", kgrid_subdiv
- 	chnset	Sragrid_denomD, "ac_grid_denom"	; update gui	
+ 	chnset	Sragrid_denomD, "ac_grid_subdiv" ; update gui	
 
         endif
 
         if krms_tran0>0 then
         krc_indx init 0
  	SrcomplexD sprintfk "text(%.2f)", krhythm_consonance
-        chnset	SrcomplexD, "rhythmConsonance"
+        chnset	SrcomplexD, "rhythm_consonance"
 
  	SrcomplexdevD sprintfk "text(%.2f)", krhythm_consonance_deviation
-        chnset	SrcomplexdevD, "rhythmConsonanceDeviation"
+        chnset	SrcomplexdevD, "rhythm_consonance_deviation"
 
- 	SrhythmFromOneD sprintfk "text(%.2f)", krhythmFromOne
-        chnset	SrhythmFromOneD, "rhythmFromOne"
+ 	SrhythmFromOneD sprintfk "text(%.2f)", krhythm_irregularity
+        chnset	SrhythmFromOneD, "rhythm_irregularity"
 
 
  	Srratio1D sprintfk "text(%.2f)", krhythm_ratio1
@@ -392,11 +397,11 @@ label text("d"), bounds(786, 720, 10, 15), align("left")
         chnset	Srratio3D, "rhythmratio3"
                 
         krc_indx = (krc_indx+1)%32
-        tablew krhythmFromOne, krc_indx, gi5
+        tablew krhythm_irregularity, krc_indx, gi5
         tablew krhythm_consonance, krc_indx, gi6              ; 
         tablew 1, krc_indx, gi7                                 ; set (display) locator into table
         tablew 0, krc_indx-1, gi7, 0, 0, 1                      ; reset previous locator (with wrap)
- 	chnset	"tablenumber(5,6,7)", "rhythm_consonance" ; update table display	
+ 	chnset	"tablenumber(5,6,7)", "rhythm_consonance_tab" ; update table display	
         endif
         
         kplotcnt init 0
@@ -416,9 +421,9 @@ label text("d"), bounds(786, 720, 10, 15), align("left")
         iplotrange_y = 260
 
         if kplotupdate > 0 then        
-        kx Plotchannel "plot_x", krms, kcps_n, kpitch_a, kcentroid_a, kspread_a, kskewness_a, kurtosis_a, kflatness_a, kcrest_a, kflux_a, kamp_trans, katransDensEnv, krhythm_consonance, krhythmFromOne, krhythm_ratio1, krhythm_ratio2, kra_max1_v, kra_max2_v, kra_max1_time, kra_max2_time, kmfcc1, kmfcc2, kmfcc3, kmfcc4, kmfcc5
-        ky Plotchannel "plot_y", krms, kcps_n, kpitch_a, kcentroid_a, kspread_a, kskewness_a, kurtosis_a, kflatness_a, kcrest_a, kflux_a, kamp_trans, katransDensEnv, krhythm_consonance, krhythmFromOne, krhythm_ratio1, krhythm_ratio2, kra_max1_v, kra_max2_v, kra_max1_time, kra_max2_time, kmfcc1, kmfcc2, kmfcc3, kmfcc4, kmfcc5
-        kc Plotchannel "plot_c", krms, kcps_n, kpitch_a, kcentroid_a, kspread_a, kskewness_a, kurtosis_a, kflatness_a, kcrest_a, kflux_a, kamp_trans, katransDensEnv, krhythm_consonance, krhythmFromOne, krhythm_ratio1, krhythm_ratio2, kra_max1_v, kra_max2_v, kra_max1_time, kra_max2_time, kmfcc1, kmfcc2, kmfcc3, kmfcc4, kmfcc5
+        kx Plotchannel "plot_x", krms, kcps_n, kpitch_a, kcentroid_a, kspread_a, kskewness_a, kurtosis_a, kflatness_a, kcrest_a, kflux_a, kamp_trans, katransDensEnv, krhythm_consonance, krhythm_irregularity, krhythm_ratio1, krhythm_ratio2, kra_max1_v, kra_max2_v, kra_max1_time, kra_max2_time, kmfcc1, kmfcc2, kmfcc3, kmfcc4, kmfcc5
+        ky Plotchannel "plot_y", krms, kcps_n, kpitch_a, kcentroid_a, kspread_a, kskewness_a, kurtosis_a, kflatness_a, kcrest_a, kflux_a, kamp_trans, katransDensEnv, krhythm_consonance, krhythm_irregularity, krhythm_ratio1, krhythm_ratio2, kra_max1_v, kra_max2_v, kra_max1_time, kra_max2_time, kmfcc1, kmfcc2, kmfcc3, kmfcc4, kmfcc5
+        kc Plotchannel "plot_c", krms, kcps_n, kpitch_a, kcentroid_a, kspread_a, kskewness_a, kurtosis_a, kflatness_a, kcrest_a, kflux_a, kamp_trans, katransDensEnv, krhythm_consonance, krhythm_irregularity, krhythm_ratio1, krhythm_ratio2, kra_max1_v, kra_max2_v, kra_max1_time, kra_max2_time, kmfcc1, kmfcc2, kmfcc3, kmfcc4, kmfcc5
         kplot_x_scale chnget "plot_x_scale"
         kplot_y_scale chnget "plot_y_scale"
         kplot_c_scale chnget "plot_c_scale"

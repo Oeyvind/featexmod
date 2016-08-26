@@ -34,7 +34,6 @@
 	krms		rms a1			    		; simple level measure 
 	krms            = krms*2
         krms_dB         = dbfsamp(krms)
-        krms_dB_n       = (krms_dB/96)+1
 
         icrestrate      = 4
         kcrestmetro     metro icrestrate
@@ -60,6 +59,7 @@
         isecond_dB      = 9
 	kgate2		= (krms_dB < knoiseFloor_dB+isecond_dB ? 0 : 1)	;  gate when close to noise floor (for sampholding centroid and pitch etc)
         klowscaler      = limit(dbfsamp(krms)-knoiseFloor_dB, 0, isecond_dB)/isecond_dB      ; scaler to fade out different things towards the noise floor
+        krms_dB_n       = (krms_dB/abs(knoiseFloor_dB))+1
 
 
 ; ***************
@@ -225,7 +225,8 @@ endif
 kquant3 = knom3/kden3
 kdev3 = abs(krel3-kquant3)
 
-krhythm_consonance_deviation = (kdev1);+kdev2+kdev3)/3
+krhythm_consonance_deviation limit kdev1, 0, 1
+; could be (kdev1+kdev2+kdev3)/3
 
 ;Benedetti height
 kben1 = (knom1*kden1)
@@ -250,11 +251,11 @@ krhythm_cons_y init 0
 ircfilter_a = 0.4
 ircfilter_b = 0.6
 krhythm_cons_y = (krhythm_cons_x*ircfilter_a) + (krhythm_cons_y*ircfilter_b)
-krhythm_consonance = krhythm_cons_y
+krhythm_consonance limit 1-(krhythm_cons_y*2), 0, 1
 
 ; filter the "distance from one" measure
 ; multiply the two highest out of the last three
-kfrom_ox = max(kfrom_one1,kfrom_one2)*max(kfrom_one2,kfrom_one3)
+kfrom_ox limit max(kfrom_one1,kfrom_one2)*max(kfrom_one2,kfrom_one3), 0, 1
 ; fir
 kfrom_ox0 init 0
 kfrom_ox = (kfrom_ox+kfrom_ox0)/2
@@ -262,7 +263,7 @@ kfrom_ox0 = kfrom_ox
 ; iir
 kfrom_oy init 0
 kfrom_oy = (kfrom_ox*ircfilter_a) + (kfrom_oy*ircfilter_b)
-krhythmFromOne = kfrom_oy
+krhythm_irregularity = kfrom_oy 
 
 krhythm_ratio1 = knom1/kden1
 krhythm_ratio2 = knom2/kden2
@@ -302,7 +303,7 @@ kra_max1_i, kra_max2_i, kra_max3_i, kra_max1_v, kra_max2_v, kra_max3_v,
 kra_first_i, kra_first_v,
 kra_closest_i, kra_closest_v,
 krdenom_first, krdenom_max2, krdenom_max3, krdenom_closest,
-kgrid_affirmativity, kgrid_subdiv AutoCorrPeaks kRhythmAuto, krnewframe, kra_peak_delta, ira_fftsize
+kgridness, kgrid_subdiv AutoCorrPeaks kRhythmAuto, krnewframe, kra_peak_delta, ira_fftsize
 
 kra_first_time =  kra_first_i/irhythm_sr
 kra_max1_time =  kra_max1_i/irhythm_sr

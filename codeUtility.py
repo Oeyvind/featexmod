@@ -19,7 +19,7 @@
 #    If not, see <http://www.gnu.org/licenses/>.
 
 
-import sys
+import sys, re
 
 
 if sys.argv[1] == 'vst_mediator':
@@ -74,77 +74,98 @@ for i in range(len(parameters)):
 chn_init_file.write(instr_template.format(parameter_ranges))
 
 #
+
+### These need to be updated when we add or remove parameters, then autogenerate new code and all relevant files should be updated with the new paramter set
+
+analysis_parms = ["rms", "rms_dB", "transient", "trans_dens", "env_crest", "pitch", 
+"s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "s_autocorr",
+"rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "rhyt_ratio1", "rhyt_ratio2", "rhyt_ratio3", 
+"rac_1st_v", "rac_clos_v", "rac_max_v", "rac_max2_v", "rac_max3_v", "rac_1st_tim", "rac_clos_tim", "rac_max_tim", "rac_max2_tim", "rac_max3_tim", 
+"subdiv_1st", "subdiv_clos", "subdiv_max2", "subdiv_max3", "grid_subdiv", "gridness", "rac_crest",
+"mfcc1", "mfcc2", "mfcc3", "mfcc4", "mfcc_diff"] 
+
+analysis_parms_string = ''''''
+for item in analysis_parms: analysis_parms_string += '\"'+item+'" ,'
+print analysis_parms_string
+
+csound_parms = ["krms", "krms_dB_n", "krms_tran0", "katransDensEnv", "kenv_crest1", "kpitch_n", 
+"kcentroid_n", "kspread_n", "kskewness_n", "kurtosis_n", "kflatness_n", "kcrest_n", "kflux_n", "kautocorr_n", 
+"krhythm_irregularity", "krhythm_consonance", "krhythm_consonance_deviation", "krhythm_ratio1", "krhythm_ratio2", "krhythm_ratio3", 
+"kra_first_v", "kra_closest_v", "kra_max1_v", "kra_max2_v", "kra_max3_v", "kra_first_time", "kra_closest_time", "kra_max1_time", "kra_max2_time", "kra_max3_time",
+"krdenom_first", "krdenom_closest", "krdenom_max2", "krdenom_max3", "kgrid_subdiv", "kgridness", "krhythm_ac_crest", 
+"kmfcc1", "kmfcc2", "kmfcc3", "kmfcc4", "kmfccdiff"]
+
+#######################
+
+#
 start_x_pos = 30
 start_y_pos = 5
 plant_height = 85
-analysis_parms = '"rms", "rms_preEq", "cps_n", "pitch_a", "centroid_a", "spread_a", "skewness_a", "kurtosis_a", "flatness_a", "crest_a", "flux_a", "amp_trans", "atransDensEnv", "rhythm_consonance", "rhythm_ratio1", "rhythm_ratio2", "rhythm_ac1", "rhythm_ac2", "rhythm_ac1time", "rhythm_ac2time", "mfcc1", "mfcc2", "mfcc3", "mfcc4", "cps_raw"'
 
+plant = '''groupbox bounds({start_y}, {start_x}, 574, 81), plant("plant_{pname}"), linethickness("0"){{ 
+combobox channel("source1_{pname}"), bounds(10, 12, 100, 20), items({analysis_p}), value(1), channeltype("string")
+combobox channel("chan1_{pname}"), bounds(113, 12, 50, 20), items("1", "2", "3", "4"), value(1)
+numberbox bounds(168, 14, 35, 15), channel("rise1_{pname}"), range(0.01, 10.0, 0.01)
+numberbox bounds(206, 14, 35, 15), channel("fall1_{pname}"), range(0.01, 10.0, 0.5)
+hslider bounds(243, 12, 86, 20), channel("scale1_{pname}"), range(-1.0, 1.0, 0, 1, 0.001)
+button bounds(330, 12, 29, 19), channel("scale1_x_{pname}"), text("x 1","x 10")
+hslider bounds(359, 12, 86, 20), channel("curve1_{pname}"), range(-5.0, 5.0, 0)
 
+combobox channel("source2_{pname}"), bounds(10, 34, 100, 20), items({analysis_p}), value(1), channeltype("string")
+combobox channel("chan2_{pname}"), bounds(113, 34, 50, 20), items("1", "2", "3", "4"), value(1)
+numberbox bounds(168, 36, 35, 15), channel("rise2_{pname}"), range(0.01, 10.0, 0.01)
+numberbox bounds(206, 36, 35, 15), channel("fall2_{pname}"), range(0.01, 10.0, 0.5)
+hslider bounds(243, 34, 86, 20), channel("scale2_{pname}"), range(-1.0, 1.0, 0, 1, 0.001)
+button bounds(330, 34, 29, 19), channel("scale2_x_{pname}"), text("x 1","x 10") 
+hslider bounds(359, 34, 86, 20), channel("curve2_{pname}"), range(-5.0, 5.0, 0)
 
-plant = '''groupbox bounds({start_y}, {start_x}, 564, 81), plant("plant_{pname}"), linethickness("0"){{ 
-combobox channel("source1_{pname}"), bounds(10, 12, 90, 20), items({analysis_p}), value(1), channeltype("string")
-combobox channel("chan1_{pname}"), bounds(103, 12, 50, 20), items("1", "2", "3", "4"), value(1)
-numberbox bounds(158, 14, 35, 15), channel("rise1_{pname}"), range(0.01, 10.0, 0.01)
-numberbox bounds(196, 14, 35, 15), channel("fall1_{pname}"), range(0.01, 10.0, 0.5)
-hslider bounds(233, 12, 86, 20), channel("scale1_{pname}"), range(-1.0, 1.0, 0, 1, 0.01)
-button bounds(320, 12, 29, 19), channel("scale1_x_{pname}"), text("x 1","x 10")
-hslider bounds(349, 12, 86, 20), channel("curve1_{pname}"), range(-5.0, 5.0, 0)
+label bounds(10, 58, 100, 12), text("source"), colour(20,20,20,255)
+label bounds(113, 58, 50, 12), text("chan"), colour(20,20,20,255)
+label bounds(166, 58, 76, 12), text("rise/fall"), colour(20,20,20,255)
+label bounds(246, 58, 110, 12), text("scale"), colour(20,20,20,255)
+label bounds(362, 58, 81, 12), text("curve"), colour(20,20,20,255)
 
-combobox channel("source2_{pname}"), bounds(10, 34, 90, 20), items({analysis_p}), value(1), channeltype("string")
-combobox channel("chan2_{pname}"), bounds(103, 34, 50, 20), items("1", "2", "3", "4"), value(1)
-numberbox bounds(158, 36, 35, 15), channel("rise2_{pname}"), range(0.01, 10.0, 0.01)
-numberbox bounds(196, 36, 35, 15), channel("fall2_{pname}"), range(0.01, 10.0, 0.5)
-hslider bounds(233, 34, 86, 20), channel("scale2_{pname}"), range(-1.0, 1.0, 0, 1, 0.01)
-button bounds(320, 34, 29, 19), channel("scale2_x_{pname}"), text("x 1","x 10") 
-hslider bounds(349, 34, 86, 20), channel("curve2_{pname}"), range(-5.0, 5.0, 0)
+rslider bounds(443, 12, 62, 62), text("offset"), channel("offset_{pname}"), range({p_min}, {p_max}, {p_default}, {p_skew}, {p_incr}) 
+combobox bounds(443, 1, 55, 12), channel("offsetx_{pname}"), items("-1", "Nornm", "+1"), , value(2), channeltype("string")
 
-label bounds(10, 58, 90, 12), text("source"), colour(20,20,20,255)
-label bounds(103, 58, 50, 12), text("chan"), colour(20,20,20,255)
-label bounds(156, 58, 76, 12), text("rise/fall"), colour(20,20,20,255)
-label bounds(236, 58, 110, 12), text("scale"), colour(20,20,20,255)
-label bounds(352, 58, 81, 12), text("curve"), colour(20,20,20,255)
-
-rslider bounds(433, 12, 62, 62), text("offset"), channel("offset_{pname}"), range({p_min}, {p_max}, {p_default}, {p_skew}, {p_incr}) 
-combobox bounds(433, 1, 55, 12), channel("offsetx_{pname}"), items("-1", "Nornm", "+1"), , value(2), channeltype("string")
-
-rslider bounds(494, 8, 66, 66), text("{pname}"), channel("{pname}"), range({p_min}, {p_max}, {p_default}, {p_skew}, {p_incr})
+rslider bounds(504, 8, 66, 66), text("{pname}"), channel("{pname}"), range({p_min}, {p_max}, {p_default}, {p_skew}, {p_incr})
 }}
 
 '''
-plantMIDI = '''groupbox bounds({start_y}, {start_x}, 710, 81), plant("plant_{pname}"), linethickness("0"){{ 
-combobox channel("source1_{pname}"), bounds(10, 12, 90, 20), items({analysis_p}), value(1), channeltype("string")
-combobox channel("chan1_{pname}"), bounds(103, 12, 50, 20), items("1", "2", "3", "4"), value(1)
-numberbox bounds(158, 14, 35, 15), channel("rise1_{pname}"), range(0.01, 10.0, 0.01)
-numberbox bounds(196, 14, 35, 15), channel("fall1_{pname}"), range(0.01, 10.0, 0.5)
-hslider bounds(233, 12, 86, 20), channel("scale1_{pname}"), range(-1.0, 1.0, 0, 1, 0.01)
-button bounds(320, 12, 29, 19), channel("scale1_x_{pname}"), text("x 1","x 10"), 
-hslider bounds(349, 12, 86, 20), channel("curve1_{pname}"), range(-5.0, 5.0, 0)
+plantMIDI = '''groupbox bounds({start_y}, {start_x}, 720, 81), plant("plant_{pname}"), linethickness("0"){{ 
+combobox channel("source1_{pname}"), bounds(10, 12, 100, 20), items({analysis_p}), value(1), channeltype("string")
+combobox channel("chan1_{pname}"), bounds(113, 12, 50, 20), items("1", "2", "3", "4"), value(1)
+numberbox bounds(168, 14, 35, 15), channel("rise1_{pname}"), range(0.01, 10.0, 0.01)
+numberbox bounds(206, 14, 35, 15), channel("fall1_{pname}"), range(0.01, 10.0, 0.5)
+hslider bounds(243, 12, 86, 20), channel("scale1_{pname}"), range(-1.0, 1.0, 0, 1, 0.001)
+button bounds(330, 12, 29, 19), channel("scale1_x_{pname}"), text("x 1","x 10"), 
+hslider bounds(359, 12, 86, 20), channel("curve1_{pname}"), range(-5.0, 5.0, 0)
 
-combobox channel("source2_{pname}"), bounds(10, 34, 90, 20), items({analysis_p}), value(1), channeltype("string")
-combobox channel("chan2_{pname}"), bounds(103, 34, 50, 20), items("1", "2", "3", "4"), value(1)
-numberbox bounds(158, 36, 35, 15), channel("rise2_{pname}"), range(0.01, 10.0, 0.01)
-numberbox bounds(196, 36, 35, 15), channel("fall2_{pname}"), range(0.01, 10.0, 0.5)
-hslider bounds(233, 34, 86, 20), channel("scale2_{pname}"), range(-1.0, 1.0, 0, 1, 0.01)
-button bounds(320, 34, 29, 19), channel("scale2_x_{pname}"), text("x 1","x 10"), 
-hslider bounds(349, 34, 86, 20), channel("curve2_{pname}"), range(-5.0, 5.0, 0)
+combobox channel("source2_{pname}"), bounds(10, 34, 100, 20), items({analysis_p}), value(1), channeltype("string")
+combobox channel("chan2_{pname}"), bounds(113, 34, 50, 20), items("1", "2", "3", "4"), value(1)
+numberbox bounds(168, 36, 35, 15), channel("rise2_{pname}"), range(0.01, 10.0, 0.01)
+numberbox bounds(206, 36, 35, 15), channel("fall2_{pname}"), range(0.01, 10.0, 0.5)
+hslider bounds(243, 34, 86, 20), channel("scale2_{pname}"), range(-1.0, 1.0, 0, 1, 0.001)
+button bounds(330, 34, 29, 19), channel("scale2_x_{pname}"), text("x 1","x 10"), 
+hslider bounds(359, 34, 86, 20), channel("curve2_{pname}"), range(-5.0, 5.0, 0)
 
-label bounds(10, 58, 90, 12), text("source"), colour(20,20,20,255)
-label bounds(103, 58, 50, 12), text("chan"), colour(20,20,20,255)
-label bounds(156, 58, 76, 12), text("rise/fall"), colour(20,20,20,255)
-label bounds(236, 58, 110, 12), text("scale"), colour(20,20,20,255)
-label bounds(352, 58, 81, 12), text("curve"), colour(20,20,20,255)
+label bounds(10, 58, 100, 12), text("source"), colour(20,20,20,255)
+label bounds(113, 58, 50, 12), text("chan"), colour(20,20,20,255)
+label bounds(166, 58, 76, 12), text("rise/fall"), colour(20,20,20,255)
+label bounds(246, 58, 110, 12), text("scale"), colour(20,20,20,255)
+label bounds(362, 58, 81, 12), text("curve"), colour(20,20,20,255)
 
-rslider bounds(433, 12, 62, 62), text("offset"), channel("offset_{pname}"), range({p_min}, {p_max}, {p_default}, {p_skew}, {p_incr}) 
-combobox bounds(433, 1, 55, 12), channel("offsetx_{pname}"), items("-1", "Nornm", "+1"), , value(2), channeltype("string")
+rslider bounds(443, 12, 62, 62), text("offset"), channel("offset_{pname}"), range({p_min}, {p_max}, {p_default}, {p_skew}, {p_incr}) 
+combobox bounds(443, 1, 55, 12), channel("offsetx_{pname}"), items("-1", "Nornm", "+1"), , value(2), channeltype("string")
 
-rslider bounds(494, 8, 66, 66), text("{pname}"), channel("{pname}"), range({p_min}, {p_max}, {p_default}, {p_skew}, {p_incr})
+rslider bounds(504, 8, 66, 66), text("{pname}"), channel("{pname}"), range({p_min}, {p_max}, {p_default}, {p_skew}, {p_incr})
 
-label bounds(570, 8, 55, 12), text("midi"), colour(20,20,20,255)
-checkbox bounds(632, 8, 12, 12), text("enable"), channel("enable_{pname}"), value(1)
-numberbox bounds(570, 25, 55, 15), channel("midich_{pname}"), range(1, 16, 1)
-numberbox bounds(570, 42, 55, 15), channel("ctrlnum_{pname}"), range(1, 127, 1)
-label bounds(632, 25, 70, 12), text("channel"), colour(20,20,20,255)
-label bounds(632, 42, 70, 12), text("ctrl"), colour(20,20,20,255)
+label bounds(580, 8, 55, 12), text("midi"), colour(20,20,20,255)
+checkbox bounds(642, 8, 12, 12), text("enable"), channel("enable_{pname}"), value(1)
+numberbox bounds(580, 25, 55, 15), channel("midich_{pname}"), range(1, 16, 1)
+numberbox bounds(580, 42, 55, 15), channel("ctrlnum_{pname}"), range(1, 127, 1)
+label bounds(642, 25, 70, 12), text("channel"), colour(20,20,20,255)
+label bounds(642, 42, 70, 12), text("ctrl"), colour(20,20,20,255)
 
 }}
 
@@ -158,6 +179,19 @@ x_pos1 = start_x_pos
 y_pos = start_y_pos
 for i in range(len(parameters)):
     parm = parameters[i]
-    guifile.write(plant.format(start_x=x_pos, start_y=y_pos, pname=parm[0], analysis_p=analysis_parms,p_min=parm[1][0], p_max=parm[1][1], p_default=parm[1][2], p_skew=parm[1][3], p_incr=parm[1][4]))
+    guifile.write(plant.format(start_x=x_pos, start_y=y_pos, pname=parm[0], analysis_p=analysis_parms_string, p_min=parm[1][0], p_max=parm[1][1], p_default=parm[1][2], p_skew=parm[1][3], p_incr=parm[1][4]))
     x_pos+=plant_height
 guifile.write(';next x position available below plants is {}'.format(max([x_pos,x_pos1])))
+guifile.close()
+
+processor_csd_file = open('vst_mediator_interprocess.csd', 'r')
+processor_csd_txt = processor_csd_file.read()
+#updated_txt = re.sub('; >>>>>>> AUTOGENERATED TEXT: DO NOT EDIT THE FOLLOWING LINES >>>>>>>(.*?); <<<<<<< AUTOGENERATED TEXT: DO NOT EDIT THE PRECEDING LINES <<<<<<<',
+#                     '', processor_csd_txt, flags=re.DOTALL)
+processor_csd_file.close()
+processor_csd_file = open('vst_mediator_interprocess.csd', 'w')
+updated_txt = 'Hello'
+print '***'
+print updated_txt
+processor_csd_file.write(updated_txt)
+processor_csd_file.close()
