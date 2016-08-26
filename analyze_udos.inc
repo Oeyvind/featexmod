@@ -181,20 +181,9 @@ double:
         endop
 
 ;***************************************************
+opcode RhythmAutoCorr, k[]kk, kkiii
 
-opcode RhythmAutoCorr0, k[]k[]k, kkkiii
-
-ktrans, krms, kpeak_delta, irhythm_sr, ifftsize, ioverlaps xin
-
-; sinoid trigger envelope, allows (soft) rhythmic deviation from strict pattern
-ishapedur = 0.05
-if ktrans == 1 then
-reinit triggershape
-endif
-triggershape:
-kenv linseg 0, ishapedur*0.5, 1, ishapedur*0.5, 0, 1, 0
-kenv = kenv * krms
-rireturn
+kenv, ktrans, irhythm_sr, ifftsize, ioverlaps xin
 
 ; downsampling
 krclock metro irhythm_sr
@@ -211,16 +200,22 @@ kArrPad[] init ifftsize*2
 kFFT[] init ifftsize*2
 kAuto0[] init ifftsize*2
 kAuto[] init ifftsize
-kNorm[] init ifftsize
-;kNorm genarray ifftsize/4, ifftsize, 3/4
-iNorm ftgen 0, 0, ifftsize, -19, 0.25, 0.5, 270, 1
-copyf2array kNorm, iNorm
 
-kAutoPeaks[] init ifftsize*2
-kAutoPeaksIndx[] init ifftsize*2
-kAutoPeaksOut[][] init 2, ifftsize/2
-kZeros[] init ifftsize
-kZeros2[] init ifftsize*2
+ishapef ftgen 0, 0, ifftsize, -19, 0.25, 0.8, 270, 1
+kShape[] init ifftsize
+copyf2array kShape, ishapef
+
+; we need to count the transients outside of the downsampled fft loop
+; since transient triggers might happen in between clock ticks
+; this makes the overlap indexing a little bit kludgy
+kNumtransients[] init ioverlaps
+knumtransients_out init 0
+knewframe init 0
+knewframetrig trigger knewframe, 0.5, 0
+koverlap_indx init 0
+koverlap_indx = (koverlap_indx + knewframetrig)%ioverlaps
+kNumtransients[koverlap_indx] = kNumtransients[koverlap_indx]+ktrans
+
 
 if krclock > 0 then 
   kArr[kcnt] = kenv
@@ -236,136 +231,41 @@ if krclock > 0 then
     kArrBuf slicearray kArr, i(kcnt), i(kcnt)+ifftsize-1   ; get current buffer 
     rireturn
     
-    kArrWin window kArrBuf                                 ; windowing
-    kArrPad slicearray kArrBuf, 0, ifftsize-1              ; zero padding 
-    
-    ; autocorrelation
-    kFFT[] rfft kArrPad                           ; fft
-    kFFT = kFFT*(1/ifftsize)                    ; normalize
-    kFFT2[] = pows(kFFT)                        ; square mags
-    kFFT3[] slicearray kFFT2, 0, ifftsize-1      
-    kFFT r2c kFFT3
-    kFFT[0] = 0                                 ; zero first bin
-    kAuto0[] rifft kFFT                          ; and back
-    kAuto0 = kAuto0 * kAuto0                       ; square result
-    
-    kzeroX = 0                                  ; zero the first few
-    while kzeroX < 6 do
-      kAuto0[kzeroX] = 0
-      kzeroX += 1
-    od
-    kAuto slicearray kAuto0, 0, ifftsize/2    ; and take only the first half
-    kAuto = kAuto*kNorm
-    
-    kmax maxarray kAuto                         ; get max, for normalization
-    kmax = (kmax == 0 ? 1 : kmax)               ; (divz)
-    kAuto = kAuto/kmax
-    
-    ; peak picker
-    kAutoPeaks = kZeros2
-    kAutoPeaksIndx = kZeros2
-    kcnt_fill = 0
-    while kcnt_fill < ifftsize/2 do
-      pycall "p.fill_array", kAuto[kcnt_fill], kcnt_fill, ifftsize/2
-      kcnt_fill += 1
-    od
-    pycall "p.analyze_peaks", kpeak_delta
-    kcnt2 = 0
-    kval = 0
-
-    while kval >= 0 do
-      kindx, kval pycall2 "p.get_peaks", 0
-      if kval >= 0 then
-        kAutoPeaks[kcnt2] = kval
-        kAutoPeaksIndx[kcnt2] = kindx
-      endif
-      kcnt2 += 1
-    od  
-
-    kAutoPeaksOut setrow kAutoPeaks, 0
-    kAutoPeaksOut setrow kAutoPeaksIndx, 1
-    
-  endif
-
-endif
-xout kAuto, kAutoPeaksOut, knewframe
-endop
-
-
-opcode RhythmAutoCorr, k[]k, kiii
-
-kenv, irhythm_sr, ifftsize, ioverlaps xin
-
-; downsampling
-krclock metro irhythm_sr
-kenv samphold kenv, krclock
-
-; fft
-ihopsize = ifftsize/ioverlaps
-kcnt init 0
-kArr[] init ifftsize*2
-kArrBuf[] init ifftsize
-kArrWin[] init ifftsize
-kArrPad[] init ifftsize*2
-
-kFFT[] init ifftsize*2
-kAuto0[] init ifftsize*2
-kAuto[] init ifftsize
-kNorm[] init ifftsize
-;kNorm genarray ifftsize/4, ifftsize, 3/4
-iNorm ftgen 0, 0, ifftsize, -19, 0.25, 0.8, 270, 1
-copyf2array kNorm, iNorm
-
-if krclock > 0 then 
-  kArr[kcnt] = kenv
-  kArr[kcnt+ifftsize] = kenv
-  
-  kcnt += 1
-  kcnt = kcnt%ifftsize
-  knewframe = (kcnt%ihopsize == 0 ? 1 : 0)
-  if knewframe == 1 then
-
-    reinit buffer
-    buffer:
-    kArrBuf slicearray kArr, i(kcnt), i(kcnt)+ifftsize-1   ; get current buffer 
-    rireturn
+    knumtransients_out sumarray kNumtransients
+    kNumtransients[wrap((koverlap_indx-1), 0, ioverlaps)] = 0     ; zero previous transient counter
     
     ;kArrWin window kArrBuf                                 ; windowing
     kArrPad slicearray kArrBuf, 0, ifftsize-1              ; zero padding 
     
     ; autocorrelation
     kFFT[] rfft kArrPad                         ; fft
-    kFFT = kFFT*(1/ifftsize)                    ; normalize
+    ;kFFT = kFFT*(1/ifftsize)                    ; normalize
     kFFT2[] = pows(kFFT)                        ; square mags
     kFFT3[] slicearray kFFT2, 0, ifftsize-1      
     kFFT r2c kFFT3
     kFFT[0] = 0                                 ; zero first bin
     kAuto0[] rifft kFFT                         ; and back
     kAuto0 = kAuto0 * kAuto0                    ; square result
-    
-    kzeroX = 0                                  ; zero the first few
+    kAuto slicearray kAuto0, 0, ifftsize/2      ; take only the first half
+    kbase = (kAuto[0]>0?kAuto[0]:1)
+    kAuto = (kAuto/kbase)*kShape*(1/kShape[0])  ; normalize 
+
+    kzeroX = 0                                  ; then zero the first few bins
     while kzeroX < 6 do
-      kAuto0[kzeroX] = 0
+      kAuto[kzeroX] = 0
       kzeroX += 1
     od
-
-    kAuto slicearray kAuto0, 0, ifftsize/2      ; take only the first half
-    kAuto = kAuto*kNorm                         ; normalize shape (don't taper off)
-
-    kmax maxarray kAuto                         ; get max, for normalization
-    kmax = (kmax == 0 ? 1 : kmax)               ; (divz)
-    kAuto = kAuto/kmax
     
   endif
 
 endif
 knewframe trigger knewframe, 0.5, 0
-xout kAuto, knewframe
+xout kAuto, knewframe, knumtransients_out
 endop
 
 
 
-opcode AutoCorrPeaks, k[], k[]kki
+opcode AutoCorrPeaks_0, k[], k[]kki
 
 kAuto[], knewframe, kpeak_delta, ifftsize xin
 
@@ -384,10 +284,10 @@ if knewframe == 1 then
     pycall "p.fill_array", kAuto[kcnt_fill], kcnt_fill, ifftsize/2
     kcnt_fill += 1
   od
+  
   pycall "p.analyze_peaks", kpeak_delta
   kcnt2 = 0
   kval = 0
-
   while kval >= 0 do
     kindx, kval pycall2 "p.get_peaks", 0
     if kval >= 0 then
@@ -405,6 +305,38 @@ endif
 xout kAutoPeaksOut
 endop
 
+opcode AutoCorrPeaks, kkkkkkkkkkkkkkkk, k[]kki
+
+kAuto[], knewframe, kpeak_delta, ifftsize xin
+
+if knewframe == 1 then
+  
+  ; peak picker
+  kcnt_fill = 0
+  while kcnt_fill < ifftsize/2 do
+    pycall "p.fill_array", kAuto[kcnt_fill], kcnt_fill, ifftsize/2
+    kcnt_fill += 1
+  od
+  
+  pycall "p.analyze_peaks", kpeak_delta
+  
+  kmax1_i, kmax2_i, kmax3_i, kmax1_v, kmax2_v, kmax3_v pycall6 "p.get_3maxpeaks", 0
+  kfirst_i, kfirst_v pycall2 "p.get_firstpeak", 0
+  kclosest_i, kclosest_v pycall2 "p.get_closest_to_maxpeak", 0
+  ;krd_first, krd_max2, krd_max3, krd_closest, kmax pycall5 "p.relative_distance", 0
+  krdenom_first, krdenom_max2, krdenom_max3, krdenom_closest pycall4 "p.relative_distance_denom", 0
+  kgrid_affirmativity, kgrid_subdiv pycall2 "p.grid_affirmativity", 0
+  kgrid_affirmativity = 1.0
+  kgrid_subdiv  = 2
+endif
+
+  xout kmax1_i, kmax2_i, kmax3_i, kmax1_v, kmax2_v, kmax3_v,
+       kfirst_i, kfirst_v,
+       kclosest_i, kclosest_v,
+       krdenom_first, krdenom_max2, krdenom_max3, krdenom_closest,
+       kgrid_affirmativity, kgrid_subdiv
+
+endop
 
 ;***********
 opcode Plotchannel, k, Skkkkkkkkkkkkkkkkkkkkkkkkk

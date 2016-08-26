@@ -16,8 +16,8 @@
 ;    If not, see <http://www.gnu.org/licenses/>.
 
 <Cabbage>
-form size(1740, 760), caption("Analyzer"), pluginID("anlz"), guirefresh(1) 
-image bounds(0, 0, 740, 760), file("background.jpg"), shape("round")
+form size(850, 760), caption("Analyzer"), pluginID("anlz"), guirefresh(1) 
+image bounds(0, 0, 850, 760), shape("sharp"), colour(5,15,20)
 
 label text("channel"), bounds(15, 16, 75, 12)
 combobox channel("chan"), bounds(80, 12, 60, 25), items("1", "2", "3", "4"), value(1)
@@ -130,30 +130,64 @@ label text("0"), bounds(370, 450, 40, 15), align("left"), identchannel("rhythmFr
 label text("0"), bounds(410, 450, 40, 15), align("left"), identchannel("rhythmConsonance")	
 label text("0"), bounds(450, 450, 40, 15), align("left"), identchannel("rhythmConsonanceDeviation")
 label text("dev"), bounds(495, 450, 200, 15), align("left")
-gentable bounds(370, 470, 160, 140), identchannel("rhythm_consonance"), tablenumber(5,6,7), tablecolour("lightblue", "red", "darkolivegreen"), tablegridcolour(0,0,0,0), amprange(0,1,5), amprange(0,1,6), amprange(0,1,7), zoom(-1), samplerange(0,32)
+gentable bounds(370, 470, 160, 140), identchannel("rhythm_consonance"), tablenumber(5,6,7), tablecolour("lightblue", "red", "darkolivegreen"), tablegridcolour(0,0,0,0), amprange(-0.1,1,5), amprange(-0.1,1,6), amprange(-0.1,1,7), zoom(-1), samplerange(0,32)
 label text("latest rhythm ratios"), bounds(370, 620, 200, 15), align("left")
 label text("0"), bounds(370, 640, 100, 15), align("left"), identchannel("rhythmratio1")	
 label text("0"), bounds(420, 640, 100, 15), align("left"), identchannel("rhythmratio2")	
 label text("0"), bounds(470, 640, 100, 15), align("left"), identchannel("rhythmratio3")	
 
-label text("rhythm autocorr"), bounds(540, 430, 200, 15), align("left")
-gentable bounds(540, 470, 1160, 140), identchannel("rhythm_autocorr"), tablenumber(10), tablecolour("lightblue"), tablegridcolour(0,0,0,0), amprange(0,1,10), zoom(-1), samplerange(0,256)
-;numberbox bounds(540, 450, 40, 15), channel("rhythmAutocorrEnvShape"), range(0.001, 0.20, 0.05)
-;label text("ra env"), bounds(585, 450, 200, 15), align("left")
-numberbox bounds(540, 620, 40, 15), channel("rhythmAutocorrPeakDelta"), range(0.01, 0.50, 0.1)
-label text("ra thresh"), bounds(585, 620, 200, 15), align("left")
+label text("rhythm autocorrelation), bounds(540, 410, 256, 15), align("left")
 
-label text("autocorr peaks"), bounds(540, 640, 200, 15), align("left")
-label text("0"), bounds(540, 660, 100, 15), align("left"), identchannel("rhythmauto1indx")	
-label text("0"), bounds(590, 660, 100, 15), align("left"), identchannel("rhythmauto2indx")	
-label text("0"), bounds(640, 660, 100, 15), align("left"), identchannel("rhythmauto3indx")	
-label text("0"), bounds(540, 680, 100, 15), align("left"), identchannel("rhythmauto1")	
-label text("0"), bounds(590, 680, 100, 15), align("left"), identchannel("rhythmauto2")	
-label text("0"), bounds(640, 680, 100, 15), align("left"), identchannel("rhythmauto3")	
+label text("crest"), bounds(540, 430, 100, 15), align("left")
+label text("c2"), bounds(590, 430, 100, 15), align("left")
+label text("grid"), bounds(640, 430, 100, 15), align("left")
+label text("denom"), bounds(690, 430, 100, 15), align("left")
 
-label text("autocorr crest"), bounds(540, 700, 200, 15), align("left")
-label text("0"), bounds(540, 720, 100, 15), align("left"), identchannel("rhythmautocrest")	
+label text("0"), bounds(540, 450, 100, 15), align("left"), identchannel("rhythmautocrest")	
+label text("0"), bounds(590, 450, 100, 15), align("left"), identchannel("rhythmautocrest2")	
+label text("0"), bounds(640, 450, 100, 15), align("left"), identchannel("ac_grid_affirm")	
+label text("0"), bounds(690, 450, 100, 15), align("left"), identchannel("ac_grid_denom")	
 
+; (normal width 160)
+gentable bounds(540, 470, 256, 140), identchannel("rhythm_autocorr"), tablenumber(10,11,12), tablecolour("darkolivegreen", "lightblue", "red"), tablegridcolour(0,0,0,0), amprange(-0.1,1,10), amprange(-0.1,1,11), amprange(-0.1,1,12), zoom(-1), samplerange(0,256)
+
+label text("AC peaks:"), bounds(540, 620, 256, 15), align("left")
+numberbox bounds(740, 620, 50, 15), channel("rhythmAutocorrPeakDelta"), range(0.001, 0.20, 0.01, 1, 0.001)
+label text("delta"), bounds(696, 620, 40, 15), align("left")
+
+label text("1st"), bounds(540, 640, 100, 15), align("left")
+label text("clos"), bounds(590, 640, 100, 15), align("left")
+label text("max"), bounds(640, 640, 100, 15), align("left")
+label text("m2"), bounds(690, 640, 100, 15), align("left")
+label text("m3"), bounds(740, 640, 100, 15), align("left")
+
+label text("0"), bounds(540, 660, 100, 15), align("left"), identchannel("rhythmauto_1st_indx")	
+label text("0"), bounds(590, 660, 100, 15), align("left"), identchannel("rhythmauto_clos_indx")	
+label text("0"), bounds(640, 660, 100, 15), align("left"), identchannel("rhythmauto_m1_indx")	
+label text("0"), bounds(690, 660, 100, 15), align("left"), identchannel("rhythmauto_m2_indx")	
+label text("0"), bounds(740, 660, 100, 15), align("left"), identchannel("rhythmauto_m3_indx")	
+label text("i"), bounds(786, 660, 10, 15), align("left")
+
+label text("0"), bounds(540, 680, 100, 15), align("left"), identchannel("rhythmauto_1st_val")	
+label text("0"), bounds(590, 680, 100, 15), align("left"), identchannel("rhythmauto_clos_val")	
+label text("0"), bounds(640, 680, 100, 15), align("left"), identchannel("rhythmauto_m1_val")	
+label text("0"), bounds(690, 680, 100, 15), align("left"), identchannel("rhythmauto_m2_val")	
+label text("0"), bounds(740, 680, 100, 15), align("left"), identchannel("rhythmauto_m3_val")	
+label text("v"), bounds(786, 680, 10, 15), align("left")
+
+label text("0"), bounds(540, 700, 100, 15), align("left"), identchannel("rhythmauto_1st_tim")	
+label text("0"), bounds(590, 700, 100, 15), align("left"), identchannel("rhythmauto_clos_tim")	
+label text("0"), bounds(640, 700, 100, 15), align("left"), identchannel("rhythmauto_m1_tim")	
+label text("0"), bounds(690, 700, 100, 15), align("left"), identchannel("rhythmauto_m2_tim")	
+label text("0"), bounds(740, 700, 100, 15), align("left"), identchannel("rhythmauto_m3_tim")	
+label text("t"), bounds(786, 700, 10, 15), align("left")
+
+label text("0"), bounds(540, 720, 100, 15), align("left"), identchannel("rhythmauto_1st_denom")	
+label text("0"), bounds(590, 720, 100, 15), align("left"), identchannel("rhythmauto_clos_denom")	
+label text("1"), bounds(640, 720, 100, 15), align("left"), identchannel("rhythmauto_m1_denom")	
+label text("0"), bounds(690, 720, 100, 15), align("left"), identchannel("rhythmauto_m2_denom")	
+label text("0"), bounds(740, 720, 100, 15), align("left"), identchannel("rhythmauto_m3_denom")	
+label text("d"), bounds(786, 720, 10, 15), align("left")
 
 </Cabbage>
 <CsoundSynthesizer>
@@ -172,7 +206,12 @@ label text("0"), bounds(540, 720, 100, 15), align("left"), identchannel("rhythma
         gi5     ftgen   5, 0, 32, -2, 0  ; rhythm consonance display
         gi6     ftgen   6, 0, 32, -2, 0  ; rhythm consonance display
         gi7     ftgen   7, 0, 32, -2, 0  ; rhythm consonance display
-        gi10    ftgen   10, 0, 256, -2, 0 ; rhythm autocorr display
+        gi10    ftgen   10, 0, 512, -2, 0 ; rhythm autocorr display
+        gi11    ftgen   11, 0, 512, -2, 0 ; rhythm autocorr display
+        gi12    ftgen   12, 0, 512, -2, 0 ; rhythm autocorr display
+        gi13    ftgen   13, 0, 512, -2, 0 ; rhythm autocorr display
+        gi14    ftgen   14, 0, 512, -2, 0 ; rhythm autocorr display
+        gi15    ftgen   15, 0, 512, -2, 0 ; rhythm autocorr display
 	giSine	ftgen	0, 0, 65536, 10, 1			; sine wave
 	gifftsize 	= 1024
 			chnset gifftsize, "fftsize"
@@ -267,24 +306,69 @@ label text("0"), bounds(540, 720, 100, 15), align("left"), identchannel("rhythma
  	chnset	SacrestD, "envCrest"	; update gui	
         endif
 
-        if krnewframe*kenableDisplay > 0 then
-        copya2ftab kRhythmAuto, gi10
- 	chnset	"tablenumber(10)", "rhythm_autocorr"	; update table display	
- 	Srauto1D sprintfk "text(%.2f)", krhythm_ac1
- 	Srauto2D sprintfk "text(%.2f)", krhythm_ac2
- 	Srauto3D sprintfk "text(%.2f)", krhythm_ac3
- 	Srauto1indxD sprintfk "text(%i)", krhythm_ac1indx;krhythm_ac1time
- 	Srauto2indxD sprintfk "text(%i)", krhythm_ac2indx
- 	Srauto3indxD sprintfk "text(%i)", krhythm_ac3indx
- 	chnset	Srauto1D, "rhythmauto1"	; update gui	
- 	chnset	Srauto2D, "rhythmauto2"	; update gui	
- 	chnset	Srauto3D, "rhythmauto3"	; update gui	
- 	chnset	Srauto1indxD, "rhythmauto1indx"	; update gui	
- 	chnset	Srauto2indxD, "rhythmauto2indx"	; update gui	
- 	chnset	Srauto3indxD, "rhythmauto3indx"	; update gui	
+        if krnewframe4*kenableDisplay > 0 then
 
- 	SrautocrestD sprintfk "text(%i)", krhythm_ac_crest
+        copya2ftab kRhythmAuto, gi10
+        ;copya2ftab kRhythmAuto2, gi11
+        ;copya2ftab kRhythmAuto4, gi12
+ 	chnset	"tablenumber(10,11,12)", "rhythm_autocorr"	; update table display	
+
+ 	Sra_1st_idxD sprintfk "text(%.d)", kra_first_i
+ 	Sra_clos_idxD sprintfk "text(%.d)", kra_closest_i
+ 	Sra_m1_idxD sprintfk "text(%.d)", kra_max1_i
+ 	Sra_m2_idxD sprintfk "text(%.d)", kra_max2_i
+ 	Sra_m3_idxD sprintfk "text(%.d)", kra_max3_i
+ 	
+ 	Sra_1st_valD sprintfk "text(%.2f)", kra_first_v
+ 	Sra_clos_valD sprintfk "text(%.2f)", kra_closest_v
+ 	Sra_m1_valD sprintfk "text(%.2f)", kra_max1_v
+ 	Sra_m2_valD sprintfk "text(%.2f)", kra_max2_v
+ 	Sra_m3_valD sprintfk "text(%.2f)", kra_max3_v
+ 	
+ 	Sra_1st_timD sprintfk "text(%.2f)", kra_first_time
+ 	Sra_clos_timD sprintfk "text(%.2f)", kra_closest_time
+ 	Sra_m1_timD sprintfk "text(%.2f)", kra_max1_time
+ 	Sra_m2_timD sprintfk "text(%.2f)", kra_max2_time
+ 	Sra_m3_timD sprintfk "text(%.2f)", kra_max3_time
+
+ 	Sra_1st_denomD sprintfk "text(%.d)", krdenom_first
+ 	Sra_clos_denomD sprintfk "text(%.d)", krdenom_closest
+ 	;Sra_m1_denomD sprintfk "text(%.d)", kra_max1 ; always 1
+ 	Sra_m2_denomD sprintfk "text(%.d)", krdenom_max2
+ 	Sra_m3_denomD sprintfk "text(%.d)", krdenom_max3
+
+ 	chnset	Sra_1st_idxD, "rhythmauto_1st_indx"	; update gui	
+ 	chnset	Sra_clos_idxD, "rhythmauto_clos_indx"	; ...
+ 	chnset	Sra_m1_idxD, "rhythmauto_m1_indx"
+ 	chnset	Sra_m2_idxD, "rhythmauto_m2_indx"
+ 	chnset	Sra_m3_idxD, "rhythmauto_m3_indx"
+
+ 	chnset	Sra_1st_valD, "rhythmauto_1st_val"	; update gui	
+ 	chnset	Sra_clos_valD, "rhythmauto_clos_val"	; ...
+ 	chnset	Sra_m1_valD, "rhythmauto_m1_val"
+ 	chnset	Sra_m2_valD, "rhythmauto_m2_val"
+ 	chnset	Sra_m3_valD, "rhythmauto_m3_val"
+
+ 	chnset	Sra_1st_timD, "rhythmauto_1st_tim"	; update gui	
+ 	chnset	Sra_clos_timD, "rhythmauto_clos_tim"	; ...
+ 	chnset	Sra_m1_timD, "rhythmauto_m1_tim"
+ 	chnset	Sra_m2_timD, "rhythmauto_m2_tim"
+ 	chnset	Sra_m3_timD, "rhythmauto_m3_tim"
+
+ 	chnset	Sra_1st_denomD, "rhythmauto_1st_denom"	; update gui	
+ 	chnset	Sra_clos_denomD, "rhythmauto_clos_denom"	; ...
+ 	;chnset	Sra_m1_denomD, "rhythmauto_m1_denom"     ; (always 1, but left here for completeness)
+ 	chnset	Sra_m2_denomD, "rhythmauto_m2_denom"     ; update gui
+ 	chnset	Sra_m3_denomD, "rhythmauto_m3_denom"     ; ...
+
+ 	SrautocrestD sprintfk "text(%.2f)", krhythm_ac_crest
  	chnset	SrautocrestD, "rhythmautocrest"	; update gui	
+ 	;Srautocrest2D sprintfk "text(%.2f)", krhythm_ac_crest2
+ 	;chnset	Srautocrest2D, "rhythmautocrest2"; update gui	
+ 	Sragrid_affirmD sprintfk "text(%.2f)", kgrid_affirmativity
+ 	chnset	Sragrid_affirmD, "ac_grid_affirm"	; update gui	
+ 	Sragrid_denomD sprintfk "text(%.d)", kgrid_subdiv
+ 	chnset	Sragrid_denomD, "ac_grid_denom"	; update gui	
 
         endif
 
@@ -332,9 +416,9 @@ label text("0"), bounds(540, 720, 100, 15), align("left"), identchannel("rhythma
         iplotrange_y = 260
 
         if kplotupdate > 0 then        
-        kx Plotchannel "plot_x", krms, kcps_n, kpitch_a, kcentroid_a, kspread_a, kskewness_a, kurtosis_a, kflatness_a, kcrest_a, kflux_a, kamp_trans, katransDensEnv, krhythm_consonance, krhythmFromOne, krhythm_ratio1, krhythm_ratio2, krhythm_ac1, krhythm_ac2, krhythm_ac1time, krhythm_ac2time, kmfcc1, kmfcc2, kmfcc3, kmfcc4, kmfcc5
-        ky Plotchannel "plot_y", krms, kcps_n, kpitch_a, kcentroid_a, kspread_a, kskewness_a, kurtosis_a, kflatness_a, kcrest_a, kflux_a, kamp_trans, katransDensEnv, krhythm_consonance, krhythmFromOne, krhythm_ratio1, krhythm_ratio2, krhythm_ac1, krhythm_ac2, krhythm_ac1time, krhythm_ac2time, kmfcc1, kmfcc2, kmfcc3, kmfcc4, kmfcc5
-        kc Plotchannel "plot_c", krms, kcps_n, kpitch_a, kcentroid_a, kspread_a, kskewness_a, kurtosis_a, kflatness_a, kcrest_a, kflux_a, kamp_trans, katransDensEnv, krhythm_consonance, krhythmFromOne, krhythm_ratio1, krhythm_ratio2, krhythm_ac1, krhythm_ac2, krhythm_ac1time, krhythm_ac2time, kmfcc1, kmfcc2, kmfcc3, kmfcc4, kmfcc5
+        kx Plotchannel "plot_x", krms, kcps_n, kpitch_a, kcentroid_a, kspread_a, kskewness_a, kurtosis_a, kflatness_a, kcrest_a, kflux_a, kamp_trans, katransDensEnv, krhythm_consonance, krhythmFromOne, krhythm_ratio1, krhythm_ratio2, kra_max1_v, kra_max2_v, kra_max1_time, kra_max2_time, kmfcc1, kmfcc2, kmfcc3, kmfcc4, kmfcc5
+        ky Plotchannel "plot_y", krms, kcps_n, kpitch_a, kcentroid_a, kspread_a, kskewness_a, kurtosis_a, kflatness_a, kcrest_a, kflux_a, kamp_trans, katransDensEnv, krhythm_consonance, krhythmFromOne, krhythm_ratio1, krhythm_ratio2, kra_max1_v, kra_max2_v, kra_max1_time, kra_max2_time, kmfcc1, kmfcc2, kmfcc3, kmfcc4, kmfcc5
+        kc Plotchannel "plot_c", krms, kcps_n, kpitch_a, kcentroid_a, kspread_a, kskewness_a, kurtosis_a, kflatness_a, kcrest_a, kflux_a, kamp_trans, katransDensEnv, krhythm_consonance, krhythmFromOne, krhythm_ratio1, krhythm_ratio2, kra_max1_v, kra_max2_v, kra_max1_time, kra_max2_time, kmfcc1, kmfcc2, kmfcc3, kmfcc4, kmfcc5
         kplot_x_scale chnget "plot_x_scale"
         kplot_y_scale chnget "plot_y_scale"
         kplot_c_scale chnget "plot_c_scale"

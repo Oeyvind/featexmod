@@ -276,7 +276,7 @@ endif
 ; ** rhythm autocorrelation
 
 ; sinoid trigger envelope, allows (soft) rhythmic deviation from strict pattern
-ishapedur = 0.05
+ishapedur = 0.1
 if krms_tran0 == 1 then
 reinit triggershape
 endif
@@ -288,60 +288,32 @@ rireturn
 ; autocorrelation, done in layers of different fftsize to reduce latency
 irhythm_sr = 60
 ira_fftsize = 512
-ira_overlaps = 4
-kRhythmAuto[], krnewframe RhythmAutoCorr kra_env, irhythm_sr, ira_fftsize, ira_overlaps
-kRhythmAuto2[], krnewframe2 RhythmAutoCorr kra_env, irhythm_sr, ira_fftsize/2, ira_overlaps
-kRhythmAuto4[], krnewframe4 RhythmAutoCorr kra_env, irhythm_sr, ira_fftsize/4, ira_overlaps
-kRhythmAuto slicearray kRhythmAuto2, 0, ira_fftsize/8
-kRhythmAuto slicearray kRhythmAuto4, 0, ira_fftsize/16
+ira_overlaps = 2
+kRhythmAuto[], krnewframe, knumtransients RhythmAutoCorr kra_env, krms_tran0, irhythm_sr, ira_fftsize, ira_overlaps
+kRhythmAuto2[], krnewframe2, knumtransients2 RhythmAutoCorr kra_env, krms_tran0, irhythm_sr, ira_fftsize/2, ira_overlaps
+kRhythmAuto4[], krnewframe4, knumtransients4 RhythmAutoCorr kra_env, krms_tran0, irhythm_sr, ira_fftsize/4, ira_overlaps
+;kRhythmAuto slicearray kRhythmAuto2, 0, ira_fftsize/8 ; take only the first quarter (as the second quarter will already be tapering off)
+;kRhythmAuto slicearray kRhythmAuto4, 0, ira_fftsize/16 ; as above, since this is 1/4 the larger fftsize, 1/16 is a quarter of this autocorr output
 
-kRhythmAutoPeaks[][] init 2, ira_fftsize/2
 kra_peak_delta chnget "rhythmAutocorrPeakDelta" ; peak picking delta 
-kRhythmAutoPeaks AutoCorrPeaks kRhythmAuto, krnewframe, kra_peak_delta, ira_fftsize
 
-krhythm_ac1 = kRhythmAutoPeaks[0][0]
-krhythm_ac2 = kRhythmAutoPeaks[0][1]
-krhythm_ac3 = kRhythmAutoPeaks[0][2]
-krhythm_ac1indx = kRhythmAutoPeaks[1][0]
-krhythm_ac2indx = kRhythmAutoPeaks[1][1]
-krhythm_ac3indx = kRhythmAutoPeaks[1][2]
-krhythm_ac1time = krhythm_ac1indx/irhythm_sr
-krhythm_ac2time = krhythm_ac2indx/irhythm_sr
-krhythm_ac3time = krhythm_ac3indx/irhythm_sr
+; WE MIGHT WANT TO DO THIS FOR ALL 3 LAYERS OF AC ANALYSIS, THEN SELECT ONE (MAX, MIN, AVERAGE?)
+kra_max1_i, kra_max2_i, kra_max3_i, kra_max1_v, kra_max2_v, kra_max3_v,
+kra_first_i, kra_first_v,
+kra_closest_i, kra_closest_v,
+krdenom_first, krdenom_max2, krdenom_max3, krdenom_closest,
+kgrid_affirmativity, kgrid_subdiv AutoCorrPeaks kRhythmAuto, krnewframe, kra_peak_delta, ira_fftsize
+
+kra_first_time =  kra_first_i/irhythm_sr
+kra_max1_time =  kra_max1_i/irhythm_sr
+kra_max2_time =  kra_max2_i/irhythm_sr
+kra_max3_time =  kra_max3_i/irhythm_sr
+kra_closest_time =  kra_closest_i/irhythm_sr
 
 krhythm_ac_rms = sqrt(sumarray(kRhythmAuto*kRhythmAuto)/ira_fftsize)
 krhythm_ac_max = maxarray(kRhythmAuto*kRhythmAuto)
-krhythm_ac_crest divz krhythm_ac_max, krhythm_ac_rms, 1
-
-/*
-kra_peak_delta chnget "rhythmAutocorrPeakDelta" ; peak picking delta 
-irhythm_sr = 60
-ira_fftsize = 512
-ira_overlaps = 4
-kRhythmAuto[] init ira_fftsize*2
-kRhythmAutoPeaks[][] init 2, ira_fftsize/2
-krms_ac = (krms_dB > knoiseFloor_dB ? krms : 0)
-kRhythmAuto, kRhythmAutoPeaks, krnewframe RhythmAutoCorr krms_tran0, krms_ac, kra_peak_delta, irhythm_sr, ira_fftsize, ira_overlaps
-
-krhythm_ac1 = kRhythmAutoPeaks[0][0]
-krhythm_ac2 = kRhythmAutoPeaks[0][1]
-krhythm_ac3 = kRhythmAutoPeaks[0][2]
-krhythm_ac1indx = kRhythmAutoPeaks[1][0]
-krhythm_ac2indx = kRhythmAutoPeaks[1][1]
-krhythm_ac3indx = kRhythmAutoPeaks[1][2]
-krhythm_ac1time = krhythm_ac1indx/irhythm_sr
-krhythm_ac2time = krhythm_ac2indx/irhythm_sr
-krhythm_ac3time = krhythm_ac3indx/irhythm_sr
-
-kRhythmAuto2[], kRhythmAutoPeaks, krnewframe RhythmAutoCorr krms_tran0, krms_ac, kra_peak_delta, irhythm_sr, ira_fftsize/2, ira_overlaps
-kRhythmAuto4[], kRhythmAutoPeaks, krnewframe RhythmAutoCorr krms_tran0, krms_ac, kra_peak_delta, irhythm_sr, ira_fftsize/4, ira_overlaps
-kRhythmAuto slicearray kRhythmAuto2, 0, ira_fftsize/8
-kRhythmAuto slicearray kRhythmAuto4, 0, ira_fftsize/16
-
-krhythm_ac_rms = sqrt(sumarray(kRhythmAuto*kRhythmAuto)/ira_fftsize)
-krhythm_ac_max = maxarray(kRhythmAuto*kRhythmAuto)
-krhythm_ac_crest divz krhythm_ac_max, krhythm_ac_rms, 1
-*/
+krhythm_ac_crest0 divz krhythm_ac_max, krhythm_ac_rms, 1
+krhythm_ac_crest = (krhythm_ac_rms/(log2(knumtransients+1)+1))*100
 
 ; ***************
 ; spectral analysis
@@ -527,12 +499,12 @@ endif
         imfccscale      = 1/200
         kmax            maxarray kmfcc
         kmin            minarray kmfcc
-        kmfcc1          = kmfcc[1]*imfccscale
-        kmfcc2          = kmfcc[2]*imfccscale
-        kmfcc3          = kmfcc[3]*imfccscale
-        kmfcc4          = kmfcc[4]*imfccscale
-        kmfcc5          = kmfcc[5]*imfccscale
-        kmfcc6          = kmfcc[6]*imfccscale
+        kmfcc1          samphold kmfcc[1]*imfccscale, kgate
+        kmfcc2          samphold kmfcc[2]*imfccscale, kgate
+        kmfcc3          samphold kmfcc[3]*imfccscale, kgate
+        kmfcc4          samphold kmfcc[4]*imfccscale, kgate
+        kmfcc5          samphold kmfcc[5]*imfccscale, kgate
+        kmfcc6          samphold kmfcc[6]*imfccscale, kgate
         kmfccdiff       = (abs((kmfcc1-kmfcc2)*0.5)+
                           abs(kmfcc2-kmfcc3)+
                           abs(kmfcc3-kmfcc4)+

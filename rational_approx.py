@@ -4,6 +4,8 @@
 def farey(x, N, dev):
     if x*(1+dev)>1>x/(1+dev):
         return 1, 1
+    if x<1.0/N:
+        return 1, N
     switch = 0
     if x > 1.0:
         x = 1/x

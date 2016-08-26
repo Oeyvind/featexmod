@@ -26,8 +26,8 @@
 	iport$N.	= ibaseport + $N.
         OSCsend         kwhen, "127.0.0.1", iport$N., SoscName, "fffffffffffffffffffffffff", krms, krms_preEq, kcps_n, kpitch_a, kcentroid_a, kspread_a, 
                              kskewness_a, kurtosis_a, kflatness_a, kcrest_a, kflux_a, 
-                             kamp_trans, katransDensEnv, krhythm_consonance, krhythm_ratio1, krhythm_ratio2, krhythm_ac1, krhythm_ac2,  
-                             krhythm_ac1time, krhythm_ac2time, kmfcc1, kmfcc2, kmfcc3, kmfcc4, kcps ; (the kcps value is raw, not normalized!)
+                             kamp_trans, katransDensEnv, krhythm_consonance, krhythm_ratio1, krhythm_ratio2, kra_max1_v, kra_max2_v,  
+                             kra_max1_time, kra_max2_time, kmfcc1, kmfcc2, kmfcc3, kmfcc4, kcps ; (the kcps value is raw, not normalized!)
 
 #
 $PUBLISH(0)
