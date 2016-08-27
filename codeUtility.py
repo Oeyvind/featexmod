@@ -270,7 +270,7 @@ replace_text_between_markers('analyze_send.inc', '', send_str)
 # subscriber_receiver.inc
 subscr_str = ''
 for a in analysis_parms:
-    subscr_str += 'S{a} sprintf {{{a}%i}}, isource_chan \n'.format(a=a)
+    subscr_str += 'S{a} sprintf '.format(a=a)+'{{'+a+'%i}}, isource_chan \n'
 subscr_str += 'SoscName_a sprintf {{/%s_a_%i}}, "analysis", isource_chan \n'
 subscr_str += 'SoscName_b sprintf {{/%s_b_%i}}, "analysis", isource_chan \n'
 for c in csound_parms:
