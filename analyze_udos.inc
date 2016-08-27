@@ -323,11 +323,8 @@ if knewframe == 1 then
   kmax1_i, kmax2_i, kmax3_i, kmax1_v, kmax2_v, kmax3_v pycall6 "p.get_3maxpeaks", 0
   kfirst_i, kfirst_v pycall2 "p.get_firstpeak", 0
   kclosest_i, kclosest_v pycall2 "p.get_closest_to_maxpeak", 0
-  ;krd_first, krd_max2, krd_max3, krd_closest, kmax pycall5 "p.relative_distance", 0
   krdenom_first, krdenom_max2, krdenom_max3, krdenom_closest pycall4 "p.relative_distance_denom", 0
   kgrid_affirmativity, kgrid_subdiv pycall2 "p.grid_affirmativity", 0
-  kgrid_affirmativity = 1.0
-  kgrid_subdiv  = 2
 endif
 
   xout kmax1_i, kmax2_i, kmax3_i, kmax1_v, kmax2_v, kmax3_v,

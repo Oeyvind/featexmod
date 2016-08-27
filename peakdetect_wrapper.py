@@ -126,7 +126,8 @@ class PeakDetector:
             gridoptions = {} # the possible fractions on which to build grids, and their associated grids
             for item in [r_first, r_max2, r_max3, r_max_closest]:
                 nom, denom = ra.farey(item, max_subdiv, deviation)
-                stepsize = maxpeak_i/float(denom)
+                if denom > 0: stepsize = maxpeak_i/float(denom)
+                else: stepsize = self.size/2
                 numsteps = int(self.size/stepsize)
                 thisgrid= []
                 for i in range(0, numsteps):

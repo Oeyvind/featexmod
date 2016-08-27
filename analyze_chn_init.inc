@@ -17,40 +17,21 @@
 
 ; init chn values for various purposes
 
-        chnset -50, "inputNoisefloor"
+        chnset -61, "inputNoisefloor"
 
-        chnset 4, "pitchmethod"
-	chnset 31, "pitchFilterSize"
-        chnset 100, "pitch_low"       ; string channels due to gui wodget type
-        chnset 1200, "pitch_high"
-
+        chnset 1, "pitchmethod"
+	chnset 25, "pitchFilterSize"
+        chnset 150, "pitch_low"       ; string channels due to gui wodget type
+        chnset 800, "pitch_high"
 
         ; transient detect parameters
         chnset 2000, "preEqHiShelfFq"     ; pre emphasis for transient detection of sibliants
-        chnset 0, "preEqHiShelfGain"     ; in dB
-        chnset 0, "preEqLoShelfGain"
-        chnset 3, "amp_transientThresh"         ; transient trig threshold 
-        chnset 6, "amp_transientDecThresh"      ; retrig threshold, how much must the level decay from its local max before allowing new transient trig
+        chnset 5, "preEqHiShelfGain"     ; in dB
+        chnset -5, "preEqLoShelfGain"
+        chnset 2, "amp_transientThresh"         ; transient trig threshold 
+        chnset 4, "amp_transientDecThresh"      ; retrig threshold, how much must the level decay from its local max before allowing new transient trig
         chnset 0.5, "amp_transientDecTime"        ; decay time for the envelope follower, filtering the signal before transient detaction
-        chnset 0.2, "amp_transientDoubleLimit"  ; minimum duration between transients, (double trig limit)
-
-        chnset 0.2, "centro_transientThresh"         ; transient trig threshold 
-        chnset 0.0, "centro_transientDecThresh"       ; retrig threshold, how much must the level decay from its local max before allowing new transient trig
-        chnset 2.0, "centro_transientDecTime"        ; decay time for the envelope follower, filtering the signal before transient detaction
-        chnset 0.1, "centro_transientDoubleLimit"       ; minimum duration between transients, (double trig limit)
-
-        chnset 0.8, "kurt_transientThresh"         ; transient trig threshold 
-        chnset 0, "kurt_transientDecThresh"       ; retrig threshold, how much must the level decay from its local max before allowing new transient trig
-        chnset 0.5, "kurt_transientDecTime"        ; decay time for the envelope follower, filtering the signal before transient detaction
-        chnset 0.1, "kurt_transientDoubleLimit"       ; minimum duration between transients, (double trig limit)
-  
-        chnset 1.5, "pitch_transientThresh"         ; transient trig threshold 
-        chnset 0.0, "pitch_transientDecThresh"       ; retrig threshold, how much must the level decay from its local max before allowing new transient trig
-        chnset 0.9, "pitch_transientDecTime"        ; decay time for the envelope follower, filtering the signal before transient detaction
-        chnset 0.01, "pitch_transientDoubleLimit"       ; minimum duration between transients, (double trig limit)
-
-        chnset 0.1, "rhythmConsonanceDeviation"
-        chnset 0.015, "rhythmAutocorrEnvShape"
-        chnset 0.1, "rhythmAutocorrThresh"
+        chnset 0.05, "amp_transientDoubleLimit"  ; minimum duration between transients, (double trig limit)
+        
         chnset 0.01, "rhythmAutocorrPeakDelta"
         
