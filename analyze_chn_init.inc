@@ -17,7 +17,7 @@
 
 ; init chn values for various purposes
 
-        chnset -30, "inputNoisefloor"
+        chnset -50, "inputNoisefloor"
 
         chnset 4, "pitchmethod"
 	chnset 31, "pitchFilterSize"
@@ -52,3 +52,5 @@
         chnset 0.1, "rhythmConsonanceDeviation"
         chnset 0.015, "rhythmAutocorrEnvShape"
         chnset 0.1, "rhythmAutocorrThresh"
+        chnset 0.01, "rhythmAutocorrPeakDelta"
+        
