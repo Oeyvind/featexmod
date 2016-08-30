@@ -264,47 +264,6 @@ xout kAuto, knewframe, knumtransients_out
 endop
 
 
-
-opcode AutoCorrPeaks_0, k[], k[]kki
-
-kAuto[], knewframe, kpeak_delta, ifftsize xin
-
-kAutoPeaks[] init ifftsize*2
-kAutoPeaksIndx[] init ifftsize*2
-kAutoPeaksOut[][] init 2, ifftsize/2
-kZeros[] init ifftsize
-kZeros2[] init ifftsize*2
-if knewframe == 1 then
-  
-  ; peak picker
-  kAutoPeaks = kZeros2
-  kAutoPeaksIndx = kZeros2
-  kcnt_fill = 0
-  while kcnt_fill < ifftsize/2 do
-    pycall "p.fill_array", kAuto[kcnt_fill], kcnt_fill, ifftsize/2
-    kcnt_fill += 1
-  od
-  
-  pycall "p.analyze_peaks", kpeak_delta
-  kcnt2 = 0
-  kval = 0
-  while kval >= 0 do
-    kindx, kval pycall2 "p.get_peaks", 0
-    if kval >= 0 then
-      kAutoPeaks[kcnt2] = kval
-      kAutoPeaksIndx[kcnt2] = kindx
-    endif
-    kcnt2 += 1
-  od  
-
-  kAutoPeaksOut setrow kAutoPeaks, 0
-  kAutoPeaksOut setrow kAutoPeaksIndx, 1
-  
-endif
-
-xout kAutoPeaksOut
-endop
-
 opcode AutoCorrPeaks, kkkkkkkkkkkkkkkk, k[]kki
 
 kAuto[], knewframe, kpeak_delta, ifftsize xin

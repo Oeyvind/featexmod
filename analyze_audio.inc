@@ -293,8 +293,9 @@ ira_overlaps = 2
 kRhythmAuto[], krnewframe, knumtransients RhythmAutoCorr kra_env, krms_tran0, irhythm_sr, ira_fftsize, ira_overlaps
 kRhythmAuto2[], krnewframe2, knumtransients2 RhythmAutoCorr kra_env, krms_tran0, irhythm_sr, ira_fftsize/2, ira_overlaps
 kRhythmAuto4[], krnewframe4, knumtransients4 RhythmAutoCorr kra_env, krms_tran0, irhythm_sr, ira_fftsize/4, ira_overlaps
-;kRhythmAuto slicearray kRhythmAuto2, 0, ira_fftsize/8 ; take only the first quarter (as the second quarter will already be tapering off)
-;kRhythmAuto slicearray kRhythmAuto4, 0, ira_fftsize/16 ; as above, since this is 1/4 the larger fftsize, 1/16 is a quarter of this autocorr output
+kRhythmAutoCombo[] = kRhythmAuto
+kRhythmAutoCombo slicearray kRhythmAuto2, 0, ira_fftsize/8 ; take only the first quarter (as the second quarter will already be tapering off)
+kRhythmAutoCombo slicearray kRhythmAuto4, 0, ira_fftsize/16 ; as above, since this is 1/4 the larger fftsize, 1/16 is a quarter of this autocorr output
 
 kra_peak_delta chnget "rhythmAutocorrPeakDelta" ; peak picking delta 
 
@@ -303,7 +304,7 @@ kra_max1_i, kra_max2_i, kra_max3_i, kra_max1_v, kra_max2_v, kra_max3_v,
 kra_first_i, kra_first_v,
 kra_closest_i, kra_closest_v,
 krdenom_first, krdenom_max2, krdenom_max3, krdenom_closest,
-kgridness, kgrid_subdiv AutoCorrPeaks kRhythmAuto, krnewframe, kra_peak_delta, ira_fftsize
+kgridness, kgrid_subdiv AutoCorrPeaks kRhythmAutoCombo, krnewframe, kra_peak_delta, ira_fftsize
 
 kra_first_time =  kra_first_i/irhythm_sr
 kra_max1_time =  kra_max1_i/irhythm_sr
@@ -311,10 +312,10 @@ kra_max2_time =  kra_max2_i/irhythm_sr
 kra_max3_time =  kra_max3_i/irhythm_sr
 kra_closest_time =  kra_closest_i/irhythm_sr
 
-krhythm_ac_rms = sqrt(sumarray(kRhythmAuto*kRhythmAuto)/ira_fftsize)
-krhythm_ac_max = maxarray(kRhythmAuto*kRhythmAuto)
+krhythm_ac_rms = sqrt(sumarray(kRhythmAutoCombo*kRhythmAutoCombo)/ira_fftsize)
+krhythm_ac_max = maxarray(kRhythmAutoCombo*kRhythmAutoCombo)
 krhythm_ac_crest0 divz krhythm_ac_max, krhythm_ac_rms, 1
-krhythm_ac_crest = (krhythm_ac_rms/(log2(knumtransients+1)+1))*100
+krhythm_ac_crest = (krhythm_ac_rms/(log2(((knumtransients/4)+(knumtransients2/2)+knumtransients4)+1)+1))*100
 
 ; ***************
 ; spectral analysis

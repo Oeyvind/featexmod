@@ -162,7 +162,7 @@ label text("0"), bounds(725, 450, 50, 15), align("left"), identchannel("ac_grid_
 gentable bounds(540, 470, 256, 140), identchannel("rhythm_autocorr"), tablenumber(10,11,12), tablecolour("darkolivegreen", "lightblue", "red"), tablegridcolour(0,0,0,0), amprange(-0.1,1,10), amprange(-0.1,1,11), amprange(-0.1,1,12), zoom(-1), samplerange(0,256)
 
 label text("AC peaks:"), bounds(540, 620, 70, 15), align("left")
-numberbox bounds(740, 620, 50, 15), channel("rhythmAutocorrPeakDelta"), range(0.001, 0.20, 0.01, 1, 0.001)
+numberbox bounds(740, 620, 50, 15), channel("rhythmAutocorrPeakDelta"), range(0.001, 0.20, 0.1, 1, 0.001)
 label text("delta"), bounds(696, 620, 40, 15), align("left")
 
 label text("1st"), bounds(540, 640, 50, 15), align("left")
@@ -321,8 +321,8 @@ label text("d"), bounds(786, 720, 10, 15), align("left")
         if krnewframe4*kenableDisplay > 0 then
 
         copya2ftab kRhythmAuto, gi10
-        ;copya2ftab kRhythmAuto2, gi11
-        ;copya2ftab kRhythmAuto4, gi12
+        copya2ftab kRhythmAuto2, gi11
+        copya2ftab kRhythmAuto4, gi12
  	chnset	"tablenumber(10,11,12)", "rhythm_autocorr"	; update table display	
 
  	Sra_1st_idxD sprintfk "text(%.d)", kra_first_i
