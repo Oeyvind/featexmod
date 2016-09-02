@@ -84,8 +84,8 @@
 	                reinit lightTransient
         endif
 lightTransient:
-        kamp_trans      linseg 1,0.05,1,0,0,1,0
-                        chnset kamp_trans, "transientDisplay"
+        kamp_trans_hold linseg 1,0.05,1,0,0,1,0
+                        chnset kamp_trans_hold, "transientDisplay"
 rireturn
 
         katran1second   delayk krms_tran0, 1

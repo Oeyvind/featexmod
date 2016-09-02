@@ -164,7 +164,7 @@ SoscName_a sprintf {{/%s_a_%i}}, "analysis", isource_chan
 SoscName_b sprintf {{/%s_b_%i}}, "analysis", isource_chan 
 krms init 0 
 krms_dB_n init 0 
-krms_tran0 init 0 
+kamp_trans_hold init 0 
 katransDensEnv_n init 0 
 kenv_crest1 init 0 
 kpitch_n init 0 
@@ -203,11 +203,11 @@ kmfcc2 init 0
 kmfcc3 init 0 
 kmfccdiff init 0 
 nxt_val: 
-kk1 OSClisten gihandle, SoscName_a, "fffffffffffffffffffffffff", krms, krms_dB_n, krms_tran0, katransDensEnv_n, kenv_crest1, kpitch_n, kcentroid_n, kspread_n, kskewness_n, kurtosis_n, kflatness_n, kcrest_n, kflux_n, krhythm_irregularity, krhythm_consonance, krhythm_consonance_deviation, krhythm_ratio1, krhythm_ratio2, krhythm_ratio3, kra_first_v, kra_closest_v, kra_max1_v, kra_max2_v, kra_max3_v, kra_first_time 
+kk1 OSClisten gihandle, SoscName_a, "fffffffffffffffffffffffff", krms, krms_dB_n, kamp_trans_hold, katransDensEnv_n, kenv_crest1, kpitch_n, kcentroid_n, kspread_n, kskewness_n, kurtosis_n, kflatness_n, kcrest_n, kflux_n, krhythm_irregularity, krhythm_consonance, krhythm_consonance_deviation, krhythm_ratio1, krhythm_ratio2, krhythm_ratio3, kra_first_v, kra_closest_v, kra_max1_v, kra_max2_v, kra_max3_v, kra_first_time 
 kk2 OSClisten gihandle, SoscName_b, "fffffffffffffff", kra_closest_time, kra_max1_time, kra_max2_time, kra_max3_time, krdenom_first, krdenom_closest, krdenom_max2, krdenom_max3, kgrid_subdiv, kgridness, krhythm_ac_crest, kmfcc1, kmfcc2, kmfcc3, kmfccdiff 
 chnset krms, Srms 
 chnset krms_dB_n, Srms_dB 
-chnset krms_tran0, Stransient 
+chnset kamp_trans_hold, Stransient 
 chnset katransDensEnv_n, Strans_dens 
 chnset kenv_crest1, Senv_crest 
 chnset kpitch_n, Spitch 

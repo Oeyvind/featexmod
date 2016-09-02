@@ -35,7 +35,7 @@ for item in analysis_parms: analysis_parms_string += '\"'+item+'", '
 analysis_parms_string = analysis_parms_string[:-2]
 print analysis_parms_string, '\n'
 
-csound_parms = ["krms", "krms_dB_n", "krms_tran0", "katransDensEnv_n", "kenv_crest1", "kpitch_n", 
+csound_parms = ["krms", "krms_dB_n", "kamp_trans_hold", "katransDensEnv_n", "kenv_crest1", "kpitch_n", 
 "kcentroid_n", "kspread_n", "kskewness_n", "kurtosis_n", "kflatness_n", "kcrest_n", "kflux_n", 
 "krhythm_irregularity", "krhythm_consonance", "krhythm_consonance_deviation", "krhythm_ratio1", "krhythm_ratio2", "krhythm_ratio3", 
 "kra_first_v", "kra_closest_v", "kra_max1_v", "kra_max2_v", "kra_max3_v", "kra_first_time", "kra_closest_time", "kra_max1_time", "kra_max2_time", "kra_max3_time",
