@@ -96,25 +96,6 @@ double:
 
 ;***************************************************
 ; auto normalize udo
-        opcode AutoNormalize0, k, kkkk
-        kval, kreset, kcalibrate, knormalize xin 
-        kval_max        init 0
-        kval_min        init 2^64
-        if kreset > 0 then
-        kval_max        = 0
-        kval_min        = 2^64
-        endif
-        if kcalibrate > 0 then
-        kval_max        max kval_max, kval
-        kval_min        min kval_min, kval
-        endif
-        if knormalize > 0 then
-        kval_n          = (kval-kval_min)*divz(1,(kval_max-kval_min), 1)
-        else
-        kval_n          = kval
-        endif
-        xout kval_n
-        endop
 
         opcode AutoNormalize, k, kkkki
         kval, kreset, kcalibrate, knormalize, iperiod xin 
@@ -178,6 +159,105 @@ double:
         kval_n          = kval
         endif
         xout kval_n
+        endop
+
+;***************************************************
+
+        opcode RhythmRatio, kkkk, k
+krel1 xin
+
+; for rational approximation, we use table lookup since there are a lot of specific fractions sthat we do not want
+; up to 1.0
+iAfra1[] fillarray 0.0625, 0.125,  0.143,  0.1666, 0.2,    0.25,   0.333,  0.5,    0.6,    0.667,  0.75,   1.0
+iAnom1[] fillarray 1,      1,      1,      1,      1,      1,      1,      1,      3,      2,      3,      1
+iAden1[] fillarray 16,     8,      7,      6,      5,      4,      3,      2,      5,      3,      4,      1
+; from 1.0 and up
+iAfra2[] fillarray 1.0,    1.25,   1.33,   1.5,    1.67,   1.75,   2.0,    3.0,    4.0,    5.0,    6.0,    7.0,    8.0,    12.0,   16.0
+iAnom2[] fillarray 1,      5,      4,      3,      5,      7,      2,      3,      4,      5,      6,      7,      8,      12,     16        
+iAden2[] fillarray 1,      4,      3,      2,      3,      4,      1,      1,      1,      1,      1,      1,      1,      1,      1
+
+ifra2max maxarray iAfra2
+inomtablen = 512
+; these will generate indices to look up values in the arrays above
+indxtab1  ftgen 0, 0, inomtablen, -17,  0, 0,
+                                     int((iAfra1[1]-((iAfra1[1]-iAfra1[0])/2))*inomtablen), 1,
+                                     int((iAfra1[2]-((iAfra1[2]-iAfra1[1])/2))*inomtablen), 2,
+                                     int((iAfra1[3]-((iAfra1[3]-iAfra1[2])/2))*inomtablen), 3,
+                                     int((iAfra1[4]-((iAfra1[4]-iAfra1[3])/2))*inomtablen), 4,
+                                     int((iAfra1[5]-((iAfra1[5]-iAfra1[4])/2))*inomtablen), 5,
+                                     int((iAfra1[6]-((iAfra1[6]-iAfra1[5])/2))*inomtablen), 6,
+                                     int((iAfra1[7]-((iAfra1[7]-iAfra1[6])/2))*inomtablen), 7,
+                                     int((iAfra1[8]-((iAfra1[8]-iAfra1[7])/2))*inomtablen), 8,
+                                     int((iAfra1[9]-((iAfra1[9]-iAfra1[8])/2))*inomtablen), 9,
+                                     int((iAfra1[10]-((iAfra1[10]-iAfra1[9])/2))*inomtablen), 10,
+                                     int((iAfra1[11]-((iAfra1[11]-iAfra1[10])/2))*inomtablen), 11
+
+
+indxtab2  ftgen 0, 0, inomtablen, -17,  0, 0,
+                                     int((iAfra2[1]-((iAfra2[1]-iAfra2[0])/2))*inomtablen/ifra2max), 1,
+                                     int((iAfra2[2]-((iAfra2[2]-iAfra2[1])/2))*inomtablen/ifra2max), 2,
+                                     int((iAfra2[3]-((iAfra2[3]-iAfra2[2])/2))*inomtablen/ifra2max), 3,
+                                     int((iAfra2[4]-((iAfra2[4]-iAfra2[3])/2))*inomtablen/ifra2max), 4,
+                                     int((iAfra2[5]-((iAfra2[5]-iAfra2[4])/2))*inomtablen/ifra2max), 5,
+                                     int((iAfra2[6]-((iAfra2[6]-iAfra2[5])/2))*inomtablen/ifra2max), 6,
+                                     int((iAfra2[7]-((iAfra2[7]-iAfra2[6])/2))*inomtablen/ifra2max), 7,
+                                     int((iAfra2[8]-((iAfra2[8]-iAfra2[7])/2))*inomtablen/ifra2max), 8,
+                                     int((iAfra2[9]-((iAfra2[9]-iAfra2[8])/2))*inomtablen/ifra2max), 9,
+                                     int((iAfra2[10]-((iAfra2[10]-iAfra2[9])/2))*inomtablen/ifra2max), 10,
+                                     int((iAfra2[11]-((iAfra2[11]-iAfra2[10])/2))*inomtablen/ifra2max), 11,
+                                     int((iAfra2[12]-((iAfra2[12]-iAfra2[11])/2))*inomtablen/ifra2max), 12,
+                                     int((iAfra2[13]-((iAfra2[13]-iAfra2[12])/2))*inomtablen/ifra2max), 13,
+                                     int((iAfra2[14]-((iAfra2[14]-iAfra2[13])/2))*inomtablen/ifra2max), 14
+
+; first rhythm relation
+if krel1 <= 1 then
+  kndx1 table krel1, indxtab1, 1
+  knom1 = iAnom1[kndx1]
+  kden1 = iAden1[kndx1]
+
+  if kndx1 < (lenarray(iAnom1)-1) then
+    knom1next = iAnom1[kndx1+1]
+    kden1next = iAden1[kndx1+1]
+  else
+    knom1next = iAnom1[kndx1-1]
+    kden1next = iAden1[kndx1-1]
+  endif
+  if kndx1 > 0 then
+    knom1prev = iAnom1[kndx1-1]
+    kden1prev = iAden1[kndx1-1]
+  else
+    knom1prev = iAnom1[1]
+    kden1prev = iAden1[1]
+  endif
+  kfrom_one1 = 1-krel1
+else
+  kndx1 table krel1*(inomtablen/ifra2max), indxtab2
+  knom1 = iAnom2[kndx1]
+  kden1 = iAden2[kndx1]
+
+  if kndx1 < lenarray(iAnom2) then
+    knom1next = iAnom2[kndx1+1]
+    kden1next = iAden2[kndx1+1]
+  else
+    knom1next = iAnom2[kndx1-1]
+    kden1next = iAden2[kndx1-1]
+  endif
+  
+  kfrom_one1 = krel1/ifra2max
+endif
+
+kquant1 = knom1/kden1
+
+if abs(krel1-kquant1) < 0 then
+  kdevrange1 = abs((knom1/kden1)-(knom1prev/kden1prev))
+else
+  kdevrange1 = abs((knom1next/kden1next)-(knom1/kden1))
+endif
+
+kdev0 = abs(krel1-kquant1)
+kdev1 = kdev0*(1/kdevrange1)
+
+        xout knom1, kden1, kdev1, kfrom_one1
         endop
 
 ;***************************************************

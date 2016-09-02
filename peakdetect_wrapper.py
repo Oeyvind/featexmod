@@ -85,7 +85,7 @@ class PeakDetector:
             closest_i = 0
             closest_val = 0
         return float(closest_i), float(closest_val)
-
+    '''
     def distance_to_max(self, bogus=None):
         # distance from first peak to max (strongest) peak
         # distance from strongest to second strongest
@@ -94,18 +94,20 @@ class PeakDetector:
         maxpeak_i, maxpeak2_i, maxpeak3_i, _, _, _ = self.get_3maxpeaks()
         closest_max_i, _ = self.get_closest_to_maxpeak(maxpeak_i)
         return float(maxpeak_i-firstpeak_i), float(abs(maxpeak_i-maxpeak2_i)), float(abs(maxpeak_i-maxpeak3_i)), float(abs(maxpeak_i-closest_max_i)), float(maxpeak_i)
-        
+    '''    
     def relative_distance(self, bogus=None):
-        # distance (max to N) as ratio to max index
+        # distance (0 to N) as ratio to (0 to max) index
         # e.g. first peak index as ratio to max peak index
-        d_first_max, d_max_2, d_max_3, d_max_closest, maxpeak_i = self.distance_to_max()
+        firstpeak_i, _ = self.get_firstpeak()
+        maxpeak_i, maxpeak2_i, maxpeak3_i, _, _, _ = self.get_3maxpeaks()
+        closest_max_i, _ = self.get_closest_to_maxpeak(maxpeak_i)
         if len(self.peaks) == 0: maxpeak_i = 1 # divz
-        return float(d_first_max/maxpeak_i), float(d_max_2/maxpeak_i), float(d_max_3/maxpeak_i), float(d_max_closest/maxpeak_i), float(maxpeak_i)
+        return float(firstpeak_i/maxpeak_i), float(maxpeak2_i/maxpeak_i), float(maxpeak3_i/maxpeak_i), float(closest_max_i/maxpeak_i), float(maxpeak_i)
         
     def relative_distance_denom(self, bogus=None):
         # distance (max to N) ratio reduced to simplest fraction, then return just denominator
         r_first_max, r_max_2, r_max_3, r_max_closest, maxpeak_i = self.relative_distance()
-        max_subdiv = 8
+        max_subdiv = 12
         deviation = 2.0/maxpeak_i
         _, first_denom = ra.farey(r_first_max, max_subdiv, deviation)
         _, m2_denom = ra.farey(r_max_2, max_subdiv, deviation)
@@ -121,7 +123,7 @@ class PeakDetector:
         # also output the grid (subdiv) that yields the highest affirmativity
         if len(self.peaks) > 0:
             r_first, r_max2, r_max3, r_max_closest, maxpeak_i = self.relative_distance() 
-            max_subdiv = 8 # highest denominator for our grid
+            max_subdiv = 12 # highest denominator for our grid
             deviation = 2.0/maxpeak_i # N frames deviation when calculating grid
             gridoptions = {} # the possible fractions on which to build grids, and their associated grids
             for item in [r_first, r_max2, r_max3, r_max_closest]:
@@ -146,7 +148,7 @@ class PeakDetector:
                 if len(gm) > max_gridmatch: 
                     max_gridmatch = len(gm)
                     best_grid = denom
-            affirmativity = max_gridmatch/float(len(indices))
+            affirmativity = max_gridmatch#/float(len(indices))
         else: affirmativity, denom = (0,1)
         return float(affirmativity), float(denom)
 

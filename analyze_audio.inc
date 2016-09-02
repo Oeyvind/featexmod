@@ -132,101 +132,12 @@ krel1 divz kdist1, kdist2, 1
 krel2 divz kdist1, kdist3, 1
 krel3 divz kdist1, kdist4, 1
 
-; for rational approximation, we use table lookup since there are a lot of specific fractions sthat we do not want
-; up to 1.0
-iAfra1[] fillarray 0.0625,  0.125,   0.1666,  0.25,    0.333,   0.5,     0.667,   0.75,    1.0
-iAnom1[] fillarray 1,       1,       1,       1,       1,       1,       2,       3,       1
-iAden1[] fillarray 16,      8,       6,       4,       3,       2,       3,       4,       1
-; from 1.0 and up
-iAfra2[] fillarray 1.0,     1.33,    1.5,     2.0,     3.0,     4.0,     6.0,     8.0,     12.0,    16.0
-iAnom2[] fillarray 1,       4,       3,       2,       3,       4,       6,       8,       12,      16        
-iAden2[] fillarray 1,       3,       2,       1,       1,       1,       1,       1,       1,       1
+; ***
+knom1, kden1, kdev1, kfrom_one1 RhythmRatio krel1
+knom2, kden2, kdev2, kfrom_one2 RhythmRatio krel2
+knom3, kden3, kdev3, kfrom_one3 RhythmRatio krel3
 
-ifra2max maxarray iAfra2
-inomtablen = 512
-
-inomtab1  ftgen 0, 0, inomtablen, -17,  0, iAnom1[0],
-                                     int((iAfra1[1]-((iAfra1[1]-iAfra1[0])/2))*inomtablen), iAnom1[1],
-                                     int((iAfra1[2]-((iAfra1[2]-iAfra1[1])/2))*inomtablen), iAnom1[2],
-                                     int((iAfra1[3]-((iAfra1[3]-iAfra1[2])/2))*inomtablen), iAnom1[3],
-                                     int((iAfra1[4]-((iAfra1[4]-iAfra1[3])/2))*inomtablen), iAnom1[4],
-                                     int((iAfra1[5]-((iAfra1[5]-iAfra1[4])/2))*inomtablen), iAnom1[5],
-                                     int((iAfra1[6]-((iAfra1[6]-iAfra1[5])/2))*inomtablen), iAnom1[6],
-                                     int((iAfra1[7]-((iAfra1[7]-iAfra1[6])/2))*inomtablen), iAnom1[7],
-                                     int((iAfra1[8]-((iAfra1[8]-iAfra1[7])/2))*inomtablen), iAnom1[8]
-
-identab1  ftgen 0, 0, inomtablen, -17,  0, iAden1[0],
-                                     int((iAfra1[1]-((iAfra1[1]-iAfra1[0])/2))*inomtablen), iAden1[1],
-                                     int((iAfra1[2]-((iAfra1[2]-iAfra1[1])/2))*inomtablen), iAden1[2],
-                                     int((iAfra1[3]-((iAfra1[3]-iAfra1[2])/2))*inomtablen), iAden1[3],
-                                     int((iAfra1[4]-((iAfra1[4]-iAfra1[3])/2))*inomtablen), iAden1[4],
-                                     int((iAfra1[5]-((iAfra1[5]-iAfra1[4])/2))*inomtablen), iAden1[5],
-                                     int((iAfra1[6]-((iAfra1[6]-iAfra1[5])/2))*inomtablen), iAden1[6],
-                                     int((iAfra1[7]-((iAfra1[7]-iAfra1[6])/2))*inomtablen), iAden1[7],
-                                     int((iAfra1[8]-((iAfra1[8]-iAfra1[7])/2))*inomtablen), iAden1[8]
-
-
-inomtab2  ftgen 0, 0, inomtablen, -17,  0, iAnom2[0],
-                                     int((iAfra2[1]-((iAfra2[1]-iAfra2[0])/2))*inomtablen/ifra2max), iAnom2[1],
-                                     int((iAfra2[2]-((iAfra2[2]-iAfra2[1])/2))*inomtablen/ifra2max), iAnom2[2],
-                                     int((iAfra2[3]-((iAfra2[3]-iAfra2[2])/2))*inomtablen/ifra2max), iAnom2[3],
-                                     int((iAfra2[4]-((iAfra2[4]-iAfra2[3])/2))*inomtablen/ifra2max), iAnom2[4],
-                                     int((iAfra2[5]-((iAfra2[5]-iAfra2[4])/2))*inomtablen/ifra2max), iAnom2[5],
-                                     int((iAfra2[6]-((iAfra2[6]-iAfra2[5])/2))*inomtablen/ifra2max), iAnom2[6],
-                                     int((iAfra2[7]-((iAfra2[7]-iAfra2[6])/2))*inomtablen/ifra2max), iAnom2[7],
-                                     int((iAfra2[8]-((iAfra2[8]-iAfra2[7])/2))*inomtablen/ifra2max), iAnom2[8],
-                                     int((iAfra2[9]-((iAfra2[9]-iAfra2[8])/2))*inomtablen/ifra2max), iAnom2[9]
-
-                                     
-identab2  ftgen 0, 0, inomtablen, -17,  0, iAden2[0],
-                                     int((iAfra2[1]-((iAfra2[1]-iAfra2[0])/2))*inomtablen/ifra2max), iAden2[1],
-                                     int((iAfra2[2]-((iAfra2[2]-iAfra2[1])/2))*inomtablen/ifra2max), iAden2[2],
-                                     int((iAfra2[3]-((iAfra2[3]-iAfra2[2])/2))*inomtablen/ifra2max), iAden2[3],
-                                     int((iAfra2[4]-((iAfra2[4]-iAfra2[3])/2))*inomtablen/ifra2max), iAden2[4],
-                                     int((iAfra2[5]-((iAfra2[5]-iAfra2[4])/2))*inomtablen/ifra2max), iAden2[5],
-                                     int((iAfra2[6]-((iAfra2[6]-iAfra2[5])/2))*inomtablen/ifra2max), iAden2[6],
-                                     int((iAfra2[7]-((iAfra2[7]-iAfra2[6])/2))*inomtablen/ifra2max), iAden2[7],
-                                     int((iAfra2[8]-((iAfra2[8]-iAfra2[7])/2))*inomtablen/ifra2max), iAden2[8],
-                                     int((iAfra2[9]-((iAfra2[9]-iAfra2[8])/2))*inomtablen/ifra2max), iAden2[9]
-
-if krel1 <= 1 then
-knom1 table krel1, inomtab1, 1
-kden1 table krel1, identab1, 1
-kfrom_one1 = 1-krel1
-else
-knom1 table krel1*(inomtablen/ifra2max), inomtab2
-kden1 table krel1*(inomtablen/ifra2max), identab2
-kfrom_one1 = krel1/ifra2max
-endif
-kquant1 = knom1/kden1
-kdev1 = abs(krel1-kquant1)
-
-if krel2 <= 1 then
-knom2 table krel2, inomtab1, 1
-kden2 table krel2, identab1, 1
-kfrom_one2 = 1-krel2
-else
-knom2 table krel2*(inomtablen/ifra2max), inomtab2
-kden2 table krel2*(inomtablen/ifra2max), identab2
-kfrom_one2 = krel2/ifra2max
-endif
-kquant2 = knom2/kden2
-kdev2 = abs(krel2-kquant2)
-
-if krel3 <= 1 then
-knom3 table krel3, inomtab1, 1
-kden3 table krel3, identab1, 1
-kfrom_one3 = 1-krel3
-else
-knom3 table krel3*(inomtablen/ifra2max), inomtab2
-kden3 table krel3*(inomtablen/ifra2max), identab2
-kfrom_one3 = krel3/ifra2max
-endif
-kquant3 = knom3/kden3
-kdev3 = abs(krel3-kquant3)
-
-krhythm_consonance_deviation limit kdev1, 0, 1
-; could be (kdev1+kdev2+kdev3)/3
+krhythm_consonance_deviation tonek limit((kdev1+kdev2+kdev3)/3, 0, 1), kr/8
 
 ;Benedetti height
 kben1 = (knom1*kden1)
@@ -234,36 +145,23 @@ kben2 = (knom2*kden2)
 kben3 = (knom3*kden3)
 
 ;Tenney height is log2(Benedetti height)
-kten1 = (log(knom1*kden1)/3)+0.2
-kten2 = (log(knom2*kden2)/3)+0.2
-kten3 = (log(knom3*kden3)/3)+0.2
+kten1 = (log(kben1)/3)+0.2
+kten2 = (log(kben2)/3)+0.2
+kten3 = (log(kben3)/3)+0.2
 
 ; multiply the last three tenney heights
-; it will allow for low values when there is some short term repetition
-krhythm_cons_x = kten1*kten2*kten3
+; it will allow for low values when there is some short term repetition (low values at this stage means high consonance)
+krhythm_cons_x = (kten1*kten2*kten3)
+; low pass filter and invert
+krhythm_consonance tonek limit(krhythm_cons_x, 0, 1), kr/8 
+krhythm_consonance = 1-krhythm_consonance
 
-;fir
-krhythm_cons_x0 init 0
-krhythm_cons_x = (krhythm_cons_x+krhythm_cons_x0)/2
-krhythm_cons_x0 = krhythm_cons_x
-;iir
-krhythm_cons_y init 0
-ircfilter_a = 0.4
-ircfilter_b = 0.6
-krhythm_cons_y = (krhythm_cons_x*ircfilter_a) + (krhythm_cons_y*ircfilter_b)
-krhythm_consonance limit 1-(krhythm_cons_y*2), 0, 1
 
-; filter the "distance from one" measure
+; the "distance from one" measure (irregularity)
 ; multiply the two highest out of the last three
-kfrom_ox limit max(kfrom_one1,kfrom_one2)*max(kfrom_one2,kfrom_one3), 0, 1
-; fir
-kfrom_ox0 init 0
-kfrom_ox = (kfrom_ox+kfrom_ox0)/2
-kfrom_ox0 = kfrom_ox
-; iir
-kfrom_oy init 0
-kfrom_oy = (kfrom_ox*ircfilter_a) + (kfrom_oy*ircfilter_b)
-krhythm_irregularity = kfrom_oy 
+kfrom_one limit max(kfrom_one1,kfrom_one2)*max(kfrom_one2,kfrom_one3), 0, 1
+; low pass filter
+krhythm_irregularity tonek kfrom_one, kr/8 
 
 krhythm_ratio1 = knom1/kden1
 krhythm_ratio2 = knom2/kden2
@@ -293,9 +191,9 @@ ira_overlaps = 2
 kRhythmAuto[], krnewframe, knumtransients RhythmAutoCorr kra_env, krms_tran0, irhythm_sr, ira_fftsize, ira_overlaps
 kRhythmAuto2[], krnewframe2, knumtransients2 RhythmAutoCorr kra_env, krms_tran0, irhythm_sr, ira_fftsize/2, ira_overlaps
 kRhythmAuto4[], krnewframe4, knumtransients4 RhythmAutoCorr kra_env, krms_tran0, irhythm_sr, ira_fftsize/4, ira_overlaps
-kRhythmAutoCombo[] = kRhythmAuto
-kRhythmAutoCombo slicearray kRhythmAuto2, 0, ira_fftsize/8 ; take only the first quarter (as the second quarter will already be tapering off)
-kRhythmAutoCombo slicearray kRhythmAuto4, 0, ira_fftsize/16 ; as above, since this is 1/4 the larger fftsize, 1/16 is a quarter of this autocorr output
+;kRhythmAutoCombo[] = kRhythmAuto
+;kRhythmAutoCombo slicearray kRhythmAuto2, 0, ira_fftsize/8 ; take only the first quarter (as the second quarter will already be tapering off)
+;kRhythmAutoCombo slicearray kRhythmAuto4, 0, ira_fftsize/16 ; as above, since this is 1/4 the larger fftsize, 1/16 is a quarter of this autocorr output
 
 kra_peak_delta chnget "rhythmAutocorrPeakDelta" ; peak picking delta 
 
@@ -304,7 +202,18 @@ kra_max1_i, kra_max2_i, kra_max3_i, kra_max1_v, kra_max2_v, kra_max3_v,
 kra_first_i, kra_first_v,
 kra_closest_i, kra_closest_v,
 krdenom_first, krdenom_max2, krdenom_max3, krdenom_closest,
-kgridness, kgrid_subdiv AutoCorrPeaks kRhythmAutoCombo, krnewframe, kra_peak_delta, ira_fftsize
+kgridness, kgrid_subdiv AutoCorrPeaks kRhythmAuto, krnewframe, kra_peak_delta, ira_fftsize
+
+/*
+kdebug init 0
+kdebug += krnewframe
+printk2 kdebug
+kdebug1 = 1
+Sdebug1 sprintfk "i : f %.03i, c %.03i, m1 %.03i, m2 %.03i, m3 %.03i", kra_first_i, kra_closest_i, kra_max1_i, kra_max2_i, kra_max3_i
+Sdebug2 sprintfk "d: f %.03i, c %.03i, m1 %.03i, m2 %.03i, m3 %.03i \n", krdenom_first, krdenom_closest, kdebug1, krdenom_max2, krdenom_max3
+puts Sdebug1, kdebug
+puts Sdebug2, kdebug
+*/
 
 kra_first_time =  kra_first_i/irhythm_sr
 kra_max1_time =  kra_max1_i/irhythm_sr
@@ -312,10 +221,10 @@ kra_max2_time =  kra_max2_i/irhythm_sr
 kra_max3_time =  kra_max3_i/irhythm_sr
 kra_closest_time =  kra_closest_i/irhythm_sr
 
-krhythm_ac_rms = sqrt(sumarray(kRhythmAutoCombo*kRhythmAutoCombo)/ira_fftsize)
-krhythm_ac_max = maxarray(kRhythmAutoCombo*kRhythmAutoCombo)
+krhythm_ac_rms = sqrt(sumarray(kRhythmAuto*kRhythmAuto)/ira_fftsize)
+krhythm_ac_max = maxarray(kRhythmAuto*kRhythmAuto)
 krhythm_ac_crest0 divz krhythm_ac_max, krhythm_ac_rms, 1
-krhythm_ac_crest = (krhythm_ac_rms/(log2(((knumtransients/4)+(knumtransients2/2)+knumtransients4)+1)+1))*100
+krhythm_ac_crest = (krhythm_ac_rms/(log2(knumtransients+1)+1))*100
 
 ; ***************
 ; spectral analysis
@@ -406,10 +315,10 @@ if (kdoflag > 0) && (kflag > 0) then
 
 endif
 
-	kautocorr		sumarray kArrCorr
-	krmsA			sumarray kArrA
-	krmsAprev		sumarray kArrAprev
-	kautocorr		divz kautocorr*2, krmsA*krmsAprev , 0
+	;kautocorr		sumarray kArrCorr
+	;krmsA			sumarray kArrA
+	;krmsAprev		sumarray kArrAprev
+	;kautocorr		divz kautocorr*2, krmsA*krmsAprev , 0
 
 ; post filtering of spectral tracks
         kcentroidf              tonek kcentroid, 20

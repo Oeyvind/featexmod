@@ -115,7 +115,7 @@ image bounds(530, 5, 64,240), shape("sharp"), colour(255,255, 50, 20), identchan
 label text("flatness"), bounds(546, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
 label text("crest"), bounds(562, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
 label text("flux"), bounds(578, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
-label text("autocorr"), bounds(594, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
+;label text("_"), bounds(594, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
 
 image bounds(594, 5, 112,240), shape("sharp"), colour(50,200, 255, 20), identchannel("group_mfcc")	
 label text("mfcc1"), bounds(610, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
@@ -133,14 +133,14 @@ label text("0"), bounds(490, 360, 50, 15), align("left"), identchannel("envCrest
 
 
 label text("rhythm relations"), bounds(370, 410, 200, 15), align("left")
-label text("irreg"), bounds(370, 430, 50, 15), align("left")
-label text("conso"), bounds(420, 430, 50, 15), align("left")
+label text("irreg"), bounds(370, 430, 50, 15), align("left"), fontcolour("red")
+label text("conso"), bounds(420, 430, 50, 15), align("left"), fontcolour("lightblue")
 label text("dev"), bounds(470, 430, 50, 15), align("left")
 label text("0"), bounds(370, 450, 50, 15), align("left"), identchannel("rhythm_irregularity")	
 label text("0"), bounds(420, 450, 50, 15), align("left"), identchannel("rhythm_consonance")	
 label text("0"), bounds(470, 450, 50, 15), align("left"), identchannel("rhythm_consonance_deviation")
 
-gentable bounds(370, 470, 160, 140), identchannel("rhythm_consonance_tab"), tablenumber(5,6,7), tablecolour("lightblue", "red", "darkolivegreen"), tablegridcolour(0,0,0,0), amprange(-0.1,1,5), amprange(-0.1,1,6), amprange(-0.1,1,7), zoom(-1), samplerange(0,32)
+gentable bounds(370, 470, 160, 140), identchannel("rhythm_consonance_tab"), tablenumber(5,6,7), tablecolour("red", "lightblue", "darkolivegreen"), tablegridcolour(0,0,0,0), amprange(-0.15,1,5), amprange(-0.15,1,6), amprange(-0.15,1,7), zoom(-1), samplerange(0,32)
 label text("latest rhythm ratios"), bounds(370, 620, 200, 15), align("left")
 label text("0"), bounds(370, 640, 50, 15), align("left"), identchannel("rhythmratio1")	
 label text("0"), bounds(420, 640, 50, 15), align("left"), identchannel("rhythmratio2")	
@@ -159,7 +159,7 @@ label text("0"), bounds(655, 450, 50, 15), align("left"), identchannel("ac_gridn
 label text("0"), bounds(725, 450, 50, 15), align("left"), identchannel("ac_grid_subdiv")	
 
 ; (normal width 160)
-gentable bounds(540, 470, 256, 140), identchannel("rhythm_autocorr"), tablenumber(10,11,12), tablecolour("darkolivegreen", "lightblue", "red"), tablegridcolour(0,0,0,0), amprange(-0.1,1,10), amprange(-0.1,1,11), amprange(-0.1,1,12), zoom(-1), samplerange(0,256)
+gentable bounds(540, 470, 256, 140), identchannel("rhythm_autocorr"), tablenumber(10,11,12), tablecolour("darkolivegreen", "lightblue", "red"), tablegridcolour(0,0,0,0), amprange(-0.15,1,10), amprange(-0.15,1,11), amprange(-0.15,1,12), zoom(-1), samplerange(0,256)
 
 label text("AC peaks:"), bounds(540, 620, 70, 15), align("left")
 numberbox bounds(740, 620, 50, 15), channel("rhythmAutocorrPeakDelta"), range(0.001, 0.20, 0.1, 1, 0.001)
@@ -296,7 +296,7 @@ label text("d"), bounds(786, 720, 10, 15), align("left")
         tablew kflatness_a, 10, gi1 
         tablew kcrest_a, 11, gi1 
         tablew kflux_a, 12, gi1 
-        tablew kautocorr, 13, gi1 
+        ;tablew kautocorr, 13, gi1 
         imfcc_min = -0.3
         imfcc_max = 1.0
         imfcc_range = imfcc_max-imfcc_min
@@ -321,8 +321,8 @@ label text("d"), bounds(786, 720, 10, 15), align("left")
         if krnewframe4*kenableDisplay > 0 then
 
         copya2ftab kRhythmAuto, gi10
-        copya2ftab kRhythmAuto2, gi11
-        copya2ftab kRhythmAuto4, gi12
+        ;copya2ftab kRhythmAuto2, gi11
+        ;copya2ftab kRhythmAuto4, gi12
  	chnset	"tablenumber(10,11,12)", "rhythm_autocorr"	; update table display	
 
  	Sra_1st_idxD sprintfk "text(%.d)", kra_first_i
