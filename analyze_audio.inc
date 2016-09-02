@@ -47,7 +47,7 @@
         icrestB         = 0.001^(1/(icrestfall*kr))
         kenv_crest      init 0
         kenv_crest      = (kenv_crest0>kenv_crest?(kenv_crest0+(icrestA*(kenv_crest-kenv_crest0))):(kenv_crest0+(icrestB*(kenv_crest-kenv_crest0))))
-        kenv_crest1     = dbamp(kenv_crest)
+        kenv_crest1     = (dbamp(kenv_crest))/45
         
 	kAttack		= 0.001				        ; envelope follower attack
 	kRelease        chnget "amp_transientDecTime"           ; envelope follower release
@@ -103,6 +103,7 @@ rireturn
         itrandensB      = exp(-6.90775527898 * (1/iatrandec)/kr)
         katransDensEnv  init 0
         katransDensEnv   = (katranDensity>katransDensEnv?(katranDensity+(itrandensA*(katransDensEnv-katranDensity))):(katranDensity+(itrandensB*(katransDensEnv-katranDensity))))
+        katransDensEnv_n = katransDensEnv/14
         
 ; ***************
 ; rhythmic analysis

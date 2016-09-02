@@ -28,19 +28,19 @@ analysis_parms = ["rms", "rms_dB", "transient", "trans_dens", "env_crest", "pitc
 "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "rhyt_ratio1", "rhyt_ratio2", "rhyt_ratio3", 
 "rac_1st_v", "rac_clos_v", "rac_max_v", "rac_max2_v", "rac_max3_v", "rac_1st_tim", "rac_clos_tim", "rac_max_tim", "rac_max2_tim", "rac_max3_tim", 
 "subdiv_1st", "subdiv_clos", "subdiv_max2", "subdiv_max3", "grid_subdiv", "gridness", "rac_crest",
-"mfcc1", "mfcc2", "mfcc3", "mfcc4", "mfcc_diff"] 
+"mfcc1", "mfcc2", "mfcc3", "mfcc_diff"] 
 
 analysis_parms_string = ''''''
 for item in analysis_parms: analysis_parms_string += '\"'+item+'", '
 analysis_parms_string = analysis_parms_string[:-2]
 print analysis_parms_string, '\n'
 
-csound_parms = ["krms", "krms_dB_n", "krms_tran0", "katransDensEnv", "kenv_crest1", "kpitch_n", 
+csound_parms = ["krms", "krms_dB_n", "krms_tran0", "katransDensEnv_n", "kenv_crest1", "kpitch_n", 
 "kcentroid_n", "kspread_n", "kskewness_n", "kurtosis_n", "kflatness_n", "kcrest_n", "kflux_n", 
 "krhythm_irregularity", "krhythm_consonance", "krhythm_consonance_deviation", "krhythm_ratio1", "krhythm_ratio2", "krhythm_ratio3", 
 "kra_first_v", "kra_closest_v", "kra_max1_v", "kra_max2_v", "kra_max3_v", "kra_first_time", "kra_closest_time", "kra_max1_time", "kra_max2_time", "kra_max3_time",
 "krdenom_first", "krdenom_closest", "krdenom_max2", "krdenom_max3", "kgrid_subdiv", "kgridness", "krhythm_ac_crest", 
-"kmfcc1", "kmfcc2", "kmfcc3", "kmfcc4", "kmfccdiff"]
+"kmfcc1", "kmfcc2", "kmfcc3", "kmfccdiff"]
 
 csound_parms_string = ''''''
 for item in csound_parms: csound_parms_string += item+', '
