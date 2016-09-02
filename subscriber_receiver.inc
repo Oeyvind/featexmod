@@ -133,7 +133,6 @@ Ss_kurtosis sprintf {{s_kurtosis%i}}, isource_chan
 Ss_flatness sprintf {{s_flatness%i}}, isource_chan 
 Ss_crest sprintf {{s_crest%i}}, isource_chan 
 Ss_flux sprintf {{s_flux%i}}, isource_chan 
-Ss_autocorr sprintf {{s_autocorr%i}}, isource_chan 
 Srhythm_irreg sprintf {{rhythm_irreg%i}}, isource_chan 
 Srhythm_cons sprintf {{rhythm_cons%i}}, isource_chan 
 Srhyt_con_dev sprintf {{rhyt_con_dev%i}}, isource_chan 
@@ -177,7 +176,6 @@ kurtosis_n init 0
 kflatness_n init 0 
 kcrest_n init 0 
 kflux_n init 0 
-kautocorr_n init 0 
 krhythm_irregularity init 0 
 krhythm_consonance init 0 
 krhythm_consonance_deviation init 0 
@@ -207,8 +205,8 @@ kmfcc3 init 0
 kmfcc4 init 0 
 kmfccdiff init 0 
 nxt_val: 
-kk1 OSClisten gihandle, SoscName_a, "fffffffffffffffffffffffff", krms, krms_dB_n, krms_tran0, katransDensEnv, kenv_crest1, kpitch_n, kcentroid_n, kspread_n, kskewness_n, kurtosis_n, kflatness_n, kcrest_n, kflux_n, kautocorr_n, krhythm_irregularity, krhythm_consonance, krhythm_consonance_deviation, krhythm_ratio1, krhythm_ratio2, krhythm_ratio3, kra_first_v, kra_closest_v, kra_max1_v, kra_max2_v, kra_max3_v 
-kk2 OSClisten gihandle, SoscName_b, "fffffffffffffffff", kra_first_time, kra_closest_time, kra_max1_time, kra_max2_time, kra_max3_time, krdenom_first, krdenom_closest, krdenom_max2, krdenom_max3, kgrid_subdiv, kgridness, krhythm_ac_crest, kmfcc1, kmfcc2, kmfcc3, kmfcc4, kmfccdiff 
+kk1 OSClisten gihandle, SoscName_a, "fffffffffffffffffffffffff", krms, krms_dB_n, krms_tran0, katransDensEnv, kenv_crest1, kpitch_n, kcentroid_n, kspread_n, kskewness_n, kurtosis_n, kflatness_n, kcrest_n, kflux_n, krhythm_irregularity, krhythm_consonance, krhythm_consonance_deviation, krhythm_ratio1, krhythm_ratio2, krhythm_ratio3, kra_first_v, kra_closest_v, kra_max1_v, kra_max2_v, kra_max3_v, kra_first_time 
+kk2 OSClisten gihandle, SoscName_b, "ffffffffffffffff", kra_closest_time, kra_max1_time, kra_max2_time, kra_max3_time, krdenom_first, krdenom_closest, krdenom_max2, krdenom_max3, kgrid_subdiv, kgridness, krhythm_ac_crest, kmfcc1, kmfcc2, kmfcc3, kmfcc4, kmfccdiff 
 chnset krms, Srms 
 chnset krms_dB_n, Srms_dB 
 chnset krms_tran0, Stransient 
@@ -222,7 +220,6 @@ chnset kurtosis_n, Ss_kurtosis
 chnset kflatness_n, Ss_flatness 
 chnset kcrest_n, Ss_crest 
 chnset kflux_n, Ss_flux 
-chnset kautocorr_n, Ss_autocorr 
 chnset krhythm_irregularity, Srhythm_irreg 
 chnset krhythm_consonance, Srhythm_cons 
 chnset krhythm_consonance_deviation, Srhyt_con_dev 

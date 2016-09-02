@@ -406,7 +406,7 @@ endif
         kflatness_n     = kflatness * 3
         kcrest_n        = kcrest / 250
         kflux_n         = kfluxf * 4
-        kautocorr_n     = kautocorr * 2
+        ;kautocorr_n     = kautocorr * 2
         imfccscale      = 1/200
         kmax            maxarray kmfcc
         kmin            minarray kmfcc
