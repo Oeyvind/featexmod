@@ -95,9 +95,11 @@ csoundoutput bounds(5, 585, 360, 145), text("Output")
 
 gentable bounds(370,  5, 352, 240), identchannel("displays"), tablenumber(1), tablecolour("lightblue"), tablegridcolour(0,0,0,0), amprange(-.03,1,1), zoom(-1), samplerange(0,22)
 
-image bounds(370, 5, 80,240), shape("sharp"), colour(175, 50,255, 40), identchannel("group_amp")	
+image bounds(370, 5, 32,240), shape("sharp"), colour(175, 50,255, 40), identchannel("group_amp")	
 label text("noisefloor"), bounds(386, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
 label text("krms"), bounds(402, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
+
+image bounds(418, 5, 32,240), shape("sharp"), colour(175, 50, 155, 40), identchannel("group_env")	
 label text("trans dens"), bounds(434, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
 label text("env crest"), bounds(450, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
 
@@ -110,11 +112,10 @@ label text("spread"), bounds(498, 250, 75, 15), align("left"), rotate(1.5708, 0,
 label text("skewness"), bounds(514, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
 label text("kurtosis"), bounds(530, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
 
-image bounds(530, 5, 64,240), shape("sharp"), colour(255,255, 50, 20), identchannel("group_spectral2")	
+image bounds(530, 5, 48,240), shape("sharp"), colour(255,255, 50, 20), identchannel("group_spectral2")	
 label text("flatness"), bounds(546, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
 label text("crest"), bounds(562, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
 label text("flux"), bounds(578, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
-;label text("_"), bounds(594, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
 
 image bounds(594, 5, 112,240), shape("sharp"), colour(50,200, 255, 20), identchannel("group_mfcc")	
 label text("mfcc1"), bounds(610, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
