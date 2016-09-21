@@ -94,9 +94,9 @@
 	instr 5
         isource_chan     = p4
         inumActive      table isource_chan, giSourceActive
-        print inumActive, p1
+        ;print inumActive, p1
         Sscoreline      sprintf {{i %f 0.1 -1  %i}}, 6+frac(p1)+(isource_chan*0.1), isource_chan
-        puts Sscoreline, 1
+        ;puts Sscoreline, 1
         if inumActive == 0 then
                         scoreline_i Sscoreline
         endif
@@ -264,8 +264,8 @@ ex_val:
         isource_chan     = p6
         idest_mix_chn   = p7    ; for mixing from several sources
         SsourceChan     sprintf {{%s%i}}, Ssource, isource_chan
-        puts Sparam,1
-        puts SsourceChan,1
+        ;puts Sparam,1
+        ;puts SsourceChan,1
         kval_0          chnget SsourceChan
         ;Source_val      sprintfk "param %s instr %f source %s val%f", Sparam, p1, SsourceChan, kval_0
         ;puts Source_val, kval_0+1
