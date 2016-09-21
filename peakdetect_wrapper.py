@@ -115,11 +115,11 @@ class PeakDetector:
         _, closest_denom = ra.farey(r_max_closest, max_subdiv, deviation)
         return float(first_denom), float(m2_denom), float(m3_denom), float(closest_denom)
 
-    def grid_affirmativity(self, bogus=None):
+    def gridness(self, bogus=None):
         # use relative distance to lay a grid
         # one noe of the grid is at max index
         # subdivisions of the grid set by relative distance
-        # we may try several grids, and output the highest grid affirmativity found
+        # we may try several grids, and output the highest grid affirmativity (gridness) found
         # also output the grid (subdiv) that yields the highest affirmativity
         if len(self.peaks) > 0:
             r_first, r_max2, r_max3, r_max_closest, maxpeak_i = self.relative_distance() 
@@ -148,9 +148,9 @@ class PeakDetector:
                 if len(gm) > max_gridmatch: 
                     max_gridmatch = len(gm)
                     best_grid = denom
-            affirmativity = max_gridmatch#/float(len(indices))
-        else: affirmativity, denom = (0,1)
-        return float(affirmativity), float(denom)
+            gridness = max_gridmatch/float(len(indices))
+        else: gridness, denom = (0,1)
+        return float(gridness), float(denom)
 
 if __name__=="__main__":
     data = [0,0,0,0,1,2.1,1,1,3,4,3,1,1,4,5,4,1,1,1,1,1,1,6,8,7,1,1,1,1,1,1,3,4,3,1,1]
@@ -169,4 +169,4 @@ if __name__=="__main__":
     print('Closest to max:{}'.format(p.get_closest_to_maxpeak()))
     print('distance_to_max:{}'.format(p.distance_to_max()))
     print('relative_distance:{}'.format(p.relative_distance()))
-    print('grid_affirmativity:{}'.format(p.grid_affirmativity()))
+    print('gridness:{}'.format(p.gridness()))

@@ -188,10 +188,10 @@ rireturn
 ; autocorrelation, done in layers of different fftsize to reduce latency
 irhythm_sr = 60
 ira_fftsize = 512
-ira_overlaps = 2
-kRhythmAuto[], krnewframe, knumtransients RhythmAutoCorr kra_env, krms_tran0, irhythm_sr, ira_fftsize, ira_overlaps
-kRhythmAuto2[], krnewframe2, knumtransients2 RhythmAutoCorr kra_env, krms_tran0, irhythm_sr, ira_fftsize/2, ira_overlaps
-kRhythmAuto4[], krnewframe4, knumtransients4 RhythmAutoCorr kra_env, krms_tran0, irhythm_sr, ira_fftsize/4, ira_overlaps
+ira_overlaps = 8
+kRhythmAuto[], krnewframe, knumtransients, kra_flux RhythmAutoCorr kra_env, krms_tran0, irhythm_sr, ira_fftsize, ira_overlaps
+kRhythmAuto2[], krnewframe2, knumtransients2, kra_flux2 RhythmAutoCorr kra_env, krms_tran0, irhythm_sr, ira_fftsize/2, ira_overlaps
+kRhythmAuto4[], krnewframe4, knumtransients4, kra_flux4 RhythmAutoCorr kra_env, krms_tran0, irhythm_sr, ira_fftsize/4, ira_overlaps
 ;kRhythmAutoCombo[] = kRhythmAuto
 ;kRhythmAutoCombo slicearray kRhythmAuto2, 0, ira_fftsize/8 ; take only the first quarter (as the second quarter will already be tapering off)
 ;kRhythmAutoCombo slicearray kRhythmAuto4, 0, ira_fftsize/16 ; as above, since this is 1/4 the larger fftsize, 1/16 is a quarter of this autocorr output
@@ -223,9 +223,10 @@ kra_max3_time =  kra_max3_i/irhythm_sr
 kra_closest_time =  kra_closest_i/irhythm_sr
 
 krhythm_ac_rms = sqrt(sumarray(kRhythmAuto*kRhythmAuto)/ira_fftsize)
-krhythm_ac_max = maxarray(kRhythmAuto*kRhythmAuto)
-krhythm_ac_crest0 divz krhythm_ac_max, krhythm_ac_rms, 1
-krhythm_ac_crest = (krhythm_ac_rms/(log2(knumtransients+1)+1))*100
+krhythm_ac_max = maxarray(kRhythmAuto)
+;krhythm_ac_crest0 divz krhythm_ac_max, krhythm_ac_rms, 1
+krhythm_ac_crest = limit((krhythm_ac_rms/(log2(knumtransients+1)+1))*18, 0, 1) ; some empirical adjustment here...
+
 
 ; ***************
 ; spectral analysis

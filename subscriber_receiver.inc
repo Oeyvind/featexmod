@@ -155,7 +155,8 @@ Ssubdiv_max2 sprintf {{subdiv_max2%i}}, isource_chan
 Ssubdiv_max3 sprintf {{subdiv_max3%i}}, isource_chan 
 Sgrid_subdiv sprintf {{grid_subdiv%i}}, isource_chan 
 Sgridness sprintf {{gridness%i}}, isource_chan 
-Srac_crest sprintf {{rac_crest%i}}, isource_chan 
+Sra_flux sprintf {{ra_flux%i}}, isource_chan 
+Sra_crest sprintf {{ra_crest%i}}, isource_chan 
 Smfcc1 sprintf {{mfcc1%i}}, isource_chan 
 Smfcc2 sprintf {{mfcc2%i}}, isource_chan 
 Smfcc3 sprintf {{mfcc3%i}}, isource_chan 
@@ -197,6 +198,7 @@ krdenom_max2 init 0
 krdenom_max3 init 0 
 kgrid_subdiv init 0 
 kgridness init 0 
+kra_flux init 0 
 krhythm_ac_crest init 0 
 kmfcc1 init 0 
 kmfcc2 init 0 
@@ -204,7 +206,7 @@ kmfcc3 init 0
 kmfccdiff init 0 
 nxt_val: 
 kk1 OSClisten gihandle, SoscName_a, "fffffffffffffffffffffffff", krms, krms_dB_n, kamp_trans_hold, katransDensEnv_n, kenv_crest1, kpitch_n, kcentroid_n, kspread_n, kskewness_n, kurtosis_n, kflatness_n, kcrest_n, kflux_n, krhythm_irregularity, krhythm_consonance, krhythm_consonance_deviation, krhythm_ratio1, krhythm_ratio2, krhythm_ratio3, kra_first_v, kra_closest_v, kra_max1_v, kra_max2_v, kra_max3_v, kra_first_time 
-kk2 OSClisten gihandle, SoscName_b, "fffffffffffffff", kra_closest_time, kra_max1_time, kra_max2_time, kra_max3_time, krdenom_first, krdenom_closest, krdenom_max2, krdenom_max3, kgrid_subdiv, kgridness, krhythm_ac_crest, kmfcc1, kmfcc2, kmfcc3, kmfccdiff 
+kk2 OSClisten gihandle, SoscName_b, "ffffffffffffffff", kra_closest_time, kra_max1_time, kra_max2_time, kra_max3_time, krdenom_first, krdenom_closest, krdenom_max2, krdenom_max3, kgrid_subdiv, kgridness, kra_flux, krhythm_ac_crest, kmfcc1, kmfcc2, kmfcc3, kmfccdiff 
 chnset krms, Srms 
 chnset krms_dB_n, Srms_dB 
 chnset kamp_trans_hold, Stransient 
@@ -240,7 +242,8 @@ chnset krdenom_max2, Ssubdiv_max2
 chnset krdenom_max3, Ssubdiv_max3 
 chnset kgrid_subdiv, Sgrid_subdiv 
 chnset kgridness, Sgridness 
-chnset krhythm_ac_crest, Srac_crest 
+chnset kra_flux, Sra_flux 
+chnset krhythm_ac_crest, Sra_crest 
 chnset kmfcc1, Smfcc1 
 chnset kmfcc2, Smfcc2 
 chnset kmfcc3, Smfcc3 
