@@ -48,7 +48,7 @@
         kenv_crest      init 0
         kenv_crest      = (kenv_crest0>kenv_crest?(kenv_crest0+(icrestA*(kenv_crest-kenv_crest0))):(kenv_crest0+(icrestB*(kenv_crest-kenv_crest0))))
         kenv_crest1     = (dbamp(kenv_crest))/45
-        
+                
 	kAttack		= 0.001				        ; envelope follower attack
 	kRelease        chnget "amp_transientDecTime"           ; envelope follower release
 	a_env		follow2	a1preEq, kAttack, kRelease	; envelope follower
@@ -104,7 +104,30 @@ rireturn
         katransDensEnv  init 0
         katransDensEnv   = (katranDensity>katransDensEnv?(katranDensity+(itrandensA*(katransDensEnv-katranDensity))):(katranDensity+(itrandensB*(katransDensEnv-katranDensity))))
         katransDensEnv_n = katransDensEnv/14
+                
+        ; transient dynamics
+        kenv_dyn_count  init 0
+        isize_env_dyn   = 5
+        kenv_dyn_Arr[]  init isize_env_dyn
         
+        krms_tran0_del delayk krms_tran0, 50/1000
+        if krms_tran0 > 0 then
+        krms_this       = 0
+        endif
+        krms_this       max krms, krms_this ; max amp during 50 ms after transient detected
+        if krms_tran0_del > 0 then
+        kenv_dyn_count  = (kenv_dyn_count+krms_tran0_del)%isize_env_dyn
+        kenv_dyn_Arr[kenv_dyn_count] = krms_this
+        endif
+        kenv_dyn_min5   minarray kenv_dyn_Arr
+        kenv_dyn_min2   min kenv_dyn_Arr[kenv_dyn_count], kenv_dyn_Arr[wrap(kenv_dyn_count-1,0,isize_env_dyn-1)]
+        kenv_dyn_max5   maxarray kenv_dyn_Arr
+        kenv_dyn_max2   max kenv_dyn_Arr[kenv_dyn_count], kenv_dyn_Arr[wrap(kenv_dyn_count-1,0,isize_env_dyn-1)]
+        kenv_dyn_min    = (kenv_dyn_min5+kenv_dyn_min2)/2
+        kenv_dyn_max    = (kenv_dyn_max5+kenv_dyn_max2)/2
+        ;kenv_dyn        limit log10(divz(kenv_dyn_max, kenv_dyn_min, -1))/3, 0, 1
+        kenv_dyn        = 1-limit(divz(dbfsamp(kenv_dyn_max)-5, dbfsamp(kenv_dyn_min)-5, -1), 0, 1)
+
 ; ***************
 ; rhythmic analysis
 
@@ -186,7 +209,7 @@ kra_env = kra_env * krms * kgate
 rireturn
 
 ; autocorrelation, done in layers of different fftsize to reduce latency
-irhythm_sr = 60
+irhythm_sr = 40
 ira_fftsize = 512
 ira_overlaps = 8
 kRhythmAuto[], krnewframe, knumtransients, kra_flux RhythmAutoCorr kra_env, krms_tran0, irhythm_sr, ira_fftsize, ira_overlaps
@@ -195,6 +218,65 @@ kRhythmAuto4[], krnewframe4, knumtransients4, kra_flux4 RhythmAutoCorr kra_env, 
 ;kRhythmAutoCombo[] = kRhythmAuto
 ;kRhythmAutoCombo slicearray kRhythmAuto2, 0, ira_fftsize/8 ; take only the first quarter (as the second quarter will already be tapering off)
 ;kRhythmAutoCombo slicearray kRhythmAuto4, 0, ira_fftsize/16 ; as above, since this is 1/4 the larger fftsize, 1/16 is a quarter of this autocorr output
+
+kcombocount init 0
+kcombocount = (krnewframe > 0 ? 0 : kcombocount)
+kcombocount += krnewframe4
+knewcombo changed kcombocount
+if krnewframe > 0 then
+kRhythmAutoCombo[] = kRhythmAuto
+endif
+if knewcombo > 0 then
+if ((kcombocount == 1) || (kcombocount == 2)) then 
+kRA1[] slicearray kRhythmAuto, 0, ira_fftsize/4
+kRA2[] = (kRhythmAuto2*0.333)+(kRA1*0.667)
+kcombotransients = (knumtransients/2)+(((knumtransients2/2)*0.333)+((knumtransients/2)*0.667))
+kRhythmAutoCombo slicearray kRA2, 0, (ira_fftsize/4)
+endif
+if ((kcombocount == 3) || (kcombocount == 4)) then 
+kRA1[] slicearray kRhythmAuto, 0, ira_fftsize/4
+kRA2[] = (kRhythmAuto2*0.667)+(kRA1*0.333)
+kcombotransients = (knumtransients/2)+(((knumtransients2/2)*0.667)+((knumtransients/2)*0.333))
+kRhythmAutoCombo slicearray kRA2, 0, (ira_fftsize/4)
+endif
+if ((kcombocount == 1) || (kcombocount == 3)) then 
+kRA3[] slicearray kRA2, 0, ira_fftsize/8
+kRA4[] = (kRhythmAuto4*0.333)+(kRA3*0.667)
+kcombotransients = (kcombotransients*0.833)+((knumtransients4/2)*0.333)
+kRhythmAutoCombo slicearray kRA4, 0, (ira_fftsize/8)
+endif
+if ((kcombocount == 2) || (kcombocount == 4)) then 
+kRA3[] slicearray kRA2, 0, ira_fftsize/8
+kRA4[] = (kRhythmAuto4*0.667)+(kRA3*0.333)
+kcombotransients = (kcombotransients*0.666)+((knumtransients4/2)*0.667)
+kRhythmAutoCombo slicearray kRA4, 0, (ira_fftsize/8)
+endif
+
+kndxfluxcombo = 1
+kcorrcomboSum = 0
+kprevcomboSum = 0
+kthiscomboSum = 0
+while kndxfluxcombo < ira_fftsize-1 do
+kRhythmAutoComboPrev[] init ira_fftsize        
+ kcombomax max kRhythmAutoCombo[kndxfluxcombo], kRhythmAutoCombo[kndxfluxcombo-1], kRhythmAutoCombo[kndxfluxcombo+1]
+ kcomboPrevmax max kRhythmAutoComboPrev[kndxfluxcombo], kRhythmAutoComboPrev[kndxfluxcombo-1], kRhythmAutoComboPrev[kndxfluxcombo+1]
+ kcorrcomboSum = kcorrcomboSum + (kcomboPrevmax*kcombomax)
+ kprevcomboSum	= kprevcomboSum + (kcomboPrevmax^2)
+ kthiscomboSum	= kthiscomboSum + (kcombomax^2)
+ kndxfluxcombo += 1
+od
+
+kRhythmAutoComboPrev = kRhythmAutoCombo
+kfluxcombo_1 divz kcorrcomboSum, (sqrt(kprevcomboSum)*sqrt(kthiscomboSum)), 1
+kra_fluxcombo = limit((1-kfluxcombo_1)*((ira_overlaps+1)/2), 0, 1)
+
+endif
+
+kra_flux = (kra_flux2+kra_fluxcombo)/2 ; use the stepwise updated combo, but combine it with the relatively stable middle layer (middle sized window)
+
+; removed, test
+;kra_fluxsum = (kra_flux+kra_flux2+kra_flux4)/3 ; test, not used
+
 
 kra_peak_delta chnget "rhythmAutocorrPeakDelta" ; peak picking delta 
 
@@ -205,17 +287,6 @@ kra_closest_i, kra_closest_v,
 krdenom_first, krdenom_max2, krdenom_max3, krdenom_closest,
 kgridness, kgrid_subdiv AutoCorrPeaks kRhythmAuto, krnewframe, kra_peak_delta, ira_fftsize
 
-/*
-kdebug init 0
-kdebug += krnewframe
-printk2 kdebug
-kdebug1 = 1
-Sdebug1 sprintfk "i : f %.03i, c %.03i, m1 %.03i, m2 %.03i, m3 %.03i", kra_first_i, kra_closest_i, kra_max1_i, kra_max2_i, kra_max3_i
-Sdebug2 sprintfk "d: f %.03i, c %.03i, m1 %.03i, m2 %.03i, m3 %.03i \n", krdenom_first, krdenom_closest, kdebug1, krdenom_max2, krdenom_max3
-puts Sdebug1, kdebug
-puts Sdebug2, kdebug
-*/
-
 kra_first_time =  kra_first_i/irhythm_sr
 kra_max1_time =  kra_max1_i/irhythm_sr
 kra_max2_time =  kra_max2_i/irhythm_sr
@@ -224,9 +295,22 @@ kra_closest_time =  kra_closest_i/irhythm_sr
 
 krhythm_ac_rms = sqrt(sumarray(kRhythmAuto*kRhythmAuto)/ira_fftsize)
 krhythm_ac_max = maxarray(kRhythmAuto)
-;krhythm_ac_crest0 divz krhythm_ac_max, krhythm_ac_rms, 1
-krhythm_ac_crest = limit((krhythm_ac_rms/(log2(knumtransients+1)+1))*18, 0, 1) ; some empirical adjustment here...
+krhythm_ac_crest1 = limit((krhythm_ac_rms/(log2(knumtransients+1)+1))*18, 0, 1) ; some empirical adjustment here... (!)
 
+krhythm_ac_rms2 = sqrt(sumarray(kRhythmAuto2*kRhythmAuto2)/ira_fftsize)
+krhythm_ac_max2 = maxarray(kRhythmAuto2)
+krhythm_ac_crest2 = limit((krhythm_ac_rms2/(log2(knumtransients2+1)+1))*18, 0, 1) ; some empirical adjustment here... (!)
+
+krhythm_ac_rms4 = sqrt(sumarray(kRhythmAuto4*kRhythmAuto4)/ira_fftsize)
+krhythm_ac_max4 = maxarray(kRhythmAuto4)
+krhythm_ac_crest4 = limit((krhythm_ac_rms4/(log2(knumtransients4+1)+1))*18, 0, 1) ; some empirical adjustment here... (!)
+
+krhythm_ac_crest = (krhythm_ac_crest1+krhythm_ac_crest2+krhythm_ac_crest4)/3
+
+; removed, test
+;krhythm_ac_rms_combo = sqrt(sumarray(kRhythmAutoCombo*kRhythmAutoCombo)/ira_fftsize)
+;krhythm_ac_max_combo = maxarray(kRhythmAutoCombo)
+;krhythm_ac_crestcombo = limit((krhythm_ac_rms_combo/(log2(kcombotransients+1)+1))*18, 0, 1) ; some empirical adjustment here... (!)
 
 ; ***************
 ; spectral analysis

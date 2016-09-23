@@ -125,6 +125,7 @@ Srms_dB sprintf {{rms_dB%i}}, isource_chan
 Stransient sprintf {{transient%i}}, isource_chan 
 Strans_dens sprintf {{trans_dens%i}}, isource_chan 
 Senv_crest sprintf {{env_crest%i}}, isource_chan 
+Senv_dyn sprintf {{env_dyn%i}}, isource_chan 
 Spitch sprintf {{pitch%i}}, isource_chan 
 Ss_centroid sprintf {{s_centroid%i}}, isource_chan 
 Ss_spread sprintf {{s_spread%i}}, isource_chan 
@@ -149,10 +150,6 @@ Srac_clos_tim sprintf {{rac_clos_tim%i}}, isource_chan
 Srac_max_tim sprintf {{rac_max_tim%i}}, isource_chan 
 Srac_max2_tim sprintf {{rac_max2_tim%i}}, isource_chan 
 Srac_max3_tim sprintf {{rac_max3_tim%i}}, isource_chan 
-Ssubdiv_1st sprintf {{subdiv_1st%i}}, isource_chan 
-Ssubdiv_clos sprintf {{subdiv_clos%i}}, isource_chan 
-Ssubdiv_max2 sprintf {{subdiv_max2%i}}, isource_chan 
-Ssubdiv_max3 sprintf {{subdiv_max3%i}}, isource_chan 
 Sgrid_subdiv sprintf {{grid_subdiv%i}}, isource_chan 
 Sgridness sprintf {{gridness%i}}, isource_chan 
 Sra_flux sprintf {{ra_flux%i}}, isource_chan 
@@ -168,6 +165,7 @@ krms_dB_n init 0
 kamp_trans_hold init 0 
 katransDensEnv_n init 0 
 kenv_crest1 init 0 
+kenv_dyn init 0 
 kpitch_n init 0 
 kcentroid_n init 0 
 kspread_n init 0 
@@ -192,10 +190,6 @@ kra_closest_time init 0
 kra_max1_time init 0 
 kra_max2_time init 0 
 kra_max3_time init 0 
-krdenom_first init 0 
-krdenom_closest init 0 
-krdenom_max2 init 0 
-krdenom_max3 init 0 
 kgrid_subdiv init 0 
 kgridness init 0 
 kra_flux init 0 
@@ -205,13 +199,14 @@ kmfcc2 init 0
 kmfcc3 init 0 
 kmfccdiff init 0 
 nxt_val: 
-kk1 OSClisten gihandle, SoscName_a, "fffffffffffffffffffffffff", krms, krms_dB_n, kamp_trans_hold, katransDensEnv_n, kenv_crest1, kpitch_n, kcentroid_n, kspread_n, kskewness_n, kurtosis_n, kflatness_n, kcrest_n, kflux_n, krhythm_irregularity, krhythm_consonance, krhythm_consonance_deviation, krhythm_ratio1, krhythm_ratio2, krhythm_ratio3, kra_first_v, kra_closest_v, kra_max1_v, kra_max2_v, kra_max3_v, kra_first_time 
-kk2 OSClisten gihandle, SoscName_b, "ffffffffffffffff", kra_closest_time, kra_max1_time, kra_max2_time, kra_max3_time, krdenom_first, krdenom_closest, krdenom_max2, krdenom_max3, kgrid_subdiv, kgridness, kra_flux, krhythm_ac_crest, kmfcc1, kmfcc2, kmfcc3, kmfccdiff 
+kk1 OSClisten gihandle, SoscName_a, "fffffffffffffffffffffffff", krms, krms_dB_n, kamp_trans_hold, katransDensEnv_n, kenv_crest1, kenv_dyn, kpitch_n, kcentroid_n, kspread_n, kskewness_n, kurtosis_n, kflatness_n, kcrest_n, kflux_n, krhythm_irregularity, krhythm_consonance, krhythm_consonance_deviation, krhythm_ratio1, krhythm_ratio2, krhythm_ratio3, kra_first_v, kra_closest_v, kra_max1_v, kra_max2_v, kra_max3_v 
+kk2 OSClisten gihandle, SoscName_b, "fffffffffffff", kra_first_time, kra_closest_time, kra_max1_time, kra_max2_time, kra_max3_time, kgrid_subdiv, kgridness, kra_flux, krhythm_ac_crest, kmfcc1, kmfcc2, kmfcc3, kmfccdiff 
 chnset krms, Srms 
 chnset krms_dB_n, Srms_dB 
 chnset kamp_trans_hold, Stransient 
 chnset katransDensEnv_n, Strans_dens 
 chnset kenv_crest1, Senv_crest 
+chnset kenv_dyn, Senv_dyn 
 chnset kpitch_n, Spitch 
 chnset kcentroid_n, Ss_centroid 
 chnset kspread_n, Ss_spread 
@@ -236,10 +231,6 @@ chnset kra_closest_time, Srac_clos_tim
 chnset kra_max1_time, Srac_max_tim 
 chnset kra_max2_time, Srac_max2_tim 
 chnset kra_max3_time, Srac_max3_tim 
-chnset krdenom_first, Ssubdiv_1st 
-chnset krdenom_closest, Ssubdiv_clos 
-chnset krdenom_max2, Ssubdiv_max2 
-chnset krdenom_max3, Ssubdiv_max3 
 chnset kgrid_subdiv, Sgrid_subdiv 
 chnset kgridness, Sgridness 
 chnset kra_flux, Sra_flux 

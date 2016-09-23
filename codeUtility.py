@@ -23,11 +23,11 @@ import re
 
 ### These need to be updated when we add or remove parameters, then autogenerate new code and all relevant files should be updated with the new paramter set
 
-analysis_parms = ["rms", "rms_dB", "transient", "trans_dens", "env_crest", "pitch", 
+analysis_parms = ["rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", 
 "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", 
 "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "rhyt_ratio1", "rhyt_ratio2", "rhyt_ratio3", 
 "rac_1st_v", "rac_clos_v", "rac_max_v", "rac_max2_v", "rac_max3_v", "rac_1st_tim", "rac_clos_tim", "rac_max_tim", "rac_max2_tim", "rac_max3_tim", 
-"subdiv_1st", "subdiv_clos", "subdiv_max2", "subdiv_max3", "grid_subdiv", "gridness", "ra_flux", "ra_crest",
+"grid_subdiv", "gridness", "ra_flux", "ra_crest", 
 "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"] 
 
 analysis_parms_string = ''''''
@@ -35,11 +35,11 @@ for item in analysis_parms: analysis_parms_string += '\"'+item+'", '
 analysis_parms_string = analysis_parms_string[:-2]
 print analysis_parms_string, '\n'
 
-csound_parms = ["krms", "krms_dB_n", "kamp_trans_hold", "katransDensEnv_n", "kenv_crest1", "kpitch_n", 
+csound_parms = ["krms", "krms_dB_n", "kamp_trans_hold", "katransDensEnv_n", "kenv_crest1", "kenv_dyn", "kpitch_n", 
 "kcentroid_n", "kspread_n", "kskewness_n", "kurtosis_n", "kflatness_n", "kcrest_n", "kflux_n", 
 "krhythm_irregularity", "krhythm_consonance", "krhythm_consonance_deviation", "krhythm_ratio1", "krhythm_ratio2", "krhythm_ratio3", 
 "kra_first_v", "kra_closest_v", "kra_max1_v", "kra_max2_v", "kra_max3_v", "kra_first_time", "kra_closest_time", "kra_max1_time", "kra_max2_time", "kra_max3_time",
-"krdenom_first", "krdenom_closest", "krdenom_max2", "krdenom_max3", "kgrid_subdiv", "kgridness", "kra_flux", "krhythm_ac_crest", 
+"kgrid_subdiv", "kgridness", "kra_flux", "krhythm_ac_crest", 
 "kmfcc1", "kmfcc2", "kmfcc3", "kmfccdiff"]
 
 csound_parms_string = ''''''

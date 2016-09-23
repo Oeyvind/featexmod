@@ -107,13 +107,17 @@ class PeakDetector:
     def relative_distance_denom(self, bogus=None):
         # distance (max to N) ratio reduced to simplest fraction, then return just denominator
         r_first_max, r_max_2, r_max_3, r_max_closest, maxpeak_i = self.relative_distance()
-        max_subdiv = 12
-        deviation = 2.0/maxpeak_i
+        max_subdiv = 16 # highest denominator for our grid
+        deviation = 2.0/self.size # N frames deviation when calculating grid
         _, first_denom = ra.farey(r_first_max, max_subdiv, deviation)
         _, m2_denom = ra.farey(r_max_2, max_subdiv, deviation)
         _, m3_denom = ra.farey(r_max_3, max_subdiv, deviation)
         _, closest_denom = ra.farey(r_max_closest, max_subdiv, deviation)
-        return float(first_denom), float(m2_denom), float(m3_denom), float(closest_denom)
+        denoms = [first_denom, m2_denom, m3_denom, closest_denom]
+        for i in range(len(denoms)):
+            if denoms[i] in [9,10,11,13,14,15]: # avoid the unwanted denoms)
+                denoms[i] = 1
+        return float(denoms[0]), float(denoms[1]), float(denoms[2]), float(denoms[3])
 
     def gridness(self, bogus=None):
         # use relative distance to lay a grid
@@ -121,45 +125,63 @@ class PeakDetector:
         # subdivisions of the grid set by relative distance
         # we may try several grids, and output the highest grid affirmativity (gridness) found
         # also output the grid (subdiv) that yields the highest affirmativity
+        indices = []
         if len(self.peaks) > 0:
-            r_first, r_max2, r_max3, r_max_closest, maxpeak_i = self.relative_distance() 
-            max_subdiv = 12 # highest denominator for our grid
-            deviation = 2.0/maxpeak_i # N frames deviation when calculating grid
             gridoptions = {} # the possible fractions on which to build grids, and their associated grids
-            for item in [r_first, r_max2, r_max3, r_max_closest]:
-                nom, denom = ra.farey(item, max_subdiv, deviation)
+            denoms = self.relative_distance_denom()
+            maxpeak_i, _, _, _, _, _ = self.get_3maxpeaks()
+            for denom in denoms:
                 if denom > 0: stepsize = maxpeak_i/float(denom)
                 else: stepsize = self.size/2
                 numsteps = int(self.size/stepsize)
                 thisgrid= []
-                for i in range(0, numsteps):
+                for i in range(1, numsteps+1):
                     thisgrid.append(round(i*stepsize))
                 gridoptions.setdefault(denom, thisgrid)
-            #print 'gridoptions', gridoptions
             indices = [el[0] for el in self.peaks]
             max_gridmatch = 0
             best_grid = -1
+            outlier = -1
             for denom, grid in gridoptions.iteritems():
                 gm = []
-                for grindx in grid:
-                    for indx in indices:
-                        if ((grindx >= indx-1) and (grindx <= indx+1)):
+                for indx in indices:
+                    for grindx in grid:
+                        if ((grindx >= indx-2) and (grindx <= indx+2)):
                             gm.append(indx)
+                            break
                 if len(gm) > max_gridmatch: 
                     max_gridmatch = len(gm)
                     best_grid = denom
             gridness = max_gridmatch/float(len(indices))
         else: gridness, denom = (0,1)
-        return float(gridness), float(denom)
+        return float(gridness), float(denom), float(len(indices))
 
 if __name__=="__main__":
     data = [0,0,0,0,1,2.1,1,1,3,4,3,1,1,4,5,4,1,1,1,1,1,1,6,8,7,1,1,1,1,1,1,3,4,3,1,1]
+    data = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+            0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+            0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+            0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+            0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+            0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,
+            0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+            0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+            0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+            0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+            0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+            0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+            0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+            0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+            0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+            0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,]
     p = PeakDetector()
     i = 0
     for d in data:
         p.fill_array(d, i, len(data))
+        if d > 0:
+            print i
         i += 1
-    p.analyze_peaks(1.05)
+    p.analyze_peaks(.05)
     i = 0
     while i != -1:
         i,v = p.get_peaks()
@@ -167,6 +189,6 @@ if __name__=="__main__":
     print('Maxindices:{}'.format(p.get_3maxpeaks()))
     print('Firstpeak:{}'.format(p.get_firstpeak()))
     print('Closest to max:{}'.format(p.get_closest_to_maxpeak()))
-    print('distance_to_max:{}'.format(p.distance_to_max()))
-    print('relative_distance:{}'.format(p.relative_distance()))
+    print('relative_distance:{}'.format(p.relative_distance_denom()))
     print('gridness:{}'.format(p.gridness()))
+
