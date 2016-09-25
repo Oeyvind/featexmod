@@ -346,6 +346,9 @@ transEnvelope:
         kraw2           chnget Srawflag2
         ;printk2 kraw1
         ;printk2 kraw2, 10
+        Smixmeth        sprintf "method_%s", Sparam
+        Smixmethod      chnget Smixmeth
+        if strcmpk(Smixmethod, "add") == 0 then
         if (kraw1 == 1) && (kraw2 == 0) then
         kval            limit kval1+(kval2*(imax-imin))+koffset1, imin, imax  ; do not autoscale raw values for source 1
         elseif (kraw2 == 1) && (kraw1 == 0) then
@@ -355,6 +358,16 @@ transEnvelope:
         else
         kval            limit ((kval1+kval2)*(imax-imin))+koffset1, imin, imax  ; autoascale normalized values
         endif
-        ;printks "raw1 %i, val1 %f, raw2 %i, val2 %f, outval %f \n", 1, kraw1, kval1, kraw2, kval2, kval
+        elseif strcmpk(Smixmethod, "abs_diff") == 0 then
+        if (kraw1 == 1) && (kraw2 == 0) then
+        kval            limit abs(kval1-(kval2*(imax-imin)))+koffset1, imin, imax  ; do not autoscale raw values for source 1
+        elseif (kraw2 == 1) && (kraw1 == 0) then
+        kval            limit abs((kval1*(imax-imin))-kval2)+koffset1, imin, imax  ; do not autoscale raw values for source 2
+        elseif (kraw2 == 1) && (kraw1 == 1) then
+        kval            limit abs(kval1-kval2)+koffset1, imin, imax                ; do not autoscale raw values for either source
+        else
+        kval            limit (abs(kval1-kval2)*(imax-imin))+koffset1, imin, imax  ; autoascale normalized values
+        endif
+        endif
                         chnset kval, Sparam
 	endin

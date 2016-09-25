@@ -79,70 +79,74 @@ start_x_pos = 30
 start_y_pos = 5
 plant_height = 85
 
-plant = '''groupbox bounds({start_y}, {start_x}, 574, 81), plant("plant_{pname}"), linethickness("0"){{ 
-combobox channel("source1_{pname}"), bounds(10, 12, 100, 20), items({analysis_p}), value(1), channeltype("string")
-combobox channel("chan1_{pname}"), bounds(113, 12, 50, 20), items("1", "2", "3", "4"), value(1)
-numberbox bounds(168, 14, 35, 15), channel("rise1_{pname}"), range(0.01, 10.0, 0.01)
-numberbox bounds(206, 14, 35, 15), channel("fall1_{pname}"), range(0.01, 10.0, 0.5)
-hslider bounds(243, 12, 86, 20), channel("scale1_{pname}"), range(-1.0, 1.0, 0, 1, 0.001)
-button bounds(330, 12, 29, 19), channel("scale1_x_{pname}"), text("x 1","x 10")
-hslider bounds(359, 12, 86, 20), channel("curve1_{pname}"), range(-5.0, 5.0, 0)
+plant = '''groupbox bounds({start_y}, {start_x}, 674, 81), plant("plant_{pname}"), linethickness("0"){{ 
+combobox channel("method_{pname}"), bounds(10, 12, 96, 20), items("add", "abs_diff"), value(1), channeltype("string")
+combobox channel("source1_{pname}"), bounds(110, 12, 95, 20), items({analysis_p}), value(1), channeltype("string")
+combobox channel("chan1_{pname}"), bounds(213, 12, 50, 20), items("1", "2", "3", "4"), value(1)
+numberbox bounds(268, 14, 35, 15), channel("rise1_{pname}"), range(0.01, 10.0, 0.01)
+numberbox bounds(306, 14, 35, 15), channel("fall1_{pname}"), range(0.01, 10.0, 0.5)
+hslider bounds(343, 12, 86, 20), channel("scale1_{pname}"), range(-1.0, 1.0, 0, 1, 0.001)
+button bounds(430, 12, 29, 19), channel("scale1_x_{pname}"), text("x 1","x 10")
+hslider bounds(459, 12, 86, 20), channel("curve1_{pname}"), range(-5.0, 5.0, 0)
 
-combobox channel("source2_{pname}"), bounds(10, 34, 100, 20), items({analysis_p}), value(1), channeltype("string")
-combobox channel("chan2_{pname}"), bounds(113, 34, 50, 20), items("1", "2", "3", "4"), value(1)
-numberbox bounds(168, 36, 35, 15), channel("rise2_{pname}"), range(0.01, 10.0, 0.01)
-numberbox bounds(206, 36, 35, 15), channel("fall2_{pname}"), range(0.01, 10.0, 0.5)
-hslider bounds(243, 34, 86, 20), channel("scale2_{pname}"), range(-1.0, 1.0, 0, 1, 0.001)
-button bounds(330, 34, 29, 19), channel("scale2_x_{pname}"), text("x 1","x 10") 
-hslider bounds(359, 34, 86, 20), channel("curve2_{pname}"), range(-5.0, 5.0, 0)
+combobox channel("source2_{pname}"), bounds(110, 34, 100, 20), items({analysis_p}), value(1), channeltype("string")
+combobox channel("chan2_{pname}"), bounds(213, 34, 50, 20), items("1", "2", "3", "4"), value(1)
+numberbox bounds(268, 36, 35, 15), channel("rise2_{pname}"), range(0.01, 10.0, 0.01)
+numberbox bounds(306, 36, 35, 15), channel("fall2_{pname}"), range(0.01, 10.0, 0.5)
+hslider bounds(343, 34, 86, 20), channel("scale2_{pname}"), range(-1.0, 1.0, 0, 1, 0.001)
+button bounds(430, 34, 29, 19), channel("scale2_x_{pname}"), text("x 1","x 10") 
+hslider bounds(459, 34, 86, 20), channel("curve2_{pname}"), range(-5.0, 5.0, 0)
 
-label bounds(10, 58, 100, 12), text("source"), colour(20,20,20,255)
-label bounds(113, 58, 50, 12), text("chan"), colour(20,20,20,255)
-label bounds(166, 58, 76, 12), text("rise/fall"), colour(20,20,20,255)
-label bounds(246, 58, 110, 12), text("scale"), colour(20,20,20,255)
-label bounds(362, 58, 81, 12), text("curve"), colour(20,20,20,255)
+label bounds(10, 58, 96, 12), text("mixmeth"), colour(20,20,20,255)
+label bounds(110, 58, 100, 12), text("source"), colour(20,20,20,255)
+label bounds(213, 58, 50, 12), text("chan"), colour(20,20,20,255)
+label bounds(266, 58, 76, 12), text("rise/fall"), colour(20,20,20,255)
+label bounds(346, 58, 110, 12), text("scale"), colour(20,20,20,255)
+label bounds(462, 58, 81, 12), text("curve"), colour(20,20,20,255)
 
-rslider bounds(443, 12, 62, 62), text("offset"), channel("offset_{pname}"), range({p_min}, {p_max}, {p_default}, {p_skew}, {p_incr}) 
-combobox bounds(443, 1, 55, 12), channel("offsetx_{pname}"), items("-1", "Nornm", "+1"), , value(2), channeltype("string")
+rslider bounds(543, 12, 62, 62), text("offset"), channel("offset_{pname}"), range({p_min}, {p_max}, {p_default}, {p_skew}, {p_incr}) 
+combobox bounds(543, 1, 55, 12), channel("offsetx_{pname}"), items("-1", "Nornm", "+1"), , value(2), channeltype("string")
 
-rslider bounds(504, 8, 66, 66), text("{pname}"), channel("{pname}"), range({p_min}, {p_max}, {p_default}, {p_skew}, {p_incr})
+rslider bounds(604, 8, 66, 66), text("{pname}"), channel("{pname}"), range({p_min}, {p_max}, {p_default}, {p_skew}, {p_incr})
 }}
 
 '''
-plantMIDI = '''groupbox bounds({start_y}, {start_x}, 720, 81), plant("plant_{pname}"), linethickness("0"){{ 
-combobox channel("source1_{pname}"), bounds(10, 12, 100, 20), items({analysis_p}), value(1), channeltype("string")
-combobox channel("chan1_{pname}"), bounds(113, 12, 50, 20), items("1", "2", "3", "4"), value(1)
-numberbox bounds(168, 14, 35, 15), channel("rise1_{pname}"), range(0.01, 10.0, 0.01)
-numberbox bounds(206, 14, 35, 15), channel("fall1_{pname}"), range(0.01, 10.0, 0.5)
-hslider bounds(243, 12, 86, 20), channel("scale1_{pname}"), range(-1.0, 1.0, 0, 1, 0.001)
-button bounds(330, 12, 29, 19), channel("scale1_x_{pname}"), text("x 1","x 10"), 
-hslider bounds(359, 12, 86, 20), channel("curve1_{pname}"), range(-5.0, 5.0, 0)
+plantMIDI = '''groupbox bounds({start_y}, {start_x}, 820, 81), plant("plant_{pname}"), linethickness("0"){{ 
+combobox channel("method_{pname}"), bounds(10, 12, 96, 20), items("add", "abs_diff"), value(1), channeltype("string")
+combobox channel("source1_{pname}"), bounds(110, 12, 100, 20), items({analysis_p}), value(1), channeltype("string")
+combobox channel("chan1_{pname}"), bounds(213, 12, 50, 20), items("1", "2", "3", "4"), value(1)
+numberbox bounds(268, 14, 35, 15), channel("rise1_{pname}"), range(0.01, 10.0, 0.01)
+numberbox bounds(306, 14, 35, 15), channel("fall1_{pname}"), range(0.01, 10.0, 0.5)
+hslider bounds(343, 12, 86, 20), channel("scale1_{pname}"), range(-1.0, 1.0, 0, 1, 0.001)
+button bounds(430, 12, 29, 19), channel("scale1_x_{pname}"), text("x 1","x 10"), 
+hslider bounds(459, 12, 86, 20), channel("curve1_{pname}"), range(-5.0, 5.0, 0)
 
-combobox channel("source2_{pname}"), bounds(10, 34, 100, 20), items({analysis_p}), value(1), channeltype("string")
-combobox channel("chan2_{pname}"), bounds(113, 34, 50, 20), items("1", "2", "3", "4"), value(1)
-numberbox bounds(168, 36, 35, 15), channel("rise2_{pname}"), range(0.01, 10.0, 0.01)
-numberbox bounds(206, 36, 35, 15), channel("fall2_{pname}"), range(0.01, 10.0, 0.5)
-hslider bounds(243, 34, 86, 20), channel("scale2_{pname}"), range(-1.0, 1.0, 0, 1, 0.001)
-button bounds(330, 34, 29, 19), channel("scale2_x_{pname}"), text("x 1","x 10"), 
-hslider bounds(359, 34, 86, 20), channel("curve2_{pname}"), range(-5.0, 5.0, 0)
+combobox channel("source2_{pname}"), bounds(110, 34, 100, 20), items({analysis_p}), value(1), channeltype("string")
+combobox channel("chan2_{pname}"), bounds(213, 34, 50, 20), items("1", "2", "3", "4"), value(1)
+numberbox bounds(268, 36, 35, 15), channel("rise2_{pname}"), range(0.01, 10.0, 0.01)
+numberbox bounds(306, 36, 35, 15), channel("fall2_{pname}"), range(0.01, 10.0, 0.5)
+hslider bounds(343, 34, 86, 20), channel("scale2_{pname}"), range(-1.0, 1.0, 0, 1, 0.001)
+button bounds(430, 34, 29, 19), channel("scale2_x_{pname}"), text("x 1","x 10"), 
+hslider bounds(459, 34, 86, 20), channel("curve2_{pname}"), range(-5.0, 5.0, 0)
 
-label bounds(10, 58, 100, 12), text("source"), colour(20,20,20,255)
-label bounds(113, 58, 50, 12), text("chan"), colour(20,20,20,255)
-label bounds(166, 58, 76, 12), text("rise/fall"), colour(20,20,20,255)
-label bounds(246, 58, 110, 12), text("scale"), colour(20,20,20,255)
-label bounds(362, 58, 81, 12), text("curve"), colour(20,20,20,255)
+label bounds(10, 58, 96, 12), text("mixmeth"), colour(20,20,20,255)
+label bounds(110, 58, 100, 12), text("source"), colour(20,20,20,255)
+label bounds(213, 58, 50, 12), text("chan"), colour(20,20,20,255)
+label bounds(266, 58, 76, 12), text("rise/fall"), colour(20,20,20,255)
+label bounds(346, 58, 110, 12), text("scale"), colour(20,20,20,255)
+label bounds(462, 58, 81, 12), text("curve"), colour(20,20,20,255)
 
-rslider bounds(443, 12, 62, 62), text("offset"), channel("offset_{pname}"), range({p_min}, {p_max}, {p_default}, {p_skew}, {p_incr}) 
-combobox bounds(443, 1, 55, 12), channel("offsetx_{pname}"), items("-1", "Nornm", "+1"), , value(2), channeltype("string")
+rslider bounds(543, 12, 62, 62), text("offset"), channel("offset_{pname}"), range({p_min}, {p_max}, {p_default}, {p_skew}, {p_incr}) 
+combobox bounds(543, 1, 55, 12), channel("offsetx_{pname}"), items("-1", "Nornm", "+1"), , value(2), channeltype("string")
 
-rslider bounds(504, 8, 66, 66), text("{pname}"), channel("{pname}"), range({p_min}, {p_max}, {p_default}, {p_skew}, {p_incr})
+rslider bounds(604, 8, 66, 66), text("{pname}"), channel("{pname}"), range({p_min}, {p_max}, {p_default}, {p_skew}, {p_incr})
 
-label bounds(580, 8, 55, 12), text("midi"), colour(20,20,20,255)
-checkbox bounds(642, 8, 12, 12), text("enable"), channel("enable_{pname}"), value(1)
-numberbox bounds(580, 25, 55, 15), channel("midich_{pname}"), range(1, 16, 1)
-numberbox bounds(580, 42, 55, 15), channel("ctrlnum_{pname}"), range(1, 127, 1)
-label bounds(642, 25, 70, 12), text("channel"), colour(20,20,20,255)
-label bounds(642, 42, 70, 12), text("ctrl"), colour(20,20,20,255)
+label bounds(680, 8, 55, 12), text("midi"), colour(20,20,20,255)
+checkbox bounds(742, 8, 12, 12), text("enable"), channel("enable_{pname}"), value(1)
+numberbox bounds(680, 25, 55, 15), channel("midich_{pname}"), range(1, 16, 1)
+numberbox bounds(680, 42, 55, 15), channel("ctrlnum_{pname}"), range(1, 127, 1)
+label bounds(742, 25, 70, 12), text("channel"), colour(20,20,20,255)
+label bounds(742, 42, 70, 12), text("ctrl"), colour(20,20,20,255)
 
 }}
 
