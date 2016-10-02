@@ -79,7 +79,7 @@ start_x_pos = 30
 start_y_pos = 5
 plant_height = 85
 
-plant = '''groupbox bounds({start_y}, {start_x}, 674, 81), plant("plant_{pname}"), linethickness("0"){{ 
+plant = '''groupbox bounds({start_y}, {start_x}, 845, 81), plant("plant_{pname}"), linethickness("0"){{ 
 combobox channel("method_{pname}"), bounds(10, 12, 96, 20), items("add", "abs_diff"), value(1), channeltype("string")
 combobox channel("source1_{pname}"), bounds(110, 12, 95, 20), items({analysis_p}), value(1), channeltype("string")
 combobox channel("chan1_{pname}"), bounds(213, 12, 50, 20), items("1", "2", "3", "4"), value(1)
@@ -103,6 +103,7 @@ label bounds(213, 58, 50, 12), text("chan"), colour(20,20,20,255)
 label bounds(266, 58, 76, 12), text("rise/fall"), colour(20,20,20,255)
 label bounds(346, 58, 110, 12), text("scale"), colour(20,20,20,255)
 label bounds(462, 58, 81, 12), text("curve"), colour(20,20,20,255)
+texteditor bounds(670, 60, 170, 14), channel("note_parm1"), text("...notes..."), colour(20,20,20,255), fontcolour("white"), popuptext("Notes to remember where this signal is sent to  - what it controls. Will not change signal routing - just help you remember where it goes. Notes saved with DAW project. Do remember to hit *enter* to update the text control.")
 
 rslider bounds(543, 12, 62, 62), text("offset"), channel("offset_{pname}"), range({p_min}, {p_max}, {p_default}, {p_skew}, {p_incr}) 
 combobox bounds(543, 1, 55, 12), channel("offsetx_{pname}"), items("-1", "Nornm", "+1"), , value(2), channeltype("string")
@@ -111,7 +112,7 @@ rslider bounds(604, 8, 66, 66), text("{pname}"), channel("{pname}"), range({p_mi
 }}
 
 '''
-plantMIDI = '''groupbox bounds({start_y}, {start_x}, 820, 81), plant("plant_{pname}"), linethickness("0"){{ 
+plantMIDI = '''groupbox bounds({start_y}, {start_x}, 853, 81), plant("plant_{pname}"), linethickness("0"){{ 
 combobox channel("method_{pname}"), bounds(10, 12, 96, 20), items("add", "abs_diff"), value(1), channeltype("string")
 combobox channel("source1_{pname}"), bounds(110, 12, 100, 20), items({analysis_p}), value(1), channeltype("string")
 combobox channel("chan1_{pname}"), bounds(213, 12, 50, 20), items("1", "2", "3", "4"), value(1)
@@ -135,6 +136,7 @@ label bounds(213, 58, 50, 12), text("chan"), colour(20,20,20,255)
 label bounds(266, 58, 76, 12), text("rise/fall"), colour(20,20,20,255)
 label bounds(346, 58, 110, 12), text("scale"), colour(20,20,20,255)
 label bounds(462, 58, 81, 12), text("curve"), colour(20,20,20,255)
+texteditor bounds(680, 60, 170, 14), channel("note_{pname}"), text("...notes..."), colour(20,20,20,255), fontcolour("white"), popuptext("Notes to remember where this signal is sent to  - what it controls. Will not change signal routing - just help you remember where it goes. Notes saved with DAW project. Do remember to hit *enter* to update the text control.")
 
 rslider bounds(543, 12, 62, 62), text("offset"), channel("offset_{pname}"), range({p_min}, {p_max}, {p_default}, {p_skew}, {p_incr}) 
 combobox bounds(543, 1, 55, 12), channel("offsetx_{pname}"), items("-1", "Nornm", "+1"), , value(2), channeltype("string")
