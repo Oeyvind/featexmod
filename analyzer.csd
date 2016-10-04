@@ -211,7 +211,7 @@ label text("d"), bounds(786, 720, 10, 15), align("left")
 <CsInstruments>
 
         sr = 48000
-        ksmps = 64
+        ksmps = 128
 	nchnls = 2
 	0dbfs = 1	
 

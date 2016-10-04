@@ -23,8 +23,9 @@
         instr 4
 
         Sparam          strget p4
+        imod_num        = frac(p1)*100
         instr_8         = 8+frac(p1)
-        Sscoreline      sprintf {{i %f 0 -1 "%s"}}, instr_8, Sparam
+        Sscoreline      sprintf {{i %f 0 -1 "%s" %i}}, instr_8, Sparam, imod_num
                         scoreline_i Sscoreline
         Ssourcechn1     sprintf "source1_%s", Sparam
         ;puts Ssourcechn1, 1
@@ -254,6 +255,9 @@ ex_val:
         Ssource         strget p5
         isource_chan     = p6
         idest_mix_chn   = p7    ; for mixing from several sources
+        ;if strlenk(Ssource) == 0 then ; hack for combobox string channel first time init
+        ;Ssource = "rms"
+        ;endif
         SsourceChan     sprintf {{%s%i}}, Ssource, isource_chan
         ;puts Sparam,1
         ;puts SsourceChan,1
@@ -316,17 +320,32 @@ transEnvelope:
         kcurved         = kcurved*kscale_param
         Stemp           sprintf "temp%i_%s", idest_mix_chn, Sparam
                         chnset kcurved, Stemp
-                                                
+        Sto_gate        sprintf "to_gate%i_%s", idest_mix_chn, Sparam
+                        chnset kval_0, Sto_gate
         endin
         
         instr 8
         Sparam          strget p4
+        imod_num        = p5 ; module number, for linking sample and hold gates
         Stemp1          sprintf "temp1_%s", Sparam
         Stemp2          sprintf "temp2_%s", Sparam
         Soffsetchn      sprintf "offset_%s", Sparam
         Soffsetxchn     sprintf "offsetx_%s", Sparam
         Sparam_min      sprintf "%s_min", Sparam
         Sparam_max      sprintf "%s_max", Sparam
+        Sto_gate1       sprintf "to_gate1_%s", Sparam
+        Sto_gate2       sprintf "to_gate2_%s", Sparam
+        Sthresh1        sprintf "thresh1_%s", Sparam
+        Sthresh2        sprintf "thresh2_%s", Sparam
+        Slowpass1       sprintf "lowpass1_%s", Sparam
+        Slowpass2       sprintf "lowpass2_%s", Sparam
+        Srise           sprintf "outrise_%s", Sparam
+        Sfall           sprintf "outfall_%s", Sparam
+        Strigtype1      sprintf "triggertype1_%s", Sparam
+        Strigtype2      sprintf "triggertype2_%s", Sparam
+        Sdisplay1       sprintf "display1_%s", Sparam
+        Sdisplay2       sprintf "display2_%s", Sparam
+        kgate           init 0
         kval1           chnget Stemp1
         kval2           chnget Stemp2
         koffset         chnget Soffsetchn
@@ -344,30 +363,68 @@ transEnvelope:
         Srawflag2        sprintf "%s_raw_flag2", Sparam
         kraw1           chnget Srawflag1
         kraw2           chnget Srawflag2
-        ;printk2 kraw1
-        ;printk2 kraw2, 10
         Smixmeth        sprintf "method_%s", Sparam
         Smixmethod      chnget Smixmeth
-        if strcmpk(Smixmethod, "add") == 0 then
-        if (kraw1 == 1) && (kraw2 == 0) then
-        kval            limit kval1+(kval2*(imax-imin))+koffset1, imin, imax  ; do not autoscale raw values for source 1
-        elseif (kraw2 == 1) && (kraw1 == 0) then
-        kval            limit (kval1*(imax-imin))+kval2+koffset1, imin, imax  ; do not autoscale raw values for source 2
-        elseif (kraw2 == 1) && (kraw1 == 1) then
-        kval            limit kval1+kval2+koffset1, imin, imax                ; do not autoscale raw values for either source
-        else
-        kval            limit ((kval1+kval2)*(imax-imin))+koffset1, imin, imax  ; autoascale normalized values
-        endif
+        if (strcmpk(Smixmethod, "add") == 0) || (strlenk(Smixmethod) == 0) then ; the (if len==0) is a hack for combobox string channel first time init
+          if (kraw1 == 1) && (kraw2 == 0) then
+            kval limit kval1+(kval2*(imax-imin))+koffset1, imin, imax  ; do not autoscale raw values for source 1
+          elseif (kraw2 == 1) && (kraw1 == 0) then
+            kval limit (kval1*(imax-imin))+kval2+koffset1, imin, imax  ; do not autoscale raw values for source 2
+          elseif (kraw2 == 1) && (kraw1 == 1) then
+            kval limit kval1+kval2+koffset1, imin, imax                ; do not autoscale raw values for either source
+          else
+            kval limit ((kval1+kval2)*(imax-imin))+koffset1, imin, imax  ; autoascale normalized values
+          endif
         elseif strcmpk(Smixmethod, "abs_diff") == 0 then
-        if (kraw1 == 1) && (kraw2 == 0) then
-        kval            limit abs(kval1-(kval2*(imax-imin)))+koffset1, imin, imax  ; do not autoscale raw values for source 1
-        elseif (kraw2 == 1) && (kraw1 == 0) then
-        kval            limit abs((kval1*(imax-imin))-kval2)+koffset1, imin, imax  ; do not autoscale raw values for source 2
-        elseif (kraw2 == 1) && (kraw1 == 1) then
-        kval            limit abs(kval1-kval2)+koffset1, imin, imax                ; do not autoscale raw values for either source
-        else
-        kval            limit (abs(kval1-kval2)*(imax-imin))+koffset1, imin, imax  ; autoascale normalized values
+          if (kraw1 == 1) && (kraw2 == 0) then
+            kval limit abs(kval1-(kval2*(imax-imin)))+koffset1, imin, imax  ; do not autoscale raw values for source 1
+          elseif (kraw2 == 1) && (kraw1 == 0) then
+            kval limit abs((kval1*(imax-imin))-kval2)+koffset1, imin, imax  ; do not autoscale raw values for source 2
+          elseif (kraw2 == 1) && (kraw1 == 1) then
+            kval limit abs(kval1-kval2)+koffset1, imin, imax                ; do not autoscale raw values for either source
+          else
+            kval limit (abs(kval1-kval2)*(imax-imin))+koffset1, imin, imax  ; autoscale normalized values
+          endif
+        elseif strcmpk(Smixmethod, "gate") == 0 then
+          kto_gate1 chnget Sto_gate1
+          kto_gate2 chnget Sto_gate2
+          klopass1 chnget Slowpass1
+          klopass2 chnget Slowpass2
+          kto_gate1 tonek kto_gate1, klopass1
+          kto_gate2 tonek kto_gate2, klopass2
+          kthresh1 chnget Sthresh1
+          kthresh2 chnget Sthresh2
+          ktrigtype1 chnget Strigtype1
+          ktrigtype1 limit ktrigtype1, 1, 2 ; to allow old saved projects to load (if the plugin version did not contain this widget)
+          ktrigtype2 chnget Strigtype2
+          ktrigtype2 limit ktrigtype2, 1, 2
+          chnset kto_gate1, Sdisplay1
+          chnset kto_gate2, Sdisplay2
+          ktrig1 trigger kto_gate1, kthresh1, ktrigtype1-1
+          ktrig2 trigger kto_gate2, kthresh2, ktrigtype2-1
+          kgate = (ktrig1 > 0 ? 1 : kgate)
+          kgate = (ktrig2 > 0 ? 0 : kgate)
+          krise chnget Srise
+          kfall chnget Sfall
+	  krise limit krise, 1/kr, 10
+	  kfall limit kfall, 1/kr, 10
+          kA = 0.001^(1/(krise*kr))
+          kB = 0.001^(1/(kfall*kr))
+          kfilt init 0
+          kfilt = (kgate>kfilt?(kgate+(kA*(kfilt-kgate))):(kgate+(kB*(kfilt-kgate))))
+          kval = kfilt
         endif
-        endif
+        SgateOut        sprintf "gate_parm%i", imod_num
+                        chnset kgate, SgateOut
+        SgateIn         sprintf "gate_parm%i", imod_num-1
+        kgate_in        chnget SgateIn
+        SampleHold      sprintf "sh_parm%i", imod_num-1
+        ksh             chnget SampleHold
+        if ksh == 0 then
                         chnset kval, Sparam
+        else
+        if kgate_in > 0 then
+                        chnset kval, Sparam
+        endif
+        endif
 	endin
