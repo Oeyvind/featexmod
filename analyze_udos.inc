@@ -373,7 +373,7 @@ opcode AutoCorrPeaks, kkkkkkkkkkkkkkkk, k[]kki
 kAuto[], knewframe, kpeak_delta, ifftsize xin
 
 if knewframe == 1 then
-  
+
   ; peak picker
   kcnt_fill = 0
   while kcnt_fill < ifftsize/2 do

@@ -406,13 +406,14 @@ transEnvelope:
           kgate = (ktrig2 > 0 ? 0 : kgate)
           krise chnget Srise
           kfall chnget Sfall
+          knofilter = (krise+kfall == 0 ? 1 : 0)
 	  krise limit krise, 1/kr, 10
 	  kfall limit kfall, 1/kr, 10
           kA = 0.001^(1/(krise*kr))
           kB = 0.001^(1/(kfall*kr))
           kfilt init 0
           kfilt = (kgate>kfilt?(kgate+(kA*(kfilt-kgate))):(kgate+(kB*(kfilt-kgate))))
-          kval = kfilt
+          kval = (knofilter == 1 ? kgate : kfilt)
         endif
         SgateOut        sprintf "gate_parm%i", imod_num
                         chnset kgate, SgateOut

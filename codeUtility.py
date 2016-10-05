@@ -140,8 +140,8 @@ button bounds(430, 34, 29, 19), channel("scale2_x_{pname}"), text("x 1","x 10"),
 hslider bounds(459, 34, 86, 20), channel("curve2_{pname}"), range(-5.0, 5.0, 0), visible(1), identchannel("curve2_{pname}_id")
 checkbox bounds(508, 25, 40, 25), channel("gate_{pname}"), value(1), visible(0), identchannel("gate_{pname}_id")
 checkbox bounds(558, 25, 25, 25), channel("sh_{pname}"), value(0), visible(0), colour("blue"), identchannel("sh_{pname}_id")
-numberbox bounds(598, 25, 35, 15), channel("outrise_{pname}"), range(0.01, 10.0, 0.01), visible(0), identchannel("outrise_{pname}_id")
-numberbox bounds(636, 25, 35, 15), channel("outfall_{pname}"), range(0.01, 10.0, 0.5), visible(0), identchannel("outfall_{pname}_id")
+numberbox bounds(598, 25, 35, 15), channel("outrise_{pname}"), range(0.00, 10.0, 0.00), visible(0), identchannel("outrise_{pname}_id")
+numberbox bounds(636, 25, 35, 15), channel("outfall_{pname}"), range(0.00, 10.0, 0.00), visible(0), identchannel("outfall_{pname}_id")
 
 label bounds(10, 58, 96, 12), text("mixmeth"), colour(20,20,20,255)
 label bounds(110, 58, 100, 12), text("source"), colour(20,20,20,255)
