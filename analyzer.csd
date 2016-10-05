@@ -162,7 +162,7 @@ label text("0"), bounds(655, 450, 50, 15), align("left"), identchannel("ac_gridn
 label text("0"), bounds(725, 450, 50, 15), align("left"), identchannel("ac_grid_subdiv")	
 
 ; (normal width 160)
-gentable bounds(540, 470, 256, 140), identchannel("rhythm_autocorr"), tablenumber(10,11,12,13), tablecolour("darkolivegreen", "lightblue", "red", "yellow"), tablegridcolour(0,0,0,0), amprange(-0.15,1,10), amprange(-0.15,1,11), amprange(-0.15,1,12), amprange(-0.15,1,13), zoom(-1), samplerange(0,256)
+gentable bounds(540, 470, 256, 140), identchannel("rhythm_autocorr"), tablenumber(10,11,12,13), tablecolour("darkolivegreen", "lightblue", "red", "yellow"), tablegridcolour(0,0,0,0), amprange(-0.15,1,10), amprange(-0.15,1,11), amprange(-0.15,1,12), amprange(-0.15,1,13), zoom(-1), samplerange(0,128)
 
 label text("AC peaks:"), bounds(540, 620, 70, 15), align("left")
 numberbox bounds(740, 620, 50, 15), channel("rhythmAutocorrPeakDelta"), range(0.001, 0.40, 0.15, 1, 0.001)
@@ -210,7 +210,6 @@ label text("d"), bounds(786, 720, 10, 15), align("left")
 </CsOptions>
 <CsInstruments>
 
-        sr = 48000
         ksmps = 128
 	nchnls = 2
 	0dbfs = 1	
@@ -248,6 +247,7 @@ label text("d"), bounds(786, 720, 10, 15), align("left")
 
 ;**************************
 	instr 1
+		print sr
 	pyinit
         pyruni "import sys"
 	pyruni "import os"

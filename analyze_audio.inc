@@ -209,8 +209,8 @@ kra_env = kra_env * krms * kgate
 rireturn
 
 ; autocorrelation, done in layers of different fftsize to reduce latency
-irhythm_sr = 40
-ira_fftsize = 512
+irhythm_sr = 20
+ira_fftsize = 256
 ira_overlaps = 8
 kRhythmAuto[], krnewframe, knumtransients, kra_flux RhythmAutoCorr kra_env, krms_tran0, irhythm_sr, ira_fftsize, ira_overlaps
 kRhythmAuto2[], krnewframe2, knumtransients2, kra_flux2 RhythmAutoCorr kra_env, krms_tran0, irhythm_sr, ira_fftsize/2, ira_overlaps

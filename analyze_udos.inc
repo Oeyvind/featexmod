@@ -340,7 +340,7 @@ if krclock > 0 then
     od
 
     kzeroX = 0                                  ; then zero the first few bins
-    while kzeroX < 6 do
+    while kzeroX < 3 do
       kAuto[kzeroX] = 0
       kzeroX += 1
     od

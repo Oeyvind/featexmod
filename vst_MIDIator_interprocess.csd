@@ -522,7 +522,6 @@ csoundoutput bounds(5, 710, 390, 100), text("Output")
 </CsOptions>
 <CsInstruments>
 
-        sr = 48000
 	ksmps = 64
 	nchnls = 2
 	0dbfs = 1
