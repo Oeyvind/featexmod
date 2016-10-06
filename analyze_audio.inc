@@ -209,15 +209,12 @@ kra_env = kra_env * krms * kgate
 rireturn
 
 ; autocorrelation, done in layers of different fftsize to reduce latency
-irhythm_sr = 20
+irhythm_sr = 25
 ira_fftsize = 256
-ira_overlaps = 8
+ira_overlaps = 4
 kRhythmAuto[], krnewframe, knumtransients, kra_flux RhythmAutoCorr kra_env, krms_tran0, irhythm_sr, ira_fftsize, ira_overlaps
 kRhythmAuto2[], krnewframe2, knumtransients2, kra_flux2 RhythmAutoCorr kra_env, krms_tran0, irhythm_sr, ira_fftsize/2, ira_overlaps
 kRhythmAuto4[], krnewframe4, knumtransients4, kra_flux4 RhythmAutoCorr kra_env, krms_tran0, irhythm_sr, ira_fftsize/4, ira_overlaps
-;kRhythmAutoCombo[] = kRhythmAuto
-;kRhythmAutoCombo slicearray kRhythmAuto2, 0, ira_fftsize/8 ; take only the first quarter (as the second quarter will already be tapering off)
-;kRhythmAutoCombo slicearray kRhythmAuto4, 0, ira_fftsize/16 ; as above, since this is 1/4 the larger fftsize, 1/16 is a quarter of this autocorr output
 
 kcombocount init 0
 kcombocount = (krnewframe > 0 ? 0 : kcombocount)
@@ -280,6 +277,8 @@ kra_flux = (kra_flux2+kra_fluxcombo)/2 ; use the stepwise updated combo, but com
 
 kra_peak_delta chnget "rhythmAutocorrPeakDelta" ; peak picking delta 
 
+if krnewframe4 > 0 then
+
 ; WE MIGHT WANT TO DO THIS FOR ALL 3 LAYERS OF AC ANALYSIS, THEN SELECT ONE (MAX, MIN, AVERAGE?)
 kra_max1_i, kra_max2_i, kra_max3_i, kra_max1_v, kra_max2_v, kra_max3_v,
 kra_first_i, kra_first_v,
@@ -311,6 +310,8 @@ krhythm_ac_crest = (krhythm_ac_crest1+krhythm_ac_crest2+krhythm_ac_crest4)/3
 ;krhythm_ac_rms_combo = sqrt(sumarray(kRhythmAutoCombo*kRhythmAutoCombo)/ira_fftsize)
 ;krhythm_ac_max_combo = maxarray(kRhythmAutoCombo)
 ;krhythm_ac_crestcombo = limit((krhythm_ac_rms_combo/(log2(kcombotransients+1)+1))*18, 0, 1) ; some empirical adjustment here... (!)
+
+endif
 
 ; ***************
 ; spectral analysis

@@ -267,6 +267,11 @@ label text("d"), bounds(786, 720, 10, 15), align("left")
         pyruni "import rational_approx as r"
 
 ;#include "analyze_chn_init.inc"
+
+        gkMuteArr[]  init 1024
+        imute ftgentmp 0, 0, 1024, -7, -10, 1024, -1
+        copyf2array gkMuteArr, imute
+
 	endin
 
 ;**************************
@@ -323,10 +328,14 @@ label text("d"), bounds(786, 720, 10, 15), align("left")
         endif
 
         if krnewframe4*kenableDisplay > 0 then
-
+        
         copya2ftab (kRhythmAuto*0.2)+0.85, gi10
-        copya2ftab (kRhythmAuto2*0.2)+0.7, gi11
-        copya2ftab (kRhythmAuto4*0.2)+0.55, gi12
+        kRhythmAuto2Displ[] = gkMuteArr
+        kRhythmAuto2Displ slicearray kRhythmAuto2, 0, ira_fftsize/4
+        copya2ftab (kRhythmAuto2Displ*0.2)+0.7, gi11
+        kRhythmAuto4Displ[] = gkMuteArr
+        kRhythmAuto4Displ slicearray kRhythmAuto4, 0, ira_fftsize/8
+        copya2ftab (kRhythmAuto4Displ*0.2)+0.55, gi12
         copya2ftab kRhythmAutoCombo*0.75, gi13
  	chnset	"tablenumber(10,11,12,13)", "rhythm_autocorr"	; update table display	
 
