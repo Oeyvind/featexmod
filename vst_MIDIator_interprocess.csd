@@ -77,7 +77,8 @@ checkbox bounds(742, 8, 12, 12), text("enable"), channel("enable_parm1"), value(
 numberbox bounds(680, 25, 55, 15), channel("midich_parm1"), range(1, 16, 1)
 numberbox bounds(680, 42, 55, 15), channel("ctrlnum_parm1"), range(1, 127, 1)
 label bounds(742, 25, 70, 12), text("channel"), colour(20,20,20,255)
-label bounds(742, 42, 70, 12), text("ctrl"), colour(20,20,20,255)
+label bounds(742, 42, 58, 12), text("ctrl"), colour(20,20,20,255), identchannel("ctrlabel_parm1_id")
+checkbox bounds(800, 42, 12, 12), text("note"), channel("mode_parm1"), value(0), colour(blue)
 
 }
 
@@ -138,7 +139,8 @@ checkbox bounds(742, 8, 12, 12), text("enable"), channel("enable_parm2"), value(
 numberbox bounds(680, 25, 55, 15), channel("midich_parm2"), range(1, 16, 1)
 numberbox bounds(680, 42, 55, 15), channel("ctrlnum_parm2"), range(1, 127, 1)
 label bounds(742, 25, 70, 12), text("channel"), colour(20,20,20,255)
-label bounds(742, 42, 70, 12), text("ctrl"), colour(20,20,20,255)
+label bounds(742, 42, 58, 12), text("ctrl"), colour(20,20,20,255), identchannel("ctrlabel_parm2_id")
+checkbox bounds(800, 42, 12, 12), text("note"), channel("mode_parm2"), value(0), colour(blue)
 
 }
 
@@ -199,7 +201,8 @@ checkbox bounds(742, 8, 12, 12), text("enable"), channel("enable_parm3"), value(
 numberbox bounds(680, 25, 55, 15), channel("midich_parm3"), range(1, 16, 1)
 numberbox bounds(680, 42, 55, 15), channel("ctrlnum_parm3"), range(1, 127, 1)
 label bounds(742, 25, 70, 12), text("channel"), colour(20,20,20,255)
-label bounds(742, 42, 70, 12), text("ctrl"), colour(20,20,20,255)
+label bounds(742, 42, 58, 12), text("ctrl"), colour(20,20,20,255), identchannel("ctrlabel_parm3_id")
+checkbox bounds(800, 42, 12, 12), text("note"), channel("mode_parm3"), value(0), colour(blue)
 
 }
 
@@ -260,7 +263,8 @@ checkbox bounds(742, 8, 12, 12), text("enable"), channel("enable_parm4"), value(
 numberbox bounds(680, 25, 55, 15), channel("midich_parm4"), range(1, 16, 1)
 numberbox bounds(680, 42, 55, 15), channel("ctrlnum_parm4"), range(1, 127, 1)
 label bounds(742, 25, 70, 12), text("channel"), colour(20,20,20,255)
-label bounds(742, 42, 70, 12), text("ctrl"), colour(20,20,20,255)
+label bounds(742, 42, 58, 12), text("ctrl"), colour(20,20,20,255), identchannel("ctrlabel_parm4_id")
+checkbox bounds(800, 42, 12, 12), text("note"), channel("mode_parm4"), value(0), colour(blue)
 
 }
 
@@ -321,7 +325,8 @@ checkbox bounds(742, 8, 12, 12), text("enable"), channel("enable_parm5"), value(
 numberbox bounds(680, 25, 55, 15), channel("midich_parm5"), range(1, 16, 1)
 numberbox bounds(680, 42, 55, 15), channel("ctrlnum_parm5"), range(1, 127, 1)
 label bounds(742, 25, 70, 12), text("channel"), colour(20,20,20,255)
-label bounds(742, 42, 70, 12), text("ctrl"), colour(20,20,20,255)
+label bounds(742, 42, 58, 12), text("ctrl"), colour(20,20,20,255), identchannel("ctrlabel_parm5_id")
+checkbox bounds(800, 42, 12, 12), text("note"), channel("mode_parm5"), value(0), colour(blue)
 
 }
 
@@ -382,7 +387,8 @@ checkbox bounds(742, 8, 12, 12), text("enable"), channel("enable_parm6"), value(
 numberbox bounds(680, 25, 55, 15), channel("midich_parm6"), range(1, 16, 1)
 numberbox bounds(680, 42, 55, 15), channel("ctrlnum_parm6"), range(1, 127, 1)
 label bounds(742, 25, 70, 12), text("channel"), colour(20,20,20,255)
-label bounds(742, 42, 70, 12), text("ctrl"), colour(20,20,20,255)
+label bounds(742, 42, 58, 12), text("ctrl"), colour(20,20,20,255), identchannel("ctrlabel_parm6_id")
+checkbox bounds(800, 42, 12, 12), text("note"), channel("mode_parm6"), value(0), colour(blue)
 
 }
 
@@ -443,7 +449,8 @@ checkbox bounds(742, 8, 12, 12), text("enable"), channel("enable_parm7"), value(
 numberbox bounds(680, 25, 55, 15), channel("midich_parm7"), range(1, 16, 1)
 numberbox bounds(680, 42, 55, 15), channel("ctrlnum_parm7"), range(1, 127, 1)
 label bounds(742, 25, 70, 12), text("channel"), colour(20,20,20,255)
-label bounds(742, 42, 70, 12), text("ctrl"), colour(20,20,20,255)
+label bounds(742, 42, 58, 12), text("ctrl"), colour(20,20,20,255), identchannel("ctrlabel_parm7_id")
+checkbox bounds(800, 42, 12, 12), text("note"), channel("mode_parm7"), value(0), colour(blue)
 
 }
 
@@ -504,7 +511,8 @@ checkbox bounds(742, 8, 12, 12), text("enable"), channel("enable_parm8"), value(
 numberbox bounds(680, 25, 55, 15), channel("midich_parm8"), range(1, 16, 1)
 numberbox bounds(680, 42, 55, 15), channel("ctrlnum_parm8"), range(1, 127, 1)
 label bounds(742, 25, 70, 12), text("channel"), colour(20,20,20,255)
-label bounds(742, 42, 70, 12), text("ctrl"), colour(20,20,20,255)
+label bounds(742, 42, 58, 12), text("ctrl"), colour(20,20,20,255), identchannel("ctrlabel_parm8_id")
+checkbox bounds(800, 42, 12, 12), text("note"), channel("mode_parm8"), value(0), colour(blue)
 
 }
 
@@ -696,6 +704,86 @@ endin
         kctrl6          chnget "ctrlnum_parm6"
         kctrl7          chnget "ctrlnum_parm7"
         kctrl8          chnget "ctrlnum_parm8"
+        knote1          chnget "mode_parm1"
+        knote2          chnget "mode_parm2"
+        knote3          chnget "mode_parm3"
+        knote4          chnget "mode_parm4"
+        knote5          chnget "mode_parm5"
+        knote6          chnget "mode_parm6"
+        knote7          chnget "mode_parm7"
+        knote8          chnget "mode_parm8"
+        knote1label     trigger knote1, 0.5, 0
+        kctrl1label     trigger knote1, 0.5, 1
+        knote2label     trigger knote2, 0.5, 0
+        kctrl2label     trigger knote2, 0.5, 1
+        knote3label     trigger knote3, 0.5, 0
+        kctrl3label     trigger knote3, 0.5, 1
+        knote4label     trigger knote4, 0.5, 0
+        kctrl4label     trigger knote4, 0.5, 1
+        knote5label     trigger knote5, 0.5, 0
+        kctrl5label     trigger knote5, 0.5, 1
+        knote6label     trigger knote6, 0.5, 0
+        kctrl6label     trigger knote6, 0.5, 1
+        knote7label     trigger knote7, 0.5, 0
+        kctrl7label     trigger knote7, 0.5, 1
+        knote8label     trigger knote8, 0.5, 0
+        kctrl8label     trigger knote8, 0.5, 1
+        if knote1label > 0 then
+        Sctrlabel1      strcpyk {{text("note")}}
+                        chnset Sctrlabel1, "ctrlabel_parm1_id"
+        elseif kctrl1label > 0 then
+        Sctrlabel1      strcpyk {{text("ctrl")}}
+                        chnset Sctrlabel1, "ctrlabel_parm1_id"
+        endif
+        if knote2label > 0 then
+        Sctrlabel2      strcpyk {{text("note")}}
+                        chnset Sctrlabel2, "ctrlabel_parm2_id"
+        elseif kctrl2label > 0 then
+        Sctrlabel2      strcpyk {{text("ctrl")}}
+                        chnset Sctrlabel2, "ctrlabel_parm2_id"
+        endif
+        if knote3label > 0 then
+        Sctrlabel3      strcpyk {{text("note")}}
+                        chnset Sctrlabel3, "ctrlabel_parm3_id"
+        elseif kctrl3label > 0 then
+        Sctrlabel3      strcpyk {{text("ctrl")}}
+                        chnset Sctrlabel3, "ctrlabel_parm3_id"
+        endif
+        if knote4label > 0 then
+        Sctrlabel4      strcpyk {{text("note")}}
+                        chnset Sctrlabel4, "ctrlabel_parm4_id"
+        elseif kctrl4label > 0 then
+        Sctrlabel4      strcpyk {{text("ctrl")}}
+                        chnset Sctrlabel4, "ctrlabel_parm4_id"
+        endif
+        if knote5label > 0 then
+        Sctrlabel5      strcpyk {{text("note")}}
+                        chnset Sctrlabel5, "ctrlabel_parm5_id"
+        elseif kctrl5label > 0 then
+        Sctrlabel5      strcpyk {{text("ctrl")}}
+                        chnset Sctrlabel5, "ctrlabel_parm5_id"
+        endif
+        if knote6label > 0 then
+        Sctrlabel6      strcpyk {{text("note")}}
+                        chnset Sctrlabel6, "ctrlabel_parm6_id"
+        elseif kctrl6label > 0 then
+        Sctrlabel6      strcpyk {{text("ctrl")}}
+                        chnset Sctrlabel6, "ctrlabel_parm6_id"
+        endif
+        if knote7label > 0 then
+        Sctrlabel7      strcpyk {{text("note")}}
+                        chnset Sctrlabel7, "ctrlabel_parm7_id"
+        elseif kctrl7label > 0 then
+        Sctrlabel7      strcpyk {{text("ctrl")}}
+                        chnset Sctrlabel7, "ctrlabel_parm7_id"
+        endif
+        if knote8label > 0 then
+        Sctrlabel8      strcpyk {{text("note")}}
+                        chnset Sctrlabel8, "ctrlabel_parm8_id"
+        elseif kctrl8label > 0 then
+        Sctrlabel8      strcpyk {{text("ctrl")}}
+                        chnset Sctrlabel8, "ctrlabel_parm8_id"
+        endif
         kenable1        chnget "enable_parm1"
         kenable2        chnget "enable_parm2"
         kenable3        chnget "enable_parm3"
@@ -721,29 +809,110 @@ endin
         ksolostate[0]   = 1
         endif
         */
+        
         if (kchanged1>0) && (kenable1>0) then
-        midiout 176, kchan1, kctrl1, kparm1q
+          if knote1 > 0 then
+            knoteon1 trigger kparm1, 0.5, 0
+            knoteoff1 trigger kparm1, 0.5, 1
+            if knoteon1 > 0 then
+              midiout 144, kchan1, kctrl1, kparm1q
+            elseif knoteoff1 == 1 then
+              midiout 128, kchan1, kctrl1, kparm1q
+            endif
+          else
+            midiout 176, kchan1, kctrl1, kparm1q
+          endif
         endif
         if (kchanged2>0) && (kenable2>0) then
-        midiout 176, kchan2, kctrl2, kparm2q
+          if knote2 > 0 then
+            knoteon2 trigger kparm2, 0.5, 0
+            knoteoff2 trigger kparm2, 0.5, 1
+            if knoteon2 > 0 then
+              midiout 144, kchan2, kctrl2, kparm2q
+            elseif knoteoff2 == 1 then
+              midiout 128, kchan2, kctrl2, kparm2q
+            endif
+          else
+            midiout 176, kchan2, kctrl2, kparm2q
+          endif
         endif
         if (kchanged3>0) && (kenable3>0) then
-        midiout 176, kchan3, kctrl3, kparm3q
+          if knote3 > 0 then
+            knoteon3 trigger kparm3, 0.5, 0
+            knoteoff3 trigger kparm3, 0.5, 1
+            if knoteon3 > 0 then
+              midiout 144, kchan3, kctrl3, kparm3q
+            elseif knoteoff3 == 1 then
+              midiout 128, kchan3, kctrl3, kparm3q
+            endif
+          else
+            midiout 176, kchan3, kctrl3, kparm3q
+          endif
         endif
         if (kchanged4>0) && (kenable4>0) then
-        midiout 176, kchan4, kctrl4, kparm4q
+          if knote4 > 0 then
+            knoteon4 trigger kparm4, 0.5, 0
+            knoteoff4 trigger kparm4, 0.5, 1
+            if knoteon4 > 0 then
+              midiout 144, kchan4, kctrl4, kparm4q
+            elseif knoteoff4 == 1 then
+              midiout 128, kchan4, kctrl4, kparm4q
+            endif
+          else
+            midiout 176, kchan4, kctrl4, kparm4q
+          endif
         endif
         if (kchanged5>0) && (kenable5>0) then
-        midiout 176, kchan5, kctrl5, kparm5q
+          if knote5 > 0 then
+            knoteon5 trigger kparm5, 0.5, 0
+            knoteoff5 trigger kparm5, 0.5, 1
+            if knoteon5 > 0 then
+              midiout 144, kchan5, kctrl5, kparm5q
+            elseif knoteoff5 == 1 then
+              midiout 128, kchan5, kctrl5, kparm5q
+            endif
+          else
+            midiout 176, kchan5, kctrl5, kparm5q
+          endif
         endif
         if (kchanged6>0) && (kenable6>0) then
-        midiout 176, kchan6, kctrl6, kparm6q
+          if knote6 > 0 then
+            knoteon6 trigger kparm6, 0.5, 0
+            knoteoff6 trigger kparm6, 0.5, 1
+            if knoteon6 > 0 then
+              midiout 144, kchan6, kctrl6, kparm6q
+            elseif knoteoff6 == 1 then
+              midiout 128, kchan6, kctrl6, kparm6q
+            endif
+          else
+            midiout 176, kchan6, kctrl6, kparm6q
+          endif
         endif
         if (kchanged7>0) && (kenable7>0) then
-        midiout 176, kchan7, kctrl7, kparm7q
+          if knote7 > 0 then
+            knoteon7 trigger kparm7, 0.5, 0
+            knoteoff7 trigger kparm7, 0.5, 1
+            if knoteon7 > 0 then
+              midiout 144, kchan7, kctrl7, kparm7q
+            elseif knoteoff7 == 1 then
+              midiout 128, kchan7, kctrl7, kparm7q
+            endif
+          else
+            midiout 176, kchan7, kctrl7, kparm7q
+          endif
         endif
         if (kchanged8>0) && (kenable8>0) then
-        midiout 176, kchan8, kctrl8, kparm8q
+          if knote8 > 0 then
+            knoteon8 trigger kparm8, 0.5, 0
+            knoteoff8 trigger kparm8, 0.5, 1
+            if knoteon8 > 0 then
+              midiout 144, kchan8, kctrl8, kparm8q
+            elseif knoteoff8 == 1 then
+              midiout 128, kchan8, kctrl8, kparm8q
+            endif
+          else
+            midiout 176, kchan8, kctrl8, kparm8q
+          endif
         endif
 
 	endin

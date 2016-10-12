@@ -168,7 +168,8 @@ checkbox bounds(742, 8, 12, 12), text("enable"), channel("enable_{pname}"), valu
 numberbox bounds(680, 25, 55, 15), channel("midich_{pname}"), range(1, 16, 1)
 numberbox bounds(680, 42, 55, 15), channel("ctrlnum_{pname}"), range(1, 127, 1)
 label bounds(742, 25, 70, 12), text("channel"), colour(20,20,20,255)
-label bounds(742, 42, 70, 12), text("ctrl"), colour(20,20,20,255)
+label bounds(742, 42, 58, 12), text("ctrl"), colour(20,20,20,255), identchannel("ctrlabel_{pname}_id")
+checkbox bounds(800, 42, 12, 12), text("note"), channel("mode_{pname}"), value(0), colour(blue)
 
 }}
 

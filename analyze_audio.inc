@@ -294,15 +294,15 @@ kra_closest_time =  kra_closest_i/irhythm_sr
 
 krhythm_ac_rms = sqrt(sumarray(kRhythmAuto*kRhythmAuto)/ira_fftsize)
 krhythm_ac_max = maxarray(kRhythmAuto)
-krhythm_ac_crest1 = limit((krhythm_ac_rms/(log2(knumtransients+1)+1))*18, 0, 1) ; some empirical adjustment here... (!)
+krhythm_ac_crest1 = limit((krhythm_ac_rms/(log2(knumtransients+1)+1))*20, 0, 1) ; some empirical adjustment here... (!)
 
 krhythm_ac_rms2 = sqrt(sumarray(kRhythmAuto2*kRhythmAuto2)/ira_fftsize)
 krhythm_ac_max2 = maxarray(kRhythmAuto2)
-krhythm_ac_crest2 = limit((krhythm_ac_rms2/(log2(knumtransients2+1)+1))*18, 0, 1) ; some empirical adjustment here... (!)
+krhythm_ac_crest2 = limit((krhythm_ac_rms2/(log2(knumtransients2+1)+1))*20, 0, 1) ; some empirical adjustment here... (!)
 
 krhythm_ac_rms4 = sqrt(sumarray(kRhythmAuto4*kRhythmAuto4)/ira_fftsize)
 krhythm_ac_max4 = maxarray(kRhythmAuto4)
-krhythm_ac_crest4 = limit((krhythm_ac_rms4/(log2(knumtransients4+1)+1))*18, 0, 1) ; some empirical adjustment here... (!)
+krhythm_ac_crest4 = limit((krhythm_ac_rms4/(log2(knumtransients4+1)+1))*20, 0, 1) ; some empirical adjustment here... (!)
 
 krhythm_ac_crest = (krhythm_ac_crest1+krhythm_ac_crest2+krhythm_ac_crest4)/3
 
