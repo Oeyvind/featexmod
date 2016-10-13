@@ -276,8 +276,9 @@ kra_flux = (kra_flux2+kra_fluxcombo)/2 ; use the stepwise updated combo, but com
 
 
 kra_peak_delta chnget "rhythmAutocorrPeakDelta" ; peak picking delta 
-
-if krnewframe4 > 0 then
+kdisabled init 0
+if kdisabled > 0 then
+;if krnewframe4 > 0 then
 
 ; WE MIGHT WANT TO DO THIS FOR ALL 3 LAYERS OF AC ANALYSIS, THEN SELECT ONE (MAX, MIN, AVERAGE?)
 kra_max1_i, kra_max2_i, kra_max3_i, kra_max1_v, kra_max2_v, kra_max3_v,
