@@ -34,20 +34,6 @@
 	krms		rms a1			    		; simple level measure 
 	krms            = krms*2
         krms_dB         = dbfsamp(krms)
-
-        icrestrate      = 4
-        kcrestmetro     metro icrestrate
-        krms_max        init 0
-        krms_max        max krms_max, krms
-        krms_max        = (kcrestmetro > 0 ? 0 : krms_max)
-	icrestrise      = 1.5
-	icrestfall      = 3
-        kenv_crest0     divz krms_max, krms, 1
-        icrestA         = 0.001^(1/(icrestrise*kr))
-        icrestB         = 0.001^(1/(icrestfall*kr))
-        kenv_crest      init 0
-        kenv_crest      = (kenv_crest0>kenv_crest?(kenv_crest0+(icrestA*(kenv_crest-kenv_crest0))):(kenv_crest0+(icrestB*(kenv_crest-kenv_crest0))))
-        kenv_crest1     = (dbamp(kenv_crest))/45
                 
 	kAttack		= 0.001				        ; envelope follower attack
 	kRelease        chnget "amp_transientDecTime"           ; envelope follower release
@@ -60,6 +46,26 @@
 	kgate2		= (krms_dB < knoiseFloor_dB+isecond_dB ? 0 : 1)	;  gate when close to noise floor (for sampholding centroid and pitch etc)
         klowscaler      = limit(dbfsamp(krms)-knoiseFloor_dB, 0, isecond_dB)/isecond_dB      ; scaler to fade out different things towards the noise floor
         krms_dB_n       = (krms_dB/abs(knoiseFloor_dB))+1
+
+        icrestrate      = 4
+        kcrestmetro     metro icrestrate
+        krms_max        init 0
+        krms_max        max krms_max, krms
+        krms_max        = (kcrestmetro > 0 ? 0 : krms_max)
+        kcrestindex     init 0
+        kcrestindex     = (kcrestindex+kcrestmetro)%2
+        kcrestArr[]     init 2
+        kcrestArr[kcrestindex] = krms_max
+        kcrest_max      maxarray kcrestArr ; get max out of N last values
+        kenv_crest0     divz kcrest_max, krms, 1
+	kcrestrise      = (kgate2 > 0 ? 1 : 10) ; slow response when signal is low
+	kcrestfall      = (kgate2 > 0 ? 3 : 8) ; slow response when signal is low
+        kcrestA         = 0.001^(1/(kcrestrise*kr))
+        kcrestB         = 0.001^(1/(kcrestfall*kr))
+        kenv_crest      init 0
+        kenv_crest      = (kenv_crest0>kenv_crest?(kenv_crest0+(kcrestA*(kenv_crest-kenv_crest0))):(kenv_crest0+(kcrestB*(kenv_crest-kenv_crest0))))
+        kenv_crest1     = (dbamp(kenv_crest))/50
+
 
 
 ; ***************
@@ -276,7 +282,8 @@ kra_flux = (kra_flux2+kra_fluxcombo)/2 ; use the stepwise updated combo, but com
 
 
 kra_peak_delta chnget "rhythmAutocorrPeakDelta" ; peak picking delta 
-kdisabled init 0
+;kdisabled init 0
+kdisabled chnget "enableDisplay"
 if kdisabled > 0 then
 ;if krnewframe4 > 0 then
 

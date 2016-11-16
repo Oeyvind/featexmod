@@ -16,7 +16,7 @@
 ;    If not, see <http://www.gnu.org/licenses/>.
 
 <Cabbage>
-form size(805, 760), caption("Analyzer"), pluginID("anlz"), guirefresh(1) 
+form size(805, 760), caption("Analyzer"), pluginID("anlz");, guirefresh(1) 
 image bounds(0, 0, 805, 760), shape("sharp"), colour(5,15,20)
 
 label text("channel"), bounds(15, 16, 75, 12)
@@ -210,7 +210,7 @@ label text("d"), bounds(786, 720, 10, 15), align("left")
 </CsOptions>
 <CsInstruments>
 
-        ksmps = 128
+        ksmps = 64
 	nchnls = 2
 	0dbfs = 1	
 
