@@ -254,7 +254,11 @@ label text("d"), bounds(786, 720, 10, 15), align("left")
 	
 	pyruni "sys.path.append(os.getcwd())"	; needed for OSX
         pyruni "sys.path.append('c:\\python27\\DLLs')" ; needed for Win
-        
+
+        pyruni "import ctcsound"
+        pyruni "csound = _CSOUND_"
+        pyruni "cs = ctcsound.Csound(pointer_=csound)"
+
 	; needed when reloading a saved project in a DAW, as the cwd will have changed
 	Spath 	chnget "CSD_PATH"
 	Schdir	strcat "os.chdir('", Spath

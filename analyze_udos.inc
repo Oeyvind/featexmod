@@ -371,15 +371,18 @@ endop
 opcode AutoCorrPeaks, kkkkkkkkkkkkkkkk, k[]kki
 
 kAuto[], knewframe, kpeak_delta, ifftsize xin
+;pycalli "p.fill_array", 0, 0, ifftsize/2
 
 if knewframe == 1 then
-
+  
   ; peak picker
   kcnt_fill = 0
   while kcnt_fill < ifftsize/2 do
     pycall "p.fill_array", kAuto[kcnt_fill], kcnt_fill, ifftsize/2
     kcnt_fill += 1
   od
+  
+  ;pyrun "cs.tableCopyOut(kAuto, p.v"
   
   pycall "p.analyze_peaks", limit(kpeak_delta, 0.0001, 1)
   
