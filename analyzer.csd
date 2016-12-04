@@ -266,6 +266,8 @@ label text("d"), bounds(786, 720, 10, 15), align("left")
 	;pyruni Schdir2
 	pyruni "sys.path.append(os.getcwd())"
 	
+	pyruni "import spectral"
+	pyruni "s = spectral.SpectralAnalysis()"
         pyruni "import peakdetect_wrapper"
         pyruni "p = peakdetect_wrapper.PeakDetector()"
         pyruni "import rational_approx as r"

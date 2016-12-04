@@ -325,10 +325,13 @@ endif
 ; spectral analysis
 
 	iwtype 			= 1
-	fsin 			pvsanal	a1, gifftsize, gifftsize/4, gifftsize, iwtype
+	fsin 			pvsanal	a1, gifftsize, gifftsize/2, gifftsize, iwtype
 	kflag   		pvsftw	fsin,gifna,gifnf          	; export  amps  and freqs to table,
-
-	kupdateRate		= 500
+        chnset gifna, "gifna"
+        chnset gifnf, "gifnf"
+        pyruni "s.initialize(cs)"
+        
+	kupdateRate		= 200
 	kmetro			metro kupdateRate
 	kdoflag			init 0
 	kdoflag			= (kdoflag + kmetro);*kgate
@@ -342,6 +345,7 @@ endif
 	kflatness		init 0
 
 if (kdoflag > 0) && (kflag > 0) then
+
 	kArrAprev[]		= kArrA
         			copyf2array kArrA, gifna
         			copyf2array kArrF, gifnf	
@@ -353,7 +357,6 @@ if (kdoflag > 0) && (kflag > 0) then
 	kcorrSum		= 0
 	kthisSum2		= 0
 	kprevSum2		= 0
-
         kcentroid               pvscent fsin
         
 ; loop for spread, skewness, kurtosis (depend on centroid being previously calculated) 
@@ -383,7 +386,14 @@ if (kdoflag > 0) && (kflag > 0) then
         kcrest			divz kmaxAmp, ksumAmp/giFftTabSize, 1
 	kflux_1			divz kcorrSum, (sqrt(kprevSum2)*sqrt(kthisSum2)), 1
 	kflux			= (1-kflux_1)
+
+/*
+        pyrun "s.basics()"
+        kcentroid, kspread, kskewness, kurtosis, kflatness, kcrest, kflux\
+                                pycall7 "s.get_spectrals", 0
+*/                                
 	kdoflag 		= 0
+
 
 ; ** filter hack to keep spectral signals at the value analyzed while sound level above noise floor
 	kcentroid		samphold kcentroid, kgate
@@ -410,16 +420,9 @@ if (kdoflag > 0) && (kflag > 0) then
 
 endif
 
-	;kautocorr		sumarray kArrCorr
-	;krmsA			sumarray kArrA
-	;krmsAprev		sumarray kArrAprev
-	;kautocorr		divz kautocorr*2, krmsA*krmsAprev , 0
-
 ; post filtering of spectral tracks
         kcentroidf              tonek kcentroid, 20
         kfluxf                  tonek kflux, 20
-        ;kcentroidf              mediank kcentroidf, 11, 11
-        ;kurtosis                mediank kurtosis, 11, 11
 
 ; ***************
 ; cepstrum, mfcc
@@ -495,7 +498,7 @@ endif
         kcps_n          = divz(kcps, kpitch_high, 1)
         kpitch_n        = limit(divz(kcps-kpitch_low, kpitch_high-kpitch_low, 1), 0, 1)    ; normalized and offset
         kcentroid_n     = kcentroidf / (sr*0.15)
-        kspread_n       = kspread / (sr*0.2)
+        kspread_n       = kspread / (sr*0.15);(sr*0.2)
         kskewness_n     = kskewness / 20
         kurtosis_n      = kurtosis / 250
         kflatness_n     = kflatness * 3
