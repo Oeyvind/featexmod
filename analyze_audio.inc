@@ -358,7 +358,28 @@ if (kdoflag > 0) && (kflag > 0) then
 	kthisSum2		= 0
 	kprevSum2		= 0
         kcentroid               pvscent fsin
+
+; loop for spread, skewness, kurtosis (depend on centroid being previously calculated) 
+	kindx 			= 0
+	kspread			= 0
+	kskewness		= 0
+	kurtosis		= 0
+	kmean_geo               = 1
+	kArrCorr		= kArrA*kArrAprev
+	
+	kspread			= 1;kspread^0.5
+	kskewness		= 1;divz kskewness, kspread^3, 0
+	kurtosis		= 1;divz kurtosis, kspread^4, 0
         
+        kArrAlog[]              = log(kArrA)
+	kflatness		divz exp(sumarray(kArrAlog)/giFftTabSize),  (ksumAmp/giFftTabSize), 0
+	
+        kcrest			divz kmaxAmp, ksumAmp/giFftTabSize, 1
+	kArrA2[]                = kArrA*kArrA
+	kArrAprev2[]            = kArrAprev*kArrAprev
+        kflux                   = 1-(sumarray(kArrCorr)/(sqrt(sumarray(kArrA2))*sqrt(sumarray(kArrAprev2))))
+
+/*
 ; loop for spread, skewness, kurtosis (depend on centroid being previously calculated) 
 	kindx 			= 0
 	kspread			= 0
@@ -386,7 +407,7 @@ if (kdoflag > 0) && (kflag > 0) then
         kcrest			divz kmaxAmp, ksumAmp/giFftTabSize, 1
 	kflux_1			divz kcorrSum, (sqrt(kprevSum2)*sqrt(kthisSum2)), 1
 	kflux			= (1-kflux_1)
-
+*/
 /*
         pyrun "s.basics()"
         kcentroid, kspread, kskewness, kurtosis, kflatness, kcrest, kflux\
