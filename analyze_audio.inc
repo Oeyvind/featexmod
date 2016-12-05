@@ -327,9 +327,6 @@ endif
 	iwtype 			= 1
 	fsin 			pvsanal	a1, gifftsize, gifftsize/2, gifftsize, iwtype
 	kflag   		pvsftw	fsin,gifna,gifnf          	; export  amps  and freqs to table,
-        chnset gifna, "gifna"
-        chnset gifnf, "gifnf"
-        pyruni "s.initialize(cs)"
         
 	kupdateRate		= 200
 	kmetro			metro kupdateRate
@@ -340,6 +337,7 @@ endif
 	; analyze spectral features
 	kArrA[]  		init    giFftTabSize
 	kArrAprev[]  		init    giFftTabSize
+	kArrAnorm[]  		init    giFftTabSize
 	kArrF[]  		init    giFftTabSize
 	kArrCorr[]  		init    giFftTabSize
 	kflatness		init 0
@@ -349,70 +347,26 @@ if (kdoflag > 0) && (kflag > 0) then
 	kArrAprev[]		= kArrA
         			copyf2array kArrA, gifna
         			copyf2array kArrF, gifnf	
-	kindx 			= 0
-	kcentroid		= 0
 	ksumAmp			sumarray kArrA
 	kmaxAmp			maxarray kArrA
-        kflatlogsum		= 0
-	kcorrSum		= 0
-	kthisSum2		= 0
-	kprevSum2		= 0
+	ksumAmp                 = (ksumAmp == 0 ? 1 : ksumAmp)
+        kArrAnorm               = kArrA/ksumAmp
         kcentroid               pvscent fsin
-
-; loop for spread, skewness, kurtosis (depend on centroid being previously calculated) 
-	kindx 			= 0
-	kspread			= 0
-	kskewness		= 0
-	kurtosis		= 0
-	kmean_geo               = 1
 	kArrCorr		= kArrA*kArrAprev
-	
-	kspread			= 1;kspread^0.5
-	kskewness		= 1;divz kskewness, kspread^3, 0
-	kurtosis		= 1;divz kurtosis, kspread^4, 0
-        
-        kArrAlog[]              = log(kArrA)
-	kflatness		divz exp(sumarray(kArrAlog)/giFftTabSize),  (ksumAmp/giFftTabSize), 0
-	
-        kcrest			divz kmaxAmp, ksumAmp/giFftTabSize, 1
-	kArrA2[]                = kArrA*kArrA
-	kArrAprev2[]            = kArrAprev*kArrAprev
-        kflux                   = 1-(sumarray(kArrCorr)/(sqrt(sumarray(kArrA2))*sqrt(sumarray(kArrAprev2))))
-
-/*
-; loop for spread, skewness, kurtosis (depend on centroid being previously calculated) 
-	kindx 			= 0
-	kspread			= 0
-	kskewness		= 0
-	kurtosis		= 0
-	kmean_geo               = 1
- process2:
-	kArrCorr[kindx]		= kArrA[kindx]*kArrAprev[kindx]
-	knormAmp		divz kArrA[kindx], ksumAmp, 0
-	kspread			= kspread+ (((kArrF[kindx] - kcentroid)^2)*knormAmp)
-	kskewness		= kskewness + ((kArrF[kindx] - kcentroid)^3)*knormAmp
-	kurtosis		= kurtosis + ((kArrF[kindx] - kcentroid)^4)*knormAmp
-	kflatlogsum		= (kArrA[kindx] !=0 ? kflatlogsum + log(kArrA[kindx]) : kflatlogsum)
-	kcorrSum		= kcorrSum + (kArrAprev[kindx]*kArrA[kindx])
-	kprevSum2		= kprevSum2 + (kArrAprev[kindx]^2)
-	kthisSum2		= kthisSum2 + (kArrA[kindx]^2)
-	kindx 			= kindx + 1
-  if kindx < giFftTabSize then
-  kgoto process2
-  endif
-	kspread			= kspread^0.5
-	kskewness		divz kskewness, kspread^3, 0
-	kurtosis		divz kurtosis, kspread^4, 0
-	kflatness		divz exp(kflatlogsum/giFftTabSize),  (ksumAmp/giFftTabSize), 0
-        kcrest			divz kmaxAmp, ksumAmp/giFftTabSize, 1
-	kflux_1			divz kcorrSum, (sqrt(kprevSum2)*sqrt(kthisSum2)), 1
-	kflux			= (1-kflux_1)
-*/
-/*
-        pyrun "s.basics()"
-        kcentroid, kspread, kskewness, kurtosis, kflatness, kcrest, kflux\
-                                pycall7 "s.get_spectrals", 0
-*/                                
+	kspread		        = sumarray(((kArrF+(kcentroid*-1))^2)*kArrAnorm)^0.5
+	kskewness	        divz sumarray(((kArrF+(kcentroid*-1))^3)*kArrAnorm), kspread^3, 1
+	kurtosis	        divz sumarray(((kArrF+(kcentroid*-1))^4)*kArrAnorm), kspread^4, 1	
+        kcrest			divz kmaxAmp, ksumAmp/giFftTabSize, 1  
+        kArrAlog[]              = kArrA
+        kArrAlog[0]             = 1
+        kArrAlog[1]             = 0
+        klogmin minarray kArrAlog
+        while klogmin == 0 do
+        klogmin,klogndx minarray kArrAlog
+        kArrAlog[klogndx] = 1
+        od
+      	kflatness		divz exp(sumarray(log(kArrAlog))/giFftTabSize),  (ksumAmp/giFftTabSize), 0
+        kflux                   = 1-(sumarray(kArrCorr)/(sqrt(sumarray(kArrA^2))*sqrt(sumarray(kArrAprev^2))))
 	kdoflag 		= 0
 
 
