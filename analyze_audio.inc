@@ -36,7 +36,7 @@
         krms_dB         = dbfsamp(krms)
                 
 	kAttack		= 0.001				        ; envelope follower attack
-	kRelease        chnget "amp_transientDecTime"           ; envelope follower release
+	kRelease        = 0.5;chnget "amp_transientDecTime"           ; envelope follower release
 	a_env		follow2	a1preEq, kAttack, kRelease	; envelope follower
         k_env		downsamp a_env	
 

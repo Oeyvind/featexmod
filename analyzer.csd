@@ -16,7 +16,7 @@
 ;    If not, see <http://www.gnu.org/licenses/>.
 
 <Cabbage>
-form size(805, 760), caption("Analyzer"), pluginID("anlz");, guirefresh(1) 
+form size(805, 760), caption("Analyzer"), pluginID("anlz"), guirefresh(10) 
 image bounds(0, 0, 805, 760), shape("sharp"), colour(5,15,20)
 
 label text("channel"), bounds(15, 16, 75, 12)
@@ -48,9 +48,9 @@ rslider bounds(80, 135, 65, 65), text("x_Fq"), channel("preEqHiShelfFq"), range(
 rslider bounds(145, 135, 65, 65), text("HiBoost"), channel("preEqHiShelfGain"), range(0, 12, 5) 
 
 label text("transients"), bounds(15, 210, 335, 12), colour(50, 50, 50, 255)
-rslider bounds(80, 226, 65, 65), text("Thresh"), channel("amp_transientThresh"), range(0, 9, 2) 
+rslider bounds(80, 226, 65, 65), text("Thresh"), channel("amp_transientThresh"), range(0, 9, 4) 
 rslider bounds(145, 226, 65, 65), text("DecThresh"), channel("amp_transientDecThresh"), range(0, 12, 4) 
-rslider bounds(210, 226, 65, 65), text("DecTime"), channel("amp_transientDecTime"), range(0.1, 2.0, 0.5) 
+;rslider bounds(210, 226, 65, 65), text("DecTime"), channel("amp_transientDecTime"), range(0.1, 2.0, 0.5) 
 rslider bounds(275, 226, 65, 65), text("DblLimit"), channel("amp_transientDoubleLimit"), range(0.02, 1.0, 0.05, 0.35, 0.01) 
 label text("amp"), bounds(15, 230, 70, 12)
 checkbox channel("transientDisplay"),bounds(42, 245, 15, 15), value(0)
