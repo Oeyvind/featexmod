@@ -16,7 +16,7 @@
 ;    If not, see <http://www.gnu.org/licenses/>.
 
 <Cabbage>
-form size(805, 760), caption("Analyzer"), pluginID("anlz"), guirefresh(10) 
+form size(805, 760), caption("Analyzer"), pluginID("anlz");, guirefresh(10) 
 image bounds(0, 0, 805, 760), shape("sharp"), colour(5,15,20)
 
 label text("channel"), bounds(15, 16, 75, 12)
