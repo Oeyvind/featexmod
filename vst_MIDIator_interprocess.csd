@@ -522,6 +522,12 @@ checkbox bounds(800, 42, 12, 12), text("note"), channel("mode_parm8"), value(0),
 
 csoundoutput bounds(5, 710, 390, 100), text("Output")
 
+<CabbageIncludes>
+vst_MIDIator_score_events.inc
+subscriber_connect.inc
+subscriber_receiver.inc
+</CabbageIncludes>
+
 </Cabbage>
 <CsoundSynthesizer>
 <CsOptions>

@@ -202,6 +202,16 @@ label text("0"), bounds(690, 720, 50, 15), align("left"), identchannel("rhythmau
 label text("0"), bounds(740, 720, 50, 15), align("left"), identchannel("rhythmauto_m3_denom")	
 label text("d"), bounds(786, 720, 10, 15), align("left")
 
+<CabbageIncludes>
+analyze_udos.inc
+analyze_audio.inc
+analyze_send.inc
+analyze_chn_init.inc
+peakdetect_wrapper.py
+peakdetect.py
+rational_approx.py
+</CabbageIncludes>
+
 </Cabbage>
 <CsoundSynthesizer>
 <CsOptions>
