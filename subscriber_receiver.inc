@@ -331,8 +331,8 @@ transEnvelope:
         Stemp2          sprintf "temp2_%s", Sparam
         Soffsetchn      sprintf "offset_%s", Sparam
         Soffsetxchn     sprintf "offsetx_%s", Sparam
-        Sparam_min      sprintf "%s_min", Sparam
-        Sparam_max      sprintf "%s_max", Sparam
+        ;Sparam_min      sprintf "%s_min", Sparam
+        ;Sparam_max      sprintf "%s_max", Sparam
         Sto_gate1       sprintf "to_gate1_%s", Sparam
         Sto_gate2       sprintf "to_gate2_%s", Sparam
         Sthresh1        sprintf "thresh1_%s", Sparam
@@ -350,8 +350,8 @@ transEnvelope:
         kval2           chnget Stemp2
         koffset         chnget Soffsetchn
         Soffsetx        chnget Soffsetxchn
-        imin            chnget Sparam_min
-        imax            chnget Sparam_max
+        imin            = 0;chnget Sparam_min
+        imax            = 1;chnget Sparam_max
         if strcmpk(Soffsetx, "-1") == 0 then
         koffset1        = koffset-(imax-imin)
         elseif strcmpk(Soffsetx, "+1") == 0 then

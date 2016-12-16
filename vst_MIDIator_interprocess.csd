@@ -633,7 +633,6 @@ endif
 #
 
 
-#include "vst_mediator_parameter_ranges.inc"           ; instr 1
 #include "subscriber_connect.inc"                   ; instr 2,3
 #include "subscriber_receiver.inc"                  ; instr 4,5,6,7,8
 
@@ -923,10 +922,9 @@ endin
 f0 0.1 ; workaround so that the host VST scanning will not fail upon trying to open the same network port in several plugins
 s
 #define SCORELEN #86400#
-i1      0.1     1               ; init arrays
 i2	0.1	$SCORELEN
 i90	0.1	$SCORELEN
-#include "vst_mediator_score_events.inc"
+#include "vst_MIDIator_score_events.inc"
 i99     0.2     $SCORELEN       ; MIDI out
 ;i 98 0 $SCORELEN
 e
