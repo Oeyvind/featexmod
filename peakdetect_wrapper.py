@@ -22,8 +22,9 @@ class PeakDetector:
         
     def fill_array(self, val, indx, size):
         if indx == 0:
-            self.v = np.zeros(size)
-            self.size = size
+            if size != self.size:
+                self.v = np.zeros(size)
+                self.size = size
         self.v[indx] = val
     
     def analyze_peaks(self, delta, x=None):
@@ -53,6 +54,7 @@ class PeakDetector:
         else: 
             maxindices = [0,0,0]
             maxvals = [0,0,0]
+        print(float(maxindices[0]), float(maxindices[1]), float(maxindices[2]), float(maxvals[0]), float(maxvals[1]), float(maxvals[2]))
         return float(maxindices[0]), float(maxindices[1]), float(maxindices[2]), float(maxvals[0]), float(maxvals[1]), float(maxvals[2])
 
     def get_firstpeak(self, bogus=None):
