@@ -257,7 +257,7 @@ rational_approx.py
 
 ;**************************
 	instr 1
-		print sr
+	print sr
 	pyinit
         pyruni "import sys"
 	pyruni "import os"
@@ -271,10 +271,10 @@ rational_approx.py
 
 	; needed when reloading a saved project in a DAW, as the cwd will have changed
 	Spath 	chnget "CSD_PATH"
-	Schdir	strcat "os.chdir('", Spath
+	Schdir	strcat "sys.path.append('", Spath
 	Schdir2	strcat Schdir, "')"
-	;pyruni Schdir2
-	pyruni "sys.path.append(os.getcwd())"
+	pyruni Schdir2
+	;pyruni "sys.path.append(os.getcwd())"
 	
         pyruni "import peakdetect_wrapper"
         pyruni "p = peakdetect_wrapper.PeakDetector()"
