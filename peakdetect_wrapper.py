@@ -30,7 +30,7 @@ class PeakDetector:
     def analyze_peaks(self, delta, x=None):
         self.peaks, vals_ = peakdetect.peakdet(self.v, delta, x)
         #print('Peaks:', self.peaks)
-        
+                
     def get_peaks(self, bogus=None):
         self.peakndx += 1
         if self.peakndx > len(self.peaks)-1:
@@ -54,7 +54,7 @@ class PeakDetector:
         else: 
             maxindices = [0,0,0]
             maxvals = [0,0,0]
-        print(float(maxindices[0]), float(maxindices[1]), float(maxindices[2]), float(maxvals[0]), float(maxvals[1]), float(maxvals[2]))
+        #print(float(maxindices[0]), float(maxindices[1]), float(maxindices[2]), float(maxvals[0]), float(maxvals[1]), float(maxvals[2]))
         return float(maxindices[0]), float(maxindices[1]), float(maxindices[2]), float(maxvals[0]), float(maxvals[1]), float(maxvals[2])
 
     def get_firstpeak(self, bogus=None):

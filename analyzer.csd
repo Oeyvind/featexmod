@@ -162,7 +162,8 @@ label text("0"), bounds(655, 450, 50, 15), align("left"), identchannel("ac_gridn
 label text("0"), bounds(725, 450, 50, 15), align("left"), identchannel("ac_grid_subdiv")	
 
 ; (normal width 160)
-gentable bounds(540, 470, 256, 140), identchannel("rhythm_autocorr"), tablenumber(10,11,12,13), tablecolour("darkolivegreen", "lightblue", "red", "yellow"), tablegridcolour(0,0,0,0), amprange(-0.15,1,10), amprange(-0.15,1,11), amprange(-0.15,1,12), amprange(-0.15,1,13), zoom(-1), samplerange(0,128)
+;gentable bounds(540, 470, 256, 140), identchannel("rhythm_autocorr"), tablenumber(10,11,12,13), tablecolour("darkolivegreen", "lightblue", "red", "yellow"), tablegridcolour(0,0,0,0), amprange(-0.15,1,10), amprange(-0.15,1,11), amprange(-0.15,1,12), amprange(-0.15,1,13), zoom(-1), samplerange(0,128)
+gentable bounds(540, 470, 256, 140), identchannel("rhythm_autocorr"), tablenumber(10,11,12,13,14), tablecolour("darkolivegreen", "lightblue", "red", "yellow", "blue"), tablegridcolour(0,0,0,0), amprange(-0.15,1,10), amprange(-0.15,1,11), amprange(-0.15,1,12), amprange(-0.15,1,13), amprange(-0.15,1.5,14), zoom(-1), samplerange(0,128)
 
 label text("AC peaks:"), bounds(540, 620, 70, 15), align("left")
 numberbox bounds(740, 620, 50, 15), channel("rhythmAutocorrPeakDelta"), range(0.001, 0.40, 0.15, 1, 0.001)
@@ -232,8 +233,11 @@ rational_approx.py
         gi11    ftgen   11, 0, 512, -2, 0 ; rhythm autocorr display
         gi12    ftgen   12, 0, 512, -2, 0 ; rhythm autocorr display
         gi13    ftgen   13, 0, 512, -2, 0 ; rhythm autocorr display
-        gi14    ftgen   14, 0, 512, -2, 0 ; rhythm autocorr display
-        gi15    ftgen   15, 0, 512, -2, 0 ; rhythm autocorr display
+        ;gi14    ftgen   14, 0, 128, -2, 0 ; rhythm autocorr display
+        gi_iot_hist    ftgen   14, 0, 128, -2, 0 ; iot_histogram
+        ;gi15    ftgen   15, 0, 512, -2, 0 ; rhythm autocorr display
+        
+
 	giSine	ftgen	0, 0, 65536, 10, 1			; sine wave
 	gifftsize 	= 1024
 			chnset gifftsize, "fftsize"
@@ -274,13 +278,12 @@ rational_approx.py
 	Schdir	strcat "sys.path.append('", Spath
 	Schdir2	strcat Schdir, "')"
 	pyruni Schdir2
-	;pyruni "sys.path.append(os.getcwd())"
 	
         pyruni "import peakdetect_wrapper"
         pyruni "p = peakdetect_wrapper.PeakDetector()"
         pyruni "import rational_approx as r"
-
-;#include "analyze_chn_init.inc"
+        pyruni "import iot_metrics"        
+        pyruni "iot = iot_metrics.Iot_metrics()"        
 
         gkMuteArr[]  init 1024
         imute ftgentmp 0, 0, 1024, -7, -10, 1024, -1
@@ -351,7 +354,7 @@ rational_approx.py
         kRhythmAuto4Displ slicearray kRhythmAuto4, 0, ira_fftsize/8
         copya2ftab (kRhythmAuto4Displ*0.2)+0.55, gi12
         copya2ftab kRhythmAutoCombo*0.75, gi13
- 	chnset	"tablenumber(10,11,12,13)", "rhythm_autocorr"	; update table display	
+ 	chnset	"tablenumber(10,11,12,13,14)", "rhythm_autocorr"	; update table display	
 
  	Sra_1st_idxD sprintfk "text(%.d)", kra_first_i
  	Sra_clos_idxD sprintfk "text(%.d)", kra_closest_i

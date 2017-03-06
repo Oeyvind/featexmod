@@ -20,7 +20,6 @@
 
 	opcode TransientDetect, kk,kikkkk
 	kin, iresponse, ktthresh, klowThresh, kdecThresh, kdoubleLimit xin 
-        ;setksmps 32
 /*
 	iresponse	= 10 		; response time in milliseconds
 	ktthresh	= 6		; transient trig threshold 

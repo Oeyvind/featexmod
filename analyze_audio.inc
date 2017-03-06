@@ -206,16 +206,18 @@ endif
 
 ; sinoid trigger envelope, allows (soft) rhythmic deviation from strict pattern
 ishapedur = 0.1
+;ktest metro 1
+;if ktest == 1 then
 if krms_tran0 == 1 then
 reinit triggershape
 endif
 triggershape:
 kra_env linseg 0, ishapedur*0.5, 1, ishapedur*0.5, 0, 1, 0
-kra_env = kra_env * krms * kgate
+;kra_env = kra_env * krms * kgate
 rireturn
 
 ; autocorrelation, done in layers of different fftsize to reduce latency
-irhythm_sr = 25
+irhythm_sr = 24.8
 ira_fftsize = 256
 ira_overlaps = 4
 kRhythmAuto[], krnewframe, knumtransients, kra_flux RhythmAutoCorr kra_env, krms_tran0, irhythm_sr, ira_fftsize, ira_overlaps
@@ -319,6 +321,18 @@ krhythm_ac_crest = (krhythm_ac_crest1+krhythm_ac_crest2+krhythm_ac_crest4)/3
 ;krhythm_ac_max_combo = maxarray(kRhythmAutoCombo)
 ;krhythm_ac_crestcombo = limit((krhythm_ac_rms_combo/(log2(kcombotransients+1)+1))*18, 0, 1) ; some empirical adjustment here... (!)
 
+endif
+
+; ***************
+; rhythm IOT histogram analysis
+; (will possibly replace autocorr)
+chnset gi_iot_hist, "gi_iot_hist"
+pyruni {{gi_iot_hist = cs.controlChannel("gi_iot_hist")}}
+;ktest metro 1
+;if ktest == 1 then
+if krms_tran0 == 1 then
+pycall "iot.update_iot_buffer", ktime
+pyrun "cs.tableCopyIn(int(gi_iot_hist[0]), iot.iot_hist)"
 endif
 
 ; ***************
