@@ -16,8 +16,8 @@
 ;    If not, see <http://www.gnu.org/licenses/>.
 
 <Cabbage>
-form size(805, 760), caption("Analyzer"), pluginID("anlz");, guirefresh(10) 
-image bounds(0, 0, 805, 760), shape("sharp"), colour(5,15,20)
+form size(805, 740), caption("Analyzer"), pluginID("anlz");, guirefresh(10) 
+image bounds(0, 0, 805, 740), shape("sharp"), colour(5,15,20)
 
 label text("channel"), bounds(15, 16, 75, 12)
 combobox channel("chan"), bounds(80, 12, 60, 25), items("1", "2", "3", "4"), value(1)
