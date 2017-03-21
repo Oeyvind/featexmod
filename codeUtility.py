@@ -25,9 +25,7 @@ import re
 
 analysis_parms = ["rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", 
 "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", 
-"rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "rhyt_ratio1", "rhyt_ratio2", "rhyt_ratio3", 
-"rac_1st_v", "rac_clos_v", "rac_max_v", "rac_max2_v", "rac_max3_v", "rac_1st_tim", "rac_clos_tim", "rac_max_tim", "rac_max2_tim", "rac_max3_tim", 
-"grid_subdiv", "gridness", "ra_flux", "ra_crest", 
+"rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "ra_flux", "ra_crest", 
 "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"] 
 
 analysis_parms_string = ''''''
@@ -37,9 +35,7 @@ print analysis_parms_string, '\n'
 
 csound_parms = ["krms", "krms_dB_n", "kamp_trans_hold", "katransDensEnv_n", "kenv_crest1", "kenv_dyn", "kpitch_n", 
 "kcentroid_n", "kspread_n", "kskewness_n", "kurtosis_n", "kflatness_n", "kcrest_n", "kflux_n", 
-"krhythm_irregularity", "krhythm_consonance", "krhythm_consonance_deviation", "krhythm_ratio1", "krhythm_ratio2", "krhythm_ratio3", 
-"kra_first_v", "kra_closest_v", "kra_max1_v", "kra_max2_v", "kra_max3_v", "kra_first_time", "kra_closest_time", "kra_max1_time", "kra_max2_time", "kra_max3_time",
-"kgrid_subdiv", "kgridness", "kra_flux", "krhythm_ac_crest", 
+"krhythm_irregularity", "krhythm_consonance", "krhythm_consonance_deviation", "kra_flux", "krhythm_ac_crest", 
 "kmfcc1", "kmfcc2", "kmfcc3", "kmfccdiff"]
 
 csound_parms_string = ''''''
@@ -175,7 +171,7 @@ checkbox bounds(800, 42, 12, 12), text("note"), channel("mode_{pname}"), value(0
 
 '''
 
-for effectname in ['vst_mediator', 'vst_MIDIator']:
+for effectname in ['vst_MIDIator']: #'vst_mediator', 
     if effectname == 'vst_mediator':
         parameters = [('parm1', (0.0, 1.0, 0.5, 1, 0.001)), 
                       ('parm2', (0.0, 1.0, 0.5, 1, 0.001)), 
@@ -211,21 +207,6 @@ for effectname in ['vst_mediator', 'vst_MIDIator']:
     
     #
     
-    chn_init_file = open(effectname+'_parameter_ranges.inc', 'w')
-    instr_template = '''
-            instr 1
-    ; list of min and max for the mappable parameters
-    {}                        
-            endin
-    '''
-    parameter_ranges = ''
-    for i in range(len(parameters)):
-        parm = parameters[i]
-        parameter_ranges += '   chnset {}, "{}_min" \n'.format(parm[1][0], parm[0])
-        parameter_ranges += '   chnset {}, "{}_max" \n'.format(parm[1][1], parm[0])
-    chn_init_file.write(instr_template.format(parameter_ranges))
-    
-    #
     
     
     if effectname == 'vst_MIDIator': 

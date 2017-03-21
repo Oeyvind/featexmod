@@ -283,24 +283,6 @@ kra_flux = (kra_flux2+kra_fluxcombo)/2 ; use the stepwise updated combo, but com
 ;kra_fluxsum = (kra_flux+kra_flux2+kra_flux4)/3 ; test, not used
 
 
-kra_peak_delta chnget "rhythmAutocorrPeakDelta" ; peak picking delta 
-;kdisabled init 0
-kdisabled chnget "enableDisplay"
-if kdisabled > 0 then
-;if krnewframe4 > 0 then
-
-; WE MIGHT WANT TO DO THIS FOR ALL 3 LAYERS OF AC ANALYSIS, THEN SELECT ONE (MAX, MIN, AVERAGE?)
-kra_max1_i, kra_max2_i, kra_max3_i, kra_max1_v, kra_max2_v, kra_max3_v,
-kra_first_i, kra_first_v,
-kra_closest_i, kra_closest_v,
-krdenom_first, krdenom_max2, krdenom_max3, krdenom_closest,
-kgridness, kgrid_subdiv AutoCorrPeaks kRhythmAuto, krnewframe, kra_peak_delta, ira_fftsize
-
-kra_first_time =  kra_first_i/irhythm_sr
-kra_max1_time =  kra_max1_i/irhythm_sr
-kra_max2_time =  kra_max2_i/irhythm_sr
-kra_max3_time =  kra_max3_i/irhythm_sr
-kra_closest_time =  kra_closest_i/irhythm_sr
 
 krhythm_ac_rms = sqrt(sumarray(kRhythmAuto*kRhythmAuto)/ira_fftsize)
 krhythm_ac_max = maxarray(kRhythmAuto)
@@ -316,24 +298,11 @@ krhythm_ac_crest4 = limit((krhythm_ac_rms4/(log2(knumtransients4+1)+1))*20, 0, 1
 
 krhythm_ac_crest = (krhythm_ac_crest1+krhythm_ac_crest2+krhythm_ac_crest4)/3
 
-; removed, test
-;krhythm_ac_rms_combo = sqrt(sumarray(kRhythmAutoCombo*kRhythmAutoCombo)/ira_fftsize)
-;krhythm_ac_max_combo = maxarray(kRhythmAutoCombo)
-;krhythm_ac_crestcombo = limit((krhythm_ac_rms_combo/(log2(kcombotransients+1)+1))*18, 0, 1) ; some empirical adjustment here... (!)
 
-endif
 
 ; ***************
 ; rhythm IOT histogram analysis
-; (will possibly replace autocorr)
-chnset gi_iot_hist, "gi_iot_hist"
-pyruni {{gi_iot_hist = cs.controlChannel("gi_iot_hist")}}
-;ktest metro 1
-;if ktest == 1 then
-if krms_tran0 == 1 then
-pycall "iot.update_iot_buffer", ktime
-pyrun "cs.tableCopyIn(int(gi_iot_hist[0]), iot.iot_hist)"
-endif
+; (removed)
 
 ; ***************
 ; spectral analysis

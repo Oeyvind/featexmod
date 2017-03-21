@@ -24,7 +24,7 @@ label text("port"), bounds(10, 10, 80, 12), identchannel("port_id")
 groupbox bounds(5, 30, 853, 81), plant("plant_parm1"), linethickness("0"){ 
 combobox channel("method_parm1"), bounds(10, 12, 96, 20), items("add", "abs_diff", "gate"), value(1), channeltype("string")
 label bounds(5,40,10,10), text("1"), colour(20,20,20,255)
-combobox channel("source1_parm1"), bounds(110, 12, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "rhyt_ratio1", "rhyt_ratio2", "rhyt_ratio3", "rac_1st_v", "rac_clos_v", "rac_max_v", "rac_max2_v", "rac_max3_v", "rac_1st_tim", "rac_clos_tim", "rac_max_tim", "rac_max2_tim", "rac_max3_tim", "grid_subdiv", "gridness", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1), channeltype("string")
+combobox channel("source1_parm1"), bounds(110, 12, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1), channeltype("string")
 combobox channel("chan1_parm1"), bounds(213, 12, 50, 20), items("1", "2", "3", "4"), value(1)
 numberbox bounds(268, 14, 35, 15), channel("rise1_parm1"), range(0.01, 10.0, 0.01), visible(1), identchannel("rise1_parm1_id")
 numberbox bounds(306, 14, 35, 15), channel("fall1_parm1"), range(0.01, 10.0, 0.5), visible(1), identchannel("fall1_parm1_id")
@@ -36,7 +36,7 @@ hslider bounds(343, 14, 100, 16), channel("thresh1_parm1"), range(0.0, 1.0, 0.5,
 hslider bounds(343, 4, 100, 8), channel("display1_parm1"), range(0.0, 1.0, 0, 1, 0.001), colour(0,0,0,0,0), trackercolour("green"), trackerthickness(1), visible(0), identchannel("display1_parm1_id")
 combobox channel("triggertype1_parm1"), bounds(445, 12, 50, 20), items("up", "dwn"), value(1), visible(0), identchannel("triggertype1_parm1_id")
 
-combobox channel("source2_parm1"), bounds(110, 34, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "rhyt_ratio1", "rhyt_ratio2", "rhyt_ratio3", "rac_1st_v", "rac_clos_v", "rac_max_v", "rac_max2_v", "rac_max3_v", "rac_1st_tim", "rac_clos_tim", "rac_max_tim", "rac_max2_tim", "rac_max3_tim", "grid_subdiv", "gridness", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1), channeltype("string")
+combobox channel("source2_parm1"), bounds(110, 34, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1), channeltype("string")
 combobox channel("chan2_parm1"), bounds(213, 34, 50, 20), items("1", "2", "3", "4"), value(1)
 numberbox bounds(268, 36, 35, 15), channel("rise2_parm1"), range(0.01, 10.0, 0.01), visible(1), identchannel("rise2_parm1_id")
 hslider bounds(268, 34, 75, 15), channel("lowpass2_parm1"), range(0.01, 10.0, 5.0, 0.35), visible(0), identchannel("lowpass2_parm1_id")
@@ -86,7 +86,7 @@ checkbox bounds(800, 42, 12, 12), text("note"), channel("mode_parm1"), value(0),
 groupbox bounds(5, 115, 853, 81), plant("plant_parm2"), linethickness("0"){ 
 combobox channel("method_parm2"), bounds(10, 12, 96, 20), items("add", "abs_diff", "gate"), value(1), channeltype("string")
 label bounds(5,40,10,10), text("2"), colour(20,20,20,255)
-combobox channel("source1_parm2"), bounds(110, 12, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "rhyt_ratio1", "rhyt_ratio2", "rhyt_ratio3", "rac_1st_v", "rac_clos_v", "rac_max_v", "rac_max2_v", "rac_max3_v", "rac_1st_tim", "rac_clos_tim", "rac_max_tim", "rac_max2_tim", "rac_max3_tim", "grid_subdiv", "gridness", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1), channeltype("string")
+combobox channel("source1_parm2"), bounds(110, 12, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1), channeltype("string")
 combobox channel("chan1_parm2"), bounds(213, 12, 50, 20), items("1", "2", "3", "4"), value(1)
 numberbox bounds(268, 14, 35, 15), channel("rise1_parm2"), range(0.01, 10.0, 0.01), visible(1), identchannel("rise1_parm2_id")
 numberbox bounds(306, 14, 35, 15), channel("fall1_parm2"), range(0.01, 10.0, 0.5), visible(1), identchannel("fall1_parm2_id")
@@ -98,7 +98,7 @@ hslider bounds(343, 14, 100, 16), channel("thresh1_parm2"), range(0.0, 1.0, 0.5,
 hslider bounds(343, 4, 100, 8), channel("display1_parm2"), range(0.0, 1.0, 0, 1, 0.001), colour(0,0,0,0,0), trackercolour("green"), trackerthickness(1), visible(0), identchannel("display1_parm2_id")
 combobox channel("triggertype1_parm2"), bounds(445, 12, 50, 20), items("up", "dwn"), value(1), visible(0), identchannel("triggertype1_parm2_id")
 
-combobox channel("source2_parm2"), bounds(110, 34, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "rhyt_ratio1", "rhyt_ratio2", "rhyt_ratio3", "rac_1st_v", "rac_clos_v", "rac_max_v", "rac_max2_v", "rac_max3_v", "rac_1st_tim", "rac_clos_tim", "rac_max_tim", "rac_max2_tim", "rac_max3_tim", "grid_subdiv", "gridness", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1), channeltype("string")
+combobox channel("source2_parm2"), bounds(110, 34, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1), channeltype("string")
 combobox channel("chan2_parm2"), bounds(213, 34, 50, 20), items("1", "2", "3", "4"), value(1)
 numberbox bounds(268, 36, 35, 15), channel("rise2_parm2"), range(0.01, 10.0, 0.01), visible(1), identchannel("rise2_parm2_id")
 hslider bounds(268, 34, 75, 15), channel("lowpass2_parm2"), range(0.01, 10.0, 5.0, 0.35), visible(0), identchannel("lowpass2_parm2_id")
@@ -148,7 +148,7 @@ checkbox bounds(800, 42, 12, 12), text("note"), channel("mode_parm2"), value(0),
 groupbox bounds(5, 200, 853, 81), plant("plant_parm3"), linethickness("0"){ 
 combobox channel("method_parm3"), bounds(10, 12, 96, 20), items("add", "abs_diff", "gate"), value(1), channeltype("string")
 label bounds(5,40,10,10), text("3"), colour(20,20,20,255)
-combobox channel("source1_parm3"), bounds(110, 12, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "rhyt_ratio1", "rhyt_ratio2", "rhyt_ratio3", "rac_1st_v", "rac_clos_v", "rac_max_v", "rac_max2_v", "rac_max3_v", "rac_1st_tim", "rac_clos_tim", "rac_max_tim", "rac_max2_tim", "rac_max3_tim", "grid_subdiv", "gridness", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1), channeltype("string")
+combobox channel("source1_parm3"), bounds(110, 12, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1), channeltype("string")
 combobox channel("chan1_parm3"), bounds(213, 12, 50, 20), items("1", "2", "3", "4"), value(1)
 numberbox bounds(268, 14, 35, 15), channel("rise1_parm3"), range(0.01, 10.0, 0.01), visible(1), identchannel("rise1_parm3_id")
 numberbox bounds(306, 14, 35, 15), channel("fall1_parm3"), range(0.01, 10.0, 0.5), visible(1), identchannel("fall1_parm3_id")
@@ -160,7 +160,7 @@ hslider bounds(343, 14, 100, 16), channel("thresh1_parm3"), range(0.0, 1.0, 0.5,
 hslider bounds(343, 4, 100, 8), channel("display1_parm3"), range(0.0, 1.0, 0, 1, 0.001), colour(0,0,0,0,0), trackercolour("green"), trackerthickness(1), visible(0), identchannel("display1_parm3_id")
 combobox channel("triggertype1_parm3"), bounds(445, 12, 50, 20), items("up", "dwn"), value(1), visible(0), identchannel("triggertype1_parm3_id")
 
-combobox channel("source2_parm3"), bounds(110, 34, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "rhyt_ratio1", "rhyt_ratio2", "rhyt_ratio3", "rac_1st_v", "rac_clos_v", "rac_max_v", "rac_max2_v", "rac_max3_v", "rac_1st_tim", "rac_clos_tim", "rac_max_tim", "rac_max2_tim", "rac_max3_tim", "grid_subdiv", "gridness", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1), channeltype("string")
+combobox channel("source2_parm3"), bounds(110, 34, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1), channeltype("string")
 combobox channel("chan2_parm3"), bounds(213, 34, 50, 20), items("1", "2", "3", "4"), value(1)
 numberbox bounds(268, 36, 35, 15), channel("rise2_parm3"), range(0.01, 10.0, 0.01), visible(1), identchannel("rise2_parm3_id")
 hslider bounds(268, 34, 75, 15), channel("lowpass2_parm3"), range(0.01, 10.0, 5.0, 0.35), visible(0), identchannel("lowpass2_parm3_id")
@@ -210,7 +210,7 @@ checkbox bounds(800, 42, 12, 12), text("note"), channel("mode_parm3"), value(0),
 groupbox bounds(5, 285, 853, 81), plant("plant_parm4"), linethickness("0"){ 
 combobox channel("method_parm4"), bounds(10, 12, 96, 20), items("add", "abs_diff", "gate"), value(1), channeltype("string")
 label bounds(5,40,10,10), text("4"), colour(20,20,20,255)
-combobox channel("source1_parm4"), bounds(110, 12, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "rhyt_ratio1", "rhyt_ratio2", "rhyt_ratio3", "rac_1st_v", "rac_clos_v", "rac_max_v", "rac_max2_v", "rac_max3_v", "rac_1st_tim", "rac_clos_tim", "rac_max_tim", "rac_max2_tim", "rac_max3_tim", "grid_subdiv", "gridness", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1), channeltype("string")
+combobox channel("source1_parm4"), bounds(110, 12, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1), channeltype("string")
 combobox channel("chan1_parm4"), bounds(213, 12, 50, 20), items("1", "2", "3", "4"), value(1)
 numberbox bounds(268, 14, 35, 15), channel("rise1_parm4"), range(0.01, 10.0, 0.01), visible(1), identchannel("rise1_parm4_id")
 numberbox bounds(306, 14, 35, 15), channel("fall1_parm4"), range(0.01, 10.0, 0.5), visible(1), identchannel("fall1_parm4_id")
@@ -222,7 +222,7 @@ hslider bounds(343, 14, 100, 16), channel("thresh1_parm4"), range(0.0, 1.0, 0.5,
 hslider bounds(343, 4, 100, 8), channel("display1_parm4"), range(0.0, 1.0, 0, 1, 0.001), colour(0,0,0,0,0), trackercolour("green"), trackerthickness(1), visible(0), identchannel("display1_parm4_id")
 combobox channel("triggertype1_parm4"), bounds(445, 12, 50, 20), items("up", "dwn"), value(1), visible(0), identchannel("triggertype1_parm4_id")
 
-combobox channel("source2_parm4"), bounds(110, 34, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "rhyt_ratio1", "rhyt_ratio2", "rhyt_ratio3", "rac_1st_v", "rac_clos_v", "rac_max_v", "rac_max2_v", "rac_max3_v", "rac_1st_tim", "rac_clos_tim", "rac_max_tim", "rac_max2_tim", "rac_max3_tim", "grid_subdiv", "gridness", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1), channeltype("string")
+combobox channel("source2_parm4"), bounds(110, 34, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1), channeltype("string")
 combobox channel("chan2_parm4"), bounds(213, 34, 50, 20), items("1", "2", "3", "4"), value(1)
 numberbox bounds(268, 36, 35, 15), channel("rise2_parm4"), range(0.01, 10.0, 0.01), visible(1), identchannel("rise2_parm4_id")
 hslider bounds(268, 34, 75, 15), channel("lowpass2_parm4"), range(0.01, 10.0, 5.0, 0.35), visible(0), identchannel("lowpass2_parm4_id")
@@ -272,7 +272,7 @@ checkbox bounds(800, 42, 12, 12), text("note"), channel("mode_parm4"), value(0),
 groupbox bounds(5, 370, 853, 81), plant("plant_parm5"), linethickness("0"){ 
 combobox channel("method_parm5"), bounds(10, 12, 96, 20), items("add", "abs_diff", "gate"), value(1), channeltype("string")
 label bounds(5,40,10,10), text("5"), colour(20,20,20,255)
-combobox channel("source1_parm5"), bounds(110, 12, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "rhyt_ratio1", "rhyt_ratio2", "rhyt_ratio3", "rac_1st_v", "rac_clos_v", "rac_max_v", "rac_max2_v", "rac_max3_v", "rac_1st_tim", "rac_clos_tim", "rac_max_tim", "rac_max2_tim", "rac_max3_tim", "grid_subdiv", "gridness", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1), channeltype("string")
+combobox channel("source1_parm5"), bounds(110, 12, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1), channeltype("string")
 combobox channel("chan1_parm5"), bounds(213, 12, 50, 20), items("1", "2", "3", "4"), value(1)
 numberbox bounds(268, 14, 35, 15), channel("rise1_parm5"), range(0.01, 10.0, 0.01), visible(1), identchannel("rise1_parm5_id")
 numberbox bounds(306, 14, 35, 15), channel("fall1_parm5"), range(0.01, 10.0, 0.5), visible(1), identchannel("fall1_parm5_id")
@@ -284,7 +284,7 @@ hslider bounds(343, 14, 100, 16), channel("thresh1_parm5"), range(0.0, 1.0, 0.5,
 hslider bounds(343, 4, 100, 8), channel("display1_parm5"), range(0.0, 1.0, 0, 1, 0.001), colour(0,0,0,0,0), trackercolour("green"), trackerthickness(1), visible(0), identchannel("display1_parm5_id")
 combobox channel("triggertype1_parm5"), bounds(445, 12, 50, 20), items("up", "dwn"), value(1), visible(0), identchannel("triggertype1_parm5_id")
 
-combobox channel("source2_parm5"), bounds(110, 34, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "rhyt_ratio1", "rhyt_ratio2", "rhyt_ratio3", "rac_1st_v", "rac_clos_v", "rac_max_v", "rac_max2_v", "rac_max3_v", "rac_1st_tim", "rac_clos_tim", "rac_max_tim", "rac_max2_tim", "rac_max3_tim", "grid_subdiv", "gridness", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1), channeltype("string")
+combobox channel("source2_parm5"), bounds(110, 34, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1), channeltype("string")
 combobox channel("chan2_parm5"), bounds(213, 34, 50, 20), items("1", "2", "3", "4"), value(1)
 numberbox bounds(268, 36, 35, 15), channel("rise2_parm5"), range(0.01, 10.0, 0.01), visible(1), identchannel("rise2_parm5_id")
 hslider bounds(268, 34, 75, 15), channel("lowpass2_parm5"), range(0.01, 10.0, 5.0, 0.35), visible(0), identchannel("lowpass2_parm5_id")
@@ -334,7 +334,7 @@ checkbox bounds(800, 42, 12, 12), text("note"), channel("mode_parm5"), value(0),
 groupbox bounds(5, 455, 853, 81), plant("plant_parm6"), linethickness("0"){ 
 combobox channel("method_parm6"), bounds(10, 12, 96, 20), items("add", "abs_diff", "gate"), value(1), channeltype("string")
 label bounds(5,40,10,10), text("6"), colour(20,20,20,255)
-combobox channel("source1_parm6"), bounds(110, 12, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "rhyt_ratio1", "rhyt_ratio2", "rhyt_ratio3", "rac_1st_v", "rac_clos_v", "rac_max_v", "rac_max2_v", "rac_max3_v", "rac_1st_tim", "rac_clos_tim", "rac_max_tim", "rac_max2_tim", "rac_max3_tim", "grid_subdiv", "gridness", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1), channeltype("string")
+combobox channel("source1_parm6"), bounds(110, 12, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1), channeltype("string")
 combobox channel("chan1_parm6"), bounds(213, 12, 50, 20), items("1", "2", "3", "4"), value(1)
 numberbox bounds(268, 14, 35, 15), channel("rise1_parm6"), range(0.01, 10.0, 0.01), visible(1), identchannel("rise1_parm6_id")
 numberbox bounds(306, 14, 35, 15), channel("fall1_parm6"), range(0.01, 10.0, 0.5), visible(1), identchannel("fall1_parm6_id")
@@ -346,7 +346,7 @@ hslider bounds(343, 14, 100, 16), channel("thresh1_parm6"), range(0.0, 1.0, 0.5,
 hslider bounds(343, 4, 100, 8), channel("display1_parm6"), range(0.0, 1.0, 0, 1, 0.001), colour(0,0,0,0,0), trackercolour("green"), trackerthickness(1), visible(0), identchannel("display1_parm6_id")
 combobox channel("triggertype1_parm6"), bounds(445, 12, 50, 20), items("up", "dwn"), value(1), visible(0), identchannel("triggertype1_parm6_id")
 
-combobox channel("source2_parm6"), bounds(110, 34, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "rhyt_ratio1", "rhyt_ratio2", "rhyt_ratio3", "rac_1st_v", "rac_clos_v", "rac_max_v", "rac_max2_v", "rac_max3_v", "rac_1st_tim", "rac_clos_tim", "rac_max_tim", "rac_max2_tim", "rac_max3_tim", "grid_subdiv", "gridness", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1), channeltype("string")
+combobox channel("source2_parm6"), bounds(110, 34, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1), channeltype("string")
 combobox channel("chan2_parm6"), bounds(213, 34, 50, 20), items("1", "2", "3", "4"), value(1)
 numberbox bounds(268, 36, 35, 15), channel("rise2_parm6"), range(0.01, 10.0, 0.01), visible(1), identchannel("rise2_parm6_id")
 hslider bounds(268, 34, 75, 15), channel("lowpass2_parm6"), range(0.01, 10.0, 5.0, 0.35), visible(0), identchannel("lowpass2_parm6_id")
@@ -396,7 +396,7 @@ checkbox bounds(800, 42, 12, 12), text("note"), channel("mode_parm6"), value(0),
 groupbox bounds(5, 540, 853, 81), plant("plant_parm7"), linethickness("0"){ 
 combobox channel("method_parm7"), bounds(10, 12, 96, 20), items("add", "abs_diff", "gate"), value(1), channeltype("string")
 label bounds(5,40,10,10), text("7"), colour(20,20,20,255)
-combobox channel("source1_parm7"), bounds(110, 12, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "rhyt_ratio1", "rhyt_ratio2", "rhyt_ratio3", "rac_1st_v", "rac_clos_v", "rac_max_v", "rac_max2_v", "rac_max3_v", "rac_1st_tim", "rac_clos_tim", "rac_max_tim", "rac_max2_tim", "rac_max3_tim", "grid_subdiv", "gridness", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1), channeltype("string")
+combobox channel("source1_parm7"), bounds(110, 12, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1), channeltype("string")
 combobox channel("chan1_parm7"), bounds(213, 12, 50, 20), items("1", "2", "3", "4"), value(1)
 numberbox bounds(268, 14, 35, 15), channel("rise1_parm7"), range(0.01, 10.0, 0.01), visible(1), identchannel("rise1_parm7_id")
 numberbox bounds(306, 14, 35, 15), channel("fall1_parm7"), range(0.01, 10.0, 0.5), visible(1), identchannel("fall1_parm7_id")
@@ -408,7 +408,7 @@ hslider bounds(343, 14, 100, 16), channel("thresh1_parm7"), range(0.0, 1.0, 0.5,
 hslider bounds(343, 4, 100, 8), channel("display1_parm7"), range(0.0, 1.0, 0, 1, 0.001), colour(0,0,0,0,0), trackercolour("green"), trackerthickness(1), visible(0), identchannel("display1_parm7_id")
 combobox channel("triggertype1_parm7"), bounds(445, 12, 50, 20), items("up", "dwn"), value(1), visible(0), identchannel("triggertype1_parm7_id")
 
-combobox channel("source2_parm7"), bounds(110, 34, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "rhyt_ratio1", "rhyt_ratio2", "rhyt_ratio3", "rac_1st_v", "rac_clos_v", "rac_max_v", "rac_max2_v", "rac_max3_v", "rac_1st_tim", "rac_clos_tim", "rac_max_tim", "rac_max2_tim", "rac_max3_tim", "grid_subdiv", "gridness", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1), channeltype("string")
+combobox channel("source2_parm7"), bounds(110, 34, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1), channeltype("string")
 combobox channel("chan2_parm7"), bounds(213, 34, 50, 20), items("1", "2", "3", "4"), value(1)
 numberbox bounds(268, 36, 35, 15), channel("rise2_parm7"), range(0.01, 10.0, 0.01), visible(1), identchannel("rise2_parm7_id")
 hslider bounds(268, 34, 75, 15), channel("lowpass2_parm7"), range(0.01, 10.0, 5.0, 0.35), visible(0), identchannel("lowpass2_parm7_id")
@@ -458,7 +458,7 @@ checkbox bounds(800, 42, 12, 12), text("note"), channel("mode_parm7"), value(0),
 groupbox bounds(5, 625, 853, 81), plant("plant_parm8"), linethickness("0"){ 
 combobox channel("method_parm8"), bounds(10, 12, 96, 20), items("add", "abs_diff", "gate"), value(1), channeltype("string")
 label bounds(5,40,10,10), text("8"), colour(20,20,20,255)
-combobox channel("source1_parm8"), bounds(110, 12, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "rhyt_ratio1", "rhyt_ratio2", "rhyt_ratio3", "rac_1st_v", "rac_clos_v", "rac_max_v", "rac_max2_v", "rac_max3_v", "rac_1st_tim", "rac_clos_tim", "rac_max_tim", "rac_max2_tim", "rac_max3_tim", "grid_subdiv", "gridness", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1), channeltype("string")
+combobox channel("source1_parm8"), bounds(110, 12, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1), channeltype("string")
 combobox channel("chan1_parm8"), bounds(213, 12, 50, 20), items("1", "2", "3", "4"), value(1)
 numberbox bounds(268, 14, 35, 15), channel("rise1_parm8"), range(0.01, 10.0, 0.01), visible(1), identchannel("rise1_parm8_id")
 numberbox bounds(306, 14, 35, 15), channel("fall1_parm8"), range(0.01, 10.0, 0.5), visible(1), identchannel("fall1_parm8_id")
@@ -470,7 +470,7 @@ hslider bounds(343, 14, 100, 16), channel("thresh1_parm8"), range(0.0, 1.0, 0.5,
 hslider bounds(343, 4, 100, 8), channel("display1_parm8"), range(0.0, 1.0, 0, 1, 0.001), colour(0,0,0,0,0), trackercolour("green"), trackerthickness(1), visible(0), identchannel("display1_parm8_id")
 combobox channel("triggertype1_parm8"), bounds(445, 12, 50, 20), items("up", "dwn"), value(1), visible(0), identchannel("triggertype1_parm8_id")
 
-combobox channel("source2_parm8"), bounds(110, 34, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "rhyt_ratio1", "rhyt_ratio2", "rhyt_ratio3", "rac_1st_v", "rac_clos_v", "rac_max_v", "rac_max2_v", "rac_max3_v", "rac_1st_tim", "rac_clos_tim", "rac_max_tim", "rac_max2_tim", "rac_max3_tim", "grid_subdiv", "gridness", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1), channeltype("string")
+combobox channel("source2_parm8"), bounds(110, 34, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1), channeltype("string")
 combobox channel("chan2_parm8"), bounds(213, 34, 50, 20), items("1", "2", "3", "4"), value(1)
 numberbox bounds(268, 36, 35, 15), channel("rise2_parm8"), range(0.01, 10.0, 0.01), visible(1), identchannel("rise2_parm8_id")
 hslider bounds(268, 34, 75, 15), channel("lowpass2_parm8"), range(0.01, 10.0, 5.0, 0.35), visible(0), identchannel("lowpass2_parm8_id")
