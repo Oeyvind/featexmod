@@ -16,8 +16,8 @@
 ;    If not, see <http://www.gnu.org/licenses/>.
 
 <Cabbage>
-form size(805, 740), caption("Analyzer"), pluginID("anlz");, guirefresh(10) 
-image bounds(0, 0, 805, 740), shape("sharp"), colour(5,15,20)
+form size(805, 725), caption("Analyzer"), pluginID("anlz");, guirefresh(10) 
+image bounds(0, 0, 805, 725), shape("sharp"), colour(5,15,20)
 
 label text("channel"), bounds(15, 16, 75, 12)
 combobox channel("chan"), bounds(80, 12, 60, 25), items("1", "2", "3", "4"), value(1)
@@ -89,7 +89,7 @@ numberbox bounds(320, 535, 40, 15), channel("plot_c_offset"), range(-1.0, 1.0, 0
 image bounds(5, 315, 260, 260), shape("sharp"), colour(0, 0, 0)
 image bounds(-100, -100, 1, 1), widgetarray("plot", 200), shape("ellipse"), colour(255, 255, 255)
 
-csoundoutput bounds(5, 585, 360, 145), text("Output")
+csoundoutput bounds(5, 580, 360, 140), text("Output")
 
 
 
@@ -153,55 +153,14 @@ label text("rhythm autocorrelation"), bounds(540, 410, 200, 15), align("left")
 
 label text("rcrest"), bounds(540, 430, 50, 15), align("left")
 label text("rflux"), bounds(600, 430, 50, 15), align("left")
-label text("gridness"), bounds(655, 430, 60, 15), align("left")
-label text("subdiv"), bounds(725, 430, 50, 15), align("left")
 
 label text("0"), bounds(540, 450, 50, 15), align("left"), identchannel("rhythmautocrest")	
 label text("0"), bounds(600, 450, 50, 15), align("left"), identchannel("rhythmautoflux")	
-label text("0"), bounds(655, 450, 50, 15), align("left"), identchannel("ac_gridness")	
-label text("0"), bounds(725, 450, 50, 15), align("left"), identchannel("ac_grid_subdiv")	
 
 ; (normal width 160)
 ;gentable bounds(540, 470, 256, 140), identchannel("rhythm_autocorr"), tablenumber(10,11,12,13), tablecolour("darkolivegreen", "lightblue", "red", "yellow"), tablegridcolour(0,0,0,0), amprange(-0.15,1,10), amprange(-0.15,1,11), amprange(-0.15,1,12), amprange(-0.15,1,13), zoom(-1), samplerange(0,128)
 gentable bounds(540, 470, 256, 140), identchannel("rhythm_autocorr"), tablenumber(10,11,12,13,14), tablecolour("darkolivegreen", "lightblue", "red", "yellow", "blue"), tablegridcolour(0,0,0,0), amprange(-0.15,1,10), amprange(-0.15,1,11), amprange(-0.15,1,12), amprange(-0.15,1,13), amprange(-0.15,1.5,14), zoom(-1), samplerange(0,128)
 
-label text("AC peaks:"), bounds(540, 620, 70, 15), align("left")
-numberbox bounds(740, 620, 50, 15), channel("rhythmAutocorrPeakDelta"), range(0.001, 0.40, 0.15, 1, 0.001)
-label text("delta"), bounds(696, 620, 40, 15), align("left")
-
-label text("1st"), bounds(540, 640, 50, 15), align("left")
-label text("clos"), bounds(590, 640, 50, 15), align("left")
-label text("max"), bounds(640, 640, 50, 15), align("left")
-label text("m2"), bounds(690, 640, 50, 15), align("left")
-label text("m3"), bounds(740, 640, 50, 15), align("left")
-
-label text("0"), bounds(540, 660, 50, 15), align("left"), identchannel("rhythmauto_1st_indx")	
-label text("0"), bounds(590, 660, 50, 15), align("left"), identchannel("rhythmauto_clos_indx")	
-label text("0"), bounds(640, 660, 50, 15), align("left"), identchannel("rhythmauto_m1_indx")	
-label text("0"), bounds(690, 660, 50, 15), align("left"), identchannel("rhythmauto_m2_indx")	
-label text("0"), bounds(740, 660, 50, 15), align("left"), identchannel("rhythmauto_m3_indx")	
-label text("i"), bounds(786, 660, 10, 15), align("left")
-
-label text("0"), bounds(540, 680, 50, 15), align("left"), identchannel("rhythmauto_1st_val")	
-label text("0"), bounds(590, 680, 50, 15), align("left"), identchannel("rhythmauto_clos_val")	
-label text("0"), bounds(640, 680, 50, 15), align("left"), identchannel("rhythmauto_m1_val")	
-label text("0"), bounds(690, 680, 50, 15), align("left"), identchannel("rhythmauto_m2_val")	
-label text("0"), bounds(740, 680, 50, 15), align("left"), identchannel("rhythmauto_m3_val")	
-label text("v"), bounds(786, 680, 10, 15), align("left")
-
-label text("0"), bounds(540, 700, 50, 15), align("left"), identchannel("rhythmauto_1st_tim")	
-label text("0"), bounds(590, 700, 50, 15), align("left"), identchannel("rhythmauto_clos_tim")	
-label text("0"), bounds(640, 700, 50, 15), align("left"), identchannel("rhythmauto_m1_tim")	
-label text("0"), bounds(690, 700, 50, 15), align("left"), identchannel("rhythmauto_m2_tim")	
-label text("0"), bounds(740, 700, 50, 15), align("left"), identchannel("rhythmauto_m3_tim")	
-label text("t"), bounds(786, 700, 10, 15), align("left")
-
-label text("0"), bounds(540, 720, 50, 15), align("left"), identchannel("rhythmauto_1st_denom")	
-label text("0"), bounds(590, 720, 50, 15), align("left"), identchannel("rhythmauto_clos_denom")	
-label text("1"), bounds(640, 720, 50, 15), align("left"), identchannel("rhythmauto_m1_denom")	
-label text("0"), bounds(690, 720, 50, 15), align("left"), identchannel("rhythmauto_m2_denom")	
-label text("0"), bounds(740, 720, 50, 15), align("left"), identchannel("rhythmauto_m3_denom")	
-label text("d"), bounds(786, 720, 10, 15), align("left")
 
 <CabbageIncludes>
 analyze_udos.inc
