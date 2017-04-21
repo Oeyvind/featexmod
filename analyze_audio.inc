@@ -307,12 +307,11 @@ iot_size = 4
 kiotArr[] init iot_size
 kiot_index init 0
 if krms_tran0 == 1 then
-kiotArr[kiot_index] = kdist1 ; kdist comes from previous rhythm analysis (ratios, above)
+;kiotArr[kiot_index] = kdist1 ; kdist comes from previous rhythm analysis (ratios, above)
+kiotArr[kiot_index] = knom1 ; nominator comes from previous rhythmic ratio analysis (ratios, above)
 kiot_index = (kiot_index+1)%iot_size
-
-
 inumbins = 64
-imax = 4
+imax = 8
 itabsize = 8192
 iftabsA[] makehistables itabsize, inumbins
 kHist[] init inumbins
@@ -330,11 +329,37 @@ endif
 kiot_fade metro 4
 if kiot_fade > 0 then
 kHist = kHist*0.95
-; try to delete kiotArr history
-; each metro tick deletes one index, up to now ?
-; each new transient deletes one old? or just smaller buffer?
+endif
+
+;************
+iot_size2 = 4
+kiotArr2[] init iot_size2
+kiot_index2 init 0
+if krms_tran0 == 1 then
+kiotArr2[kiot_index2] = kden1 ; denominator comes from previous rhythmic ratio analysis (ratios, above)
+kiot_index2 = (kiot_index2+1)%iot_size2
+inumbins2 = 64
+imax2 = 8
+itabsize2 = 8192
+iftabsA2[] makehistables itabsize2, inumbins2
+kHist2[] init inumbins2
+kindex2 = 0
+while kindex2 < lenarray(kiotArr2) do
+  khistindex2 = 0
+  while khistindex2 < inumbins2 do
+    kHist2[khistindex2] = kHist2[khistindex2]+tablekt(kiotArr2[kindex2]/imax2, iftabsA2[khistindex2], 1)
+    khistindex2 += 1
+  od
+kindex2 += 1
+od
+endif
+
+kiot_fade2 metro 4
+if kiot_fade2 > 0 then
+kHist2 = kHist2*0.95
 endif
 ;************
+printf "%i %i \n", krms_tran0, knom1, kden1
 
 ; ***************
 ; spectral analysis

@@ -159,7 +159,7 @@ label text("0"), bounds(600, 450, 50, 15), align("left"), identchannel("rhythmau
 
 ; (normal width 160)
 ;gentable bounds(540, 470, 256, 140), identchannel("rhythm_autocorr"), tablenumber(10,11,12,13), tablecolour("darkolivegreen", "lightblue", "red", "yellow"), tablegridcolour(0,0,0,0), amprange(-0.15,1,10), amprange(-0.15,1,11), amprange(-0.15,1,12), amprange(-0.15,1,13), zoom(-1), samplerange(0,128)
-gentable bounds(540, 470, 256, 140), identchannel("rhythm_autocorr"), tablenumber(10,11,12,13,14), tablecolour("darkolivegreen", "lightblue", "red", "yellow", "blue"), tablegridcolour(0,0,0,0), amprange(-0.15,50,10), amprange(-0.15,1,11), amprange(-0.15,1,12), amprange(-0.15,1,13), amprange(-0.15,1.5,14), zoom(-1), samplerange(0,64)
+gentable bounds(540, 470, 256, 140), identchannel("rhythm_autocorr"), tablenumber(10,11,12,13,14), tablecolour("darkolivegreen", "lightblue", "red", "yellow", "blue"), tablegridcolour(0,0,0,0), amprange(-5,40,10), amprange(-5,40,11), amprange(0,1,12), amprange(0,1,13), amprange(0,1.5,14), zoom(-1), samplerange(0,64)
 
 
 <CabbageIncludes>
@@ -290,6 +290,7 @@ analyze_chn_init.inc
         copya2ftab kRhythmAutoCombo*0.75, gi13
         */
         copya2ftab kHist, gi10
+        copya2ftab kHist2+20, gi11
  	chnset	"tablenumber(10,11,12,13,14)", "rhythm_autocorr"	; update table display	
 
  	SrautocrestD sprintfk "text(%.2f)", krhythm_ac_crest
