@@ -148,7 +148,7 @@ checkbox bounds(800, 42, 12, 12), text("note"), channel("mode_parm2"), value(0),
 groupbox bounds(5, 200, 853, 81), plant("plant_parm3"), linethickness("0"){ 
 combobox channel("method_parm3"), bounds(10, 12, 96, 20), items("add", "abs_diff", "gate"), value(1), channeltype("string")
 label bounds(5,40,10,10), text("3"), colour(20,20,20,255)
-combobox channel("source1_parm3"), bounds(110, 12, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1), channeltype("string")
+combobox channel("source1_parm3"), bounds(110, 12, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "pitch", "env_dyn", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1), channeltype("string")
 combobox channel("chan1_parm3"), bounds(213, 12, 50, 20), items("1", "2", "3", "4"), value(1)
 numberbox bounds(268, 14, 35, 15), channel("rise1_parm3"), range(0.01, 10.0, 0.01), visible(1), identchannel("rise1_parm3_id")
 numberbox bounds(306, 14, 35, 15), channel("fall1_parm3"), range(0.01, 10.0, 0.5), visible(1), identchannel("fall1_parm3_id")

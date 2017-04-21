@@ -159,7 +159,7 @@ label text("0"), bounds(600, 450, 50, 15), align("left"), identchannel("rhythmau
 
 ; (normal width 160)
 ;gentable bounds(540, 470, 256, 140), identchannel("rhythm_autocorr"), tablenumber(10,11,12,13), tablecolour("darkolivegreen", "lightblue", "red", "yellow"), tablegridcolour(0,0,0,0), amprange(-0.15,1,10), amprange(-0.15,1,11), amprange(-0.15,1,12), amprange(-0.15,1,13), zoom(-1), samplerange(0,128)
-gentable bounds(540, 470, 256, 140), identchannel("rhythm_autocorr"), tablenumber(10,11,12,13,14), tablecolour("darkolivegreen", "lightblue", "red", "yellow", "blue"), tablegridcolour(0,0,0,0), amprange(-0.15,1,10), amprange(-0.15,1,11), amprange(-0.15,1,12), amprange(-0.15,1,13), amprange(-0.15,1.5,14), zoom(-1), samplerange(0,128)
+gentable bounds(540, 470, 256, 140), identchannel("rhythm_autocorr"), tablenumber(10,11,12,13,14), tablecolour("darkolivegreen", "lightblue", "red", "yellow", "blue"), tablegridcolour(0,0,0,0), amprange(-0.15,50,10), amprange(-0.15,1,11), amprange(-0.15,1,12), amprange(-0.15,1,13), amprange(-0.15,1.5,14), zoom(-1), samplerange(0,64)
 
 
 <CabbageIncludes>
@@ -279,7 +279,7 @@ analyze_chn_init.inc
         endif
 
         if krnewframe4*kenableDisplay > 0 then
-        
+        /*        
         copya2ftab (kRhythmAuto*0.2)+0.85, gi10
         kRhythmAuto2Displ[] = gkMuteArr
         kRhythmAuto2Displ slicearray kRhythmAuto2, 0, ira_fftsize/4
@@ -288,6 +288,8 @@ analyze_chn_init.inc
         kRhythmAuto4Displ slicearray kRhythmAuto4, 0, ira_fftsize/8
         copya2ftab (kRhythmAuto4Displ*0.2)+0.55, gi12
         copya2ftab kRhythmAutoCombo*0.75, gi13
+        */
+        copya2ftab kHist, gi10
  	chnset	"tablenumber(10,11,12,13,14)", "rhythm_autocorr"	; update table display	
 
  	SrautocrestD sprintfk "text(%.2f)", krhythm_ac_crest

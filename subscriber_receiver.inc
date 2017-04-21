@@ -28,18 +28,14 @@
         Sscoreline      sprintf {{i %f 0 -1 "%s" %i}}, instr_8, Sparam, imod_num
                         scoreline_i Sscoreline
         Ssourcechn1     sprintf "source1_%s", Sparam
-        ;puts Ssourcechn1, 1
         Ssourcechn2     sprintf "source2_%s", Sparam
         Schanchn1       sprintf "chan1_%s", Sparam
         Schanchn2       sprintf "chan2_%s", Sparam
-        Source_old1     strcpy ""
-        Source_old2     strcpy ""
         Source1         chnget Ssourcechn1
         Source2         chnget Ssourcechn2
-        ksourcechanged1 strcmpk Source1, Source_old1
-        ksourcechanged2 strcmpk Source2, Source_old2
-        Source_old1     strcpyk Source1
-        Source_old2     strcpyk Source2
+        ksourcechanged1 changed Source1
+        puts Source1, ksourcechanged1+1
+        ksourcechanged2 changed Source2
         kchan1          chnget Schanchn1
         kchan2          chnget Schanchn2
         ;printk2 kchan1

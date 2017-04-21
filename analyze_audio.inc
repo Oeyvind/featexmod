@@ -302,7 +302,39 @@ krhythm_ac_crest = (krhythm_ac_crest1+krhythm_ac_crest2+krhythm_ac_crest4)/3
 
 ; ***************
 ; rhythm IOT histogram analysis
-; (removed)
+
+iot_size = 4
+kiotArr[] init iot_size
+kiot_index init 0
+if krms_tran0 == 1 then
+kiotArr[kiot_index] = kdist1 ; kdist comes from previous rhythm analysis (ratios, above)
+kiot_index = (kiot_index+1)%iot_size
+
+
+inumbins = 64
+imax = 4
+itabsize = 8192
+iftabsA[] makehistables itabsize, inumbins
+kHist[] init inumbins
+kindex = 0
+while kindex < lenarray(kiotArr) do
+  khistindex = 0
+  while khistindex < inumbins do
+    kHist[khistindex] = kHist[khistindex]+tablekt(kiotArr[kindex]/imax, iftabsA[khistindex], 1)
+    khistindex += 1
+  od
+kindex += 1
+od
+endif
+
+kiot_fade metro 4
+if kiot_fade > 0 then
+kHist = kHist*0.95
+; try to delete kiotArr history
+; each metro tick deletes one index, up to now ?
+; each new transient deletes one old? or just smaller buffer?
+endif
+;************
 
 ; ***************
 ; spectral analysis
