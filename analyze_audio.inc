@@ -190,8 +190,8 @@ krhythm_consonance = 1-krhythm_consonance
 ; the "distance from one" measure (irregularity)
 ; multiply the two highest out of the last three
 kfrom_one limit max(kfrom_one1,kfrom_one2)*max(kfrom_one2,kfrom_one3), 0, 1
-; low pass filter
-krhythm_irregularity tonek kfrom_one, kr/8 
+; low pass filter and log
+krhythm_irregularity tonek log10((kfrom_one*9/10)+0.1)+1, kr/8 
 
 krhythm_ratio1 = knom1/kden1
 krhythm_ratio2 = knom2/kden2
@@ -359,7 +359,7 @@ if kiot_fade2 > 0 then
 kHist2 = kHist2*0.95
 endif
 ;************
-printf "%i %i \n", krms_tran0, knom1, kden1
+;printf "%i %i \n", krms_tran0, knom1, kden1
 
 ; ***************
 ; spectral analysis
