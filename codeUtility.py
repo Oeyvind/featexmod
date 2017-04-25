@@ -269,10 +269,10 @@ send_str = 'OSCsend kwhen, "127.0.0.1", iport$N., SoscName_a, \"'
 for i in range(len(csound_parms1)):
     send_str += 'f'
 send_str += '\", {}\n'.format(csound_parms_string1)
-send_str += 'OSCsend kwhen, "127.0.0.1", iport$N., SoscName_b, \"'
-for i in range(len(csound_parms2)):
-    send_str += 'f'
-send_str += '\", {}\n'.format(csound_parms_string2)
+#send_str += 'OSCsend kwhen, "127.0.0.1", iport$N., SoscName_b, \"'
+#for i in range(len(csound_parms2)):
+#    send_str += 'f'
+#send_str += '\", {}\n'.format(csound_parms_string2)
 
 replace_text_between_markers('analyze_send.inc', '', send_str)
 
@@ -282,7 +282,7 @@ subscr_str = ''
 for a in analysis_parms:
     subscr_str += 'S{a} sprintf '.format(a=a)+'{{'+a+'%i}}, isource_chan \n'
 subscr_str += 'SoscName_a sprintf {{/%s_a_%i}}, "analysis", isource_chan \n'
-subscr_str += 'SoscName_b sprintf {{/%s_b_%i}}, "analysis", isource_chan \n'
+#subscr_str += 'SoscName_b sprintf {{/%s_b_%i}}, "analysis", isource_chan \n'
 for c in csound_parms:
     subscr_str += '{} init 0 \n'.format(c)    
 subscr_str += 'nxt_val: \n'
@@ -292,10 +292,10 @@ for i in range(len(csound_parms1)):
     subscr_str += 'f'
 subscr_str += '\", {} \n'.format(csound_parms_string1)
 
-subscr_str += 'kk2 OSClisten gihandle, SoscName_b, \"'
-for i in range(len(csound_parms2)):
-    subscr_str += 'f'
-subscr_str += '\", {} \n'.format(csound_parms_string2)
+#subscr_str += 'kk2 OSClisten gihandle, SoscName_b, \"'
+#for i in range(len(csound_parms2)):
+#    subscr_str += 'f'
+#subscr_str += '\", {} \n'.format(csound_parms_string2)
 
 for i in range(len(csound_parms)):
     cparm = csound_parms[i] 
