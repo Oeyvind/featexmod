@@ -167,6 +167,7 @@ kmfcc3 init 0
 kmfccdiff init 0 
 nxt_val: 
 kk1 OSClisten gihandle, SoscName_a, "fffffffffffffffffffffff", krms, krms_dB_n, kamp_trans_hold, katransDensEnv_n, kenv_crest1, kenv_dyn, kpitch_n, kcentroid_n, kspread_n, kskewness_n, kurtosis_n, kflatness_n, kcrest_n, kflux_n, krhythm_irregularity, krhythm_consonance, krhythm_consonance_deviation, kra_flux, krhythm_ac_crest, kmfcc1, kmfcc2, kmfcc3, kmfccdiff 
+
 chnset krms, Srms 
 chnset krms_dB_n, Srms_dB 
 chnset kamp_trans_hold, Stransient 

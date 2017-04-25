@@ -148,6 +148,8 @@ label bounds(346, 58, 110, 12), text("scale"), colour(20,20,20,255), visible(1),
 label bounds(346, 58, 93, 12), text("thresh"), colour(20,20,20,255), visible(0), identchannel("threshlabel_{pname}_id")
 label bounds(446, 58, 48, 12), text("trig"), colour(20,20,20,255), visible(0), identchannel("triglabel_{pname}_id")
 label bounds(462, 58, 81, 12), text("curve"), colour(20,20,20,255), visible(1), identchannel("curvelabel_{pname}_id")
+image bounds(466, 59, 10, 11),  file("concave.png"), visible(1), identchannel("concavelabel_{pname}_id")
+image bounds(528, 59, 10, 11),  file("convex.png"), visible(1), identchannel("convexlabel_{pname}_id")
 label bounds(502, 58, 50, 12), text("status"), colour(20,20,20,255), visible(0), identchannel("statuslabel_{pname}_id")
 label bounds(559, 58, 30, 12), text("s/h"), colour(20,20,20,255), visible(0), identchannel("shlabel_{pname}_id")
 label bounds(559, 70, 30, 12), text("\/"), colour(20,20,20,255), visible(0), identchannel("shlabel2_{pname}_id")
