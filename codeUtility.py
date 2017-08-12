@@ -75,36 +75,70 @@ start_x_pos = 30
 start_y_pos = 5
 plant_height = 85
 
-plant = '''groupbox bounds({start_y}, {start_x}, 845, 81), plant("plant_{pname}"), linethickness("0"){{ 
-combobox channel("method_{pname}"), bounds(10, 12, 96, 20), items("add", "abs_diff"), value(1), channeltype("string")
-combobox channel("source1_{pname}"), bounds(110, 12, 95, 20), items({analysis_p}), value(1), channeltype("string")
+plantOSC = '''groupbox bounds({start_y}, {start_x}, 853, 81), plant("plant_{pname}"), linethickness("0"){{ 
+combobox channel("method_{pname}"), bounds(10, 12, 96, 20), items("add", "abs_diff", "gate"), value(1), channeltype("string")
+label bounds(5,40,10,10), text("{pnum}"), colour(20,20,20,255)
+combobox channel("source1_{pname}"), bounds(110, 12, 100, 20), items({analysis_p}), value(1), channeltype("string")
 combobox channel("chan1_{pname}"), bounds(213, 12, 50, 20), items("1", "2", "3", "4"), value(1)
-numberbox bounds(268, 14, 35, 15), channel("rise1_{pname}"), range(0.01, 10.0, 0.01)
-numberbox bounds(306, 14, 35, 15), channel("fall1_{pname}"), range(0.01, 10.0, 0.5)
-hslider bounds(343, 12, 86, 20), channel("scale1_{pname}"), range(-1.0, 1.0, 0, 1, 0.001)
-button bounds(430, 12, 29, 19), channel("scale1_x_{pname}"), text("x 1","x 10")
-hslider bounds(459, 12, 86, 20), channel("curve1_{pname}"), range(-5.0, 5.0, 0)
+numberbox bounds(268, 14, 35, 15), channel("rise1_{pname}"), range(0.01, 10.0, 0.01), visible(1), identchannel("rise1_{pname}_id")
+numberbox bounds(306, 14, 35, 15), channel("fall1_{pname}"), range(0.01, 10.0, 0.5), visible(1), identchannel("fall1_{pname}_id")
+hslider bounds(343, 12, 86, 20), channel("scale1_{pname}"), range(-1.0, 1.0, 0, 1, 0.001), visible(1), identchannel("scale1_{pname}_id")
+combobox bounds(423, 12, 40, 19), channel("scale1_x_{pname}"), items("x1","x2","x10"), visible(1), identchannel("scale1_x_{pname}_id")
+hslider bounds(459, 12, 86, 20), channel("curve1_{pname}"), range(-5.0, 5.0, 0), identchannel("curve1_{pname}_id")
+hslider bounds(268, 14, 75, 15), channel("lowpass1_{pname}"), range(0.01, 10.0, 5.0, 0.35), visible(0), identchannel("lowpass1_{pname}_id")
+hslider bounds(343, 14, 100, 16), channel("thresh1_{pname}"), range(0.0, 1.0, 0.5, 1, 0.001),trackercolour("green"), visible(0), identchannel("thresh1_{pname}_id")
+hslider bounds(343, 4, 100, 8), channel("display1_{pname}"), range(0.0, 1.0, 0, 1, 0.001), colour(0,0,0,0,0), trackercolour("green"), trackerthickness(1), visible(0), identchannel("display1_{pname}_id")
+combobox channel("triggertype1_{pname}"), bounds(445, 12, 50, 20), items("up", "dwn"), value(1), visible(0), identchannel("triggertype1_{pname}_id")
 
 combobox channel("source2_{pname}"), bounds(110, 34, 100, 20), items({analysis_p}), value(1), channeltype("string")
 combobox channel("chan2_{pname}"), bounds(213, 34, 50, 20), items("1", "2", "3", "4"), value(1)
-numberbox bounds(268, 36, 35, 15), channel("rise2_{pname}"), range(0.01, 10.0, 0.01)
-numberbox bounds(306, 36, 35, 15), channel("fall2_{pname}"), range(0.01, 10.0, 0.5)
-hslider bounds(343, 34, 86, 20), channel("scale2_{pname}"), range(-1.0, 1.0, 0, 1, 0.001)
-button bounds(430, 34, 29, 19), channel("scale2_x_{pname}"), text("x 1","x 10") 
-hslider bounds(459, 34, 86, 20), channel("curve2_{pname}"), range(-5.0, 5.0, 0)
+numberbox bounds(268, 36, 35, 15), channel("rise2_{pname}"), range(0.01, 10.0, 0.01), visible(1), identchannel("rise2_{pname}_id")
+hslider bounds(268, 34, 75, 15), channel("lowpass2_{pname}"), range(0.01, 10.0, 5.0, 0.35), visible(0), identchannel("lowpass2_{pname}_id")
+numberbox bounds(306, 36, 35, 15), channel("fall2_{pname}"), range(0.01, 10.0, 0.5), visible(1), identchannel("fall2_{pname}_id")
+hslider bounds(343, 34, 86, 20), channel("scale2_{pname}"), range(-1.0, 1.0, 0, 1, 0.001), visible(1), identchannel("scale2_{pname}_id")
+hslider bounds(343, 34, 100, 16), channel("thresh2_{pname}"), range(0.0, 1.0, 0.6, 1, 0.001), trackercolour("red"), visible(0), identchannel("thresh2_{pname}_id")
+hslider bounds(343, 50, 100, 8), channel("display2_{pname}"), range(0.0, 1.0, 0, 1, 0.001), colour(0,0,0,0,0), trackercolour("red"), trackerthickness(1), visible(0), identchannel("display2_{pname}_id")
+combobox channel("triggertype2_{pname}"), bounds(445, 34, 50, 20), items("up", "dwn"), value(2), visible(0), identchannel("triggertype2_{pname}_id")
+combobox bounds(423, 34, 40, 19), channel("scale2_x_{pname}"), items("x1","x2", "x10"),  visible(1), identchannel("scale2_x_{pname}_id")
+hslider bounds(459, 34, 86, 20), channel("curve2_{pname}"), range(-5.0, 5.0, 0), visible(1), identchannel("curve2_{pname}_id")
+checkbox bounds(508, 25, 40, 25), channel("gate_{pname}"), value(1), visible(0), identchannel("gate_{pname}_id")
+checkbox bounds(558, 25, 25, 25), channel("sh_{pname}"), value(0), visible(0), colour("blue"), identchannel("sh_{pname}_id")
+numberbox bounds(598, 25, 35, 15), channel("outrise_{pname}"), range(0.00, 10.0, 0.00), visible(0), identchannel("outrise_{pname}_id")
+numberbox bounds(636, 25, 35, 15), channel("outfall_{pname}"), range(0.00, 10.0, 0.00), visible(0), identchannel("outfall_{pname}_id")
 
 label bounds(10, 58, 96, 12), text("mixmeth"), colour(20,20,20,255)
 label bounds(110, 58, 100, 12), text("source"), colour(20,20,20,255)
 label bounds(213, 58, 50, 12), text("chan"), colour(20,20,20,255)
-label bounds(266, 58, 76, 12), text("rise/fall"), colour(20,20,20,255)
-label bounds(346, 58, 110, 12), text("scale"), colour(20,20,20,255)
-label bounds(462, 58, 81, 12), text("curve"), colour(20,20,20,255)
-texteditor bounds(670, 60, 170, 14), channel("note_parm1"), text("...notes..."), colour(20,20,20,255), fontcolour("white"), popuptext("Notes to remember where this signal is sent to  - what it controls. Will not change signal routing - just help you remember where it goes. Notes saved with DAW project. Do remember to hit *enter* to update the text control.")
+label bounds(266, 58, 76, 12), text("rise/fall"), colour(20,20,20,255), visible(1), identchannel("riselabel_{pname}_id")
+label bounds(266, 58, 76, 12), text("lowpass"), colour(20,20,20,255), visible(0), identchannel("lowpasslabel_{pname}_id")
+label bounds(346, 58, 110, 12), text("scale"), colour(20,20,20,255), visible(1), identchannel("scalelabel_{pname}_id")
+label bounds(346, 58, 93, 12), text("thresh"), colour(20,20,20,255), visible(0), identchannel("threshlabel_{pname}_id")
+label bounds(446, 58, 48, 12), text("trig"), colour(20,20,20,255), visible(0), identchannel("triglabel_{pname}_id")
+label bounds(462, 58, 81, 12), text("curve"), colour(20,20,20,255), visible(1), identchannel("curvelabel_{pname}_id")
+image bounds(466, 59, 10, 11),  file("convex.png"), visible(1), identchannel("convexlabel_{pname}_id")
+image bounds(528, 59, 10, 11),  file("concave.png"), visible(1), identchannel("concavelabel_{pname}_id")
+label bounds(502, 58, 50, 12), text("status"), colour(20,20,20,255), visible(0), identchannel("statuslabel_{pname}_id")
+label bounds(559, 58, 30, 12), text("s/h"), colour(20,20,20,255), visible(0), identchannel("shlabel_{pname}_id")
+label bounds(559, 70, 30, 12), text("\/"), colour(20,20,20,255), visible(0), identchannel("shlabel2_{pname}_id")
+label bounds(598, 8, 74, 12), text("midi env"), colour(20,20,20,255), visible(0), identchannel("midienvlabel_{pname}_id")
+label bounds(598, 44, 74, 12), text("rise/fall"), colour(20,20,20,255), visible(0), identchannel("outriselabel_{pname}_id")
+texteditor bounds(680, 60, 170, 14), channel("note_{pname}"), text("...notes..."), colour(20,20,20,255), fontcolour("white"), popuptext("Notes to remember where this signal is sent to  - what it controls. Will not change signal routing - just help you remember where it goes. Notes saved with DAW project. Do remember to hit *enter* to update the text control.")
 
-rslider bounds(543, 12, 62, 62), text("offset"), channel("offset_{pname}"), range({p_min}, {p_max}, {p_default}, {p_skew}, {p_incr}) 
-combobox bounds(543, 1, 55, 12), channel("offsetx_{pname}"), items("-1", "Nornm", "+1"), , value(2), channeltype("string")
+rslider bounds(543, 12, 62, 62), text("offset"), channel("offset_{pname}"), range({p_min}, {p_max}, {p_default}, {p_skew}, {p_incr}) , visible(1), identchannel("offset_{pname}_id")
+combobox bounds(543, 1, 55, 12), channel("offsetx_{pname}"), items("-1", "Nornm", "+1"), , value(2), channeltype("string"), visible(1), identchannel("offset_x_{pname}_id")
+rslider bounds(604, 8, 66, 66), text("{pname}"), channel("{pname}"), range({p_min}, {p_max}, {p_default}, {p_skew}, {p_incr}), identchannel("{pname}_id")
 
-rslider bounds(604, 8, 66, 66), text("{pname}"), channel("{pname}"), range({p_min}, {p_max}, {p_default}, {p_skew}, {p_incr})
+label bounds(680, 8, 55, 12), text("OSC"), colour(20,20,20,255)
+checkbox bounds(742, 8, 12, 12), text("enable"), channel("enable_{pname}"), value(1)
+
+button channel("learn_{pname}"),bounds(760, 8, 40, 15), text("learn"), colour:0("black"), colour:1("green"), latching(1)
+
+texteditor bounds(680, 25, 170, 14), text("parm_name"), colour(20,20,20,255), fontcolour("white"), active(0), identchannel("{pname}_name_id")
+texteditor bounds(680, 42, 170, 14), channel("{pname}_adr"), text("parm_adr"), colour(20,20,20,255), fontcolour("white"), identchannel("{pname}_adr_id")
+texteditor bounds(750, 10, 150, 14), channel("{pname}_device"), text("parm_device"), colour(20,20,20,255), fontcolour("white"), identchannel("{pname}_device_id"), visible(0)
+texteditor bounds(750, 12, 150, 14), channel("{pname}_track"), text("parm_track"), colour(20,20,20,255), fontcolour("white"), identchannel("{pname}_track_id"), visible(0)
+texteditor bounds(750, 14, 150, 14), channel("{pname}_num"), text("parm_num"), colour(20,20,20,255), fontcolour("white"), identchannel("{pname}_num_id"), visible(0)
+
 }}
 
 '''
@@ -173,31 +207,16 @@ checkbox bounds(800, 42, 12, 12), text("note"), channel("mode_{pname}"), value(0
 
 '''
 
-for effectname in ['vst_MIDIator']: #'vst_mediator', 
-    if effectname == 'vst_mediator':
-        parameters = [('parm1', (0.0, 1.0, 0.5, 1, 0.001)), 
-                      ('parm2', (0.0, 1.0, 0.5, 1, 0.001)), 
-                      ('parm3', (0.0, 1.0, 0.5, 1, 0.001)), 
-                      ('parm4', (0.0, 1.0, 0.5, 1, 0.001)), 
-                      ('parm5', (0.0, 1.0, 0.5, 1, 0.001)), 
-                      ('parm6', (0.0, 1.0, 0.5, 1, 0.001)), 
-                      ('parm7', (0.0, 1.0, 0.5, 1, 0.001)), 
-                      ('parm8', (0.0, 1.0, 0.5, 1, 0.001))
-                      ]
-                    # pName, (min, max, default, skew, increment)
-                    # where skew is a dynamic adjustment of exp/lin/log translation if the GUI widget
-                    # and increment is the smallest change allowed by the GUI widget
-    
-    if effectname == 'vst_MIDIator':
-        parameters = [('parm1', (0.0, 1.0, 0.5, 1, 0.001)), 
-                      ('parm2', (0.0, 1.0, 0.5, 1, 0.001)), 
-                      ('parm3', (0.0, 1.0, 0.5, 1, 0.001)), 
-                      ('parm4', (0.0, 1.0, 0.5, 1, 0.001)), 
-                      ('parm5', (0.0, 1.0, 0.5, 1, 0.001)), 
-                      ('parm6', (0.0, 1.0, 0.5, 1, 0.001)), 
-                      ('parm7', (0.0, 1.0, 0.5, 1, 0.001)), 
-                      ('parm8', (0.0, 1.0, 0.5, 1, 0.001))
-                      ]
+for effectname in ['vst_MIDIator', 'vst_mediator']: 
+    parameters = [('parm1', (0.0, 1.0, 0.5, 1, 0.001)), 
+                  ('parm2', (0.0, 1.0, 0.5, 1, 0.001)), 
+                  ('parm3', (0.0, 1.0, 0.5, 1, 0.001)), 
+                  ('parm4', (0.0, 1.0, 0.5, 1, 0.001)), 
+                  ('parm5', (0.0, 1.0, 0.5, 1, 0.001)), 
+                  ('parm6', (0.0, 1.0, 0.5, 1, 0.001)), 
+                  ('parm7', (0.0, 1.0, 0.5, 1, 0.001)), 
+                  ('parm8', (0.0, 1.0, 0.5, 1, 0.001))
+                  ]
     
     
     #
@@ -206,14 +225,15 @@ for effectname in ['vst_MIDIator']: #'vst_mediator',
     for p in parameters:
         fractionalinstr += 1
         scorefile.write('i4.{fracinstr:02d}	3.1	$SCORELEN "{pname}"\n'.format(fracinstr=fractionalinstr, pname=p[0]))
+    if effectname == 'vst_mediator': 
+        scorefile.write('i 91 0 1 ; reset all learn to zero on init (if song/daw saved with learn enabled)')
     
     #
     
-    
-    
     if effectname == 'vst_MIDIator': 
         plant = plantMIDI
-    
+    else: plant = plantOSC
+    print plant
     guistring = ''
     x_pos = start_x_pos
     x_pos1 = start_x_pos
