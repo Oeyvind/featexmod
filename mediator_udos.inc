@@ -1,6 +1,6 @@
 opcode OscLearnReaper, 0, S[]ii
   Smess[], ichan, ilabelinstr xin
-
+  Sdaw = "Reaper"
   Sadr strcpyk Smess[k(0)]  
   ;Sparm_val strcpyk, Smess[k(2)]
          
@@ -59,13 +59,14 @@ opcode OscLearnReaper, 0, S[]ii
   knew2 changed Smess[k(2)]
   knew = knew0+knew1+knew2
   if knew>0 then
-    Sscoreline sprintfk {{i %i 0 0.1 %i "%s" "%s" "%s" "%s" "%s" "%s"}}, ilabelinstr, ichan, Sadr, Strackname, Sparm_name, "", "", ""
+    Sscoreline sprintfk {{i %i 0 0.1 %i "%s" "%s" "%s" "%s" "%s" "%s" "%s"}}, ilabelinstr, ichan, Sadr, Strackname, Sparm_name, "", "", "", Sdaw
     scoreline Sscoreline, 1
   endif
 endop
 
 opcode OscLearnLive, 0, S[]ii
   Smess[], ichan, ilabelinstr xin
+  Sdaw = "Live"
   Sadr strcpyk Smess[k(0)]
   Stype strcpyk Smess[k(1)]
   Stype strsubk Stype, 1, -1
@@ -110,8 +111,7 @@ opcode OscLearnLive, 0, S[]ii
   
   ; set labels
   if knew>0 then
-    Sscoreline sprintfk {{i %i 0 0.1 %i "%s" "%s" "%s" "%s" "%s" "%s"}}, ilabelinstr, ichan, Sadr, Strackname, Sparm_name, Sdevice, Strack, Sparm_num
-
+    Sscoreline sprintfk {{i %i 0 0.1 %i "%s" "%s" "%s" "%s" "%s" "%s" "%s"}}, ilabelinstr, ichan, Sadr, Strackname, Sparm_name, Sdevice, Strack, Sparm_num, Sdaw
     scoreline Sscoreline, 1
   endif
 endop
@@ -163,19 +163,26 @@ opcode OscControlLive, 0, SSSSk
   */
 endop
 
-opcode SendOscToDaw, 0, kkkSSSSk
-kenable, kdaw, klearn_off, Sdevice, Strack, Sparm_num, Sadr, kData  xin
+opcode SendOscToDaw, 0, kSkSSSSk
+kenable, Sdaw, klearn_off, Sdevice, Strack, Sparm_num, Sadr, kData  xin
+if strlen(Sdaw)==0 then
+  Sdaw strcpy "123"
+endif
 if (kenable>0) then
-  if kdaw > 0 then ; ** Live as DAW
+  if strcmpk(Sdaw,"Live") == 0 then ; ** Live as DAW
     if klearn_off > 0 then 
       reinit livecontrol
     endif
-    livecontrol:    
+    livecontrol:
+    puts Sdevice, 1
+    puts Strack, 1
+    puts Sparm_num, 1
+    puts Sadr, 1
     OscControlLive Sdevice, Strack, Sparm_num, Sadr, kData
     rireturn
+  else ; ** Reaper as DAW
+    kwhen changed kData
+    OSCsend kwhen+1, "127.0.0.1",9000, Sadr, "f", kData
   endif
-else ; ** Reaper as DAW
-  kwhen changed kData
-  OSCsend kwhen+1, "127.0.0.1",9000, Sadr, "f", kData
 endif
 endop

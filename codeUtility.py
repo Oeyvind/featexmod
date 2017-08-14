@@ -76,9 +76,9 @@ start_y_pos = 5
 plant_height = 85
 
 plantOSC = '''groupbox bounds({start_y}, {start_x}, 853, 81), plant("plant_{pname}"), linethickness("0"){{ 
-combobox channel("method_{pname}"), bounds(10, 12, 96, 20), items("add", "abs_diff", "gate"), value(1), channeltype("string")
+combobox channel("method_{pname}"), bounds(10, 12, 96, 20), items("add", "abs_diff", "gate"), value(1)
 label bounds(5,40,10,10), text("{pnum}"), colour(20,20,20,255)
-combobox channel("source1_{pname}"), bounds(110, 12, 100, 20), items({analysis_p}), value(1), channeltype("string")
+combobox channel("source1_{pname}"), bounds(110, 12, 100, 20), items({analysis_p}), value(1)
 combobox channel("chan1_{pname}"), bounds(213, 12, 50, 20), items("1", "2", "3", "4"), value(1)
 numberbox bounds(268, 14, 35, 15), channel("rise1_{pname}"), range(0.01, 10.0, 0.01), visible(1), identchannel("rise1_{pname}_id")
 numberbox bounds(306, 14, 35, 15), channel("fall1_{pname}"), range(0.01, 10.0, 0.5), visible(1), identchannel("fall1_{pname}_id")
@@ -90,7 +90,7 @@ hslider bounds(343, 14, 100, 16), channel("thresh1_{pname}"), range(0.0, 1.0, 0.
 hslider bounds(343, 4, 100, 8), channel("display1_{pname}"), range(0.0, 1.0, 0, 1, 0.001), colour(0,0,0,0,0), trackercolour("green"), trackerthickness(1), visible(0), identchannel("display1_{pname}_id")
 combobox channel("triggertype1_{pname}"), bounds(445, 12, 50, 20), items("up", "dwn"), value(1), visible(0), identchannel("triggertype1_{pname}_id")
 
-combobox channel("source2_{pname}"), bounds(110, 34, 100, 20), items({analysis_p}), value(1), channeltype("string")
+combobox channel("source2_{pname}"), bounds(110, 34, 100, 20), items({analysis_p}), value(1)
 combobox channel("chan2_{pname}"), bounds(213, 34, 50, 20), items("1", "2", "3", "4"), value(1)
 numberbox bounds(268, 36, 35, 15), channel("rise2_{pname}"), range(0.01, 10.0, 0.01), visible(1), identchannel("rise2_{pname}_id")
 hslider bounds(268, 34, 75, 15), channel("lowpass2_{pname}"), range(0.01, 10.0, 5.0, 0.35), visible(0), identchannel("lowpass2_{pname}_id")
@@ -125,7 +125,7 @@ label bounds(598, 44, 74, 12), text("rise/fall"), colour(20,20,20,255), visible(
 texteditor bounds(680, 60, 170, 14), channel("note_{pname}"), text("...notes..."), colour(20,20,20,255), fontcolour("white"), popuptext("Notes to remember where this signal is sent to  - what it controls. Will not change signal routing - just help you remember where it goes. Notes saved with DAW project. Do remember to hit *enter* to update the text control.")
 
 rslider bounds(543, 12, 62, 62), text("offset"), channel("offset_{pname}"), range({p_min}, {p_max}, {p_default}, {p_skew}, {p_incr}) , visible(1), identchannel("offset_{pname}_id")
-combobox bounds(543, 1, 55, 12), channel("offsetx_{pname}"), items("-1", "Nornm", "+1"), , value(2), channeltype("string"), visible(1), identchannel("offset_x_{pname}_id")
+combobox bounds(543, 1, 55, 12), channel("offsetx_{pname}"), items("-1", "Norm", "+1"), , value(2), visible(1), identchannel("offset_x_{pname}_id")
 rslider bounds(604, 8, 66, 66), text("{pname}"), channel("{pname}"), range({p_min}, {p_max}, {p_default}, {p_skew}, {p_incr}), identchannel("{pname}_id")
 
 label bounds(680, 8, 55, 12), text("OSC"), colour(20,20,20,255)
@@ -133,19 +133,19 @@ checkbox bounds(742, 8, 12, 12), text("enable"), channel("enable_{pname}"), valu
 
 button channel("learn_{pname}"),bounds(760, 8, 40, 15), text("learn"), colour:0("black"), colour:1("green"), latching(1)
 
-texteditor bounds(680, 25, 170, 14), text("parm_name"), colour(20,20,20,255), fontcolour("white"), active(0), identchannel("{pname}_name_id")
+texteditor bounds(680, 25, 170, 14), channel("{pname}_name"), text("parm_name"), colour(20,20,20,255), fontcolour("white"), identchannel("{pname}_name_id")
 texteditor bounds(680, 42, 170, 14), channel("{pname}_adr"), text("parm_adr"), colour(20,20,20,255), fontcolour("white"), identchannel("{pname}_adr_id")
-texteditor bounds(750, 10, 150, 14), channel("{pname}_device"), text("parm_device"), colour(20,20,20,255), fontcolour("white"), identchannel("{pname}_device_id"), visible(0)
-texteditor bounds(750, 12, 150, 14), channel("{pname}_track"), text("parm_track"), colour(20,20,20,255), fontcolour("white"), identchannel("{pname}_track_id"), visible(0)
-texteditor bounds(750, 14, 150, 14), channel("{pname}_num"), text("parm_num"), colour(20,20,20,255), fontcolour("white"), identchannel("{pname}_num_id"), visible(0)
-
+texteditor bounds(790, 20, 50, 14), channel("{pname}_device"), text("parm_device"), colour(20,20,20,255), fontcolour("white"), identchannel("{pname}_device_id"), visible(0)
+texteditor bounds(790, 30, 50, 14), channel("{pname}_track"), text("parm_track"), colour(20,20,20,255), fontcolour("white"), identchannel("{pname}_track_id"), visible(0)
+texteditor bounds(790, 40, 50, 14), channel("{pname}_num"), text("parm_num"), colour(20,20,20,255), fontcolour("white"), identchannel("{pname}_num_id"), visible(0)
+texteditor bounds(790, 50, 50, 14), channel("{pname}_daw"), text("parm_daw"), colour(20,20,20,255), fontcolour("white"), identchannel("{pname}_daw_id"), visible(0)
 }}
 
 '''
 plantMIDI = '''groupbox bounds({start_y}, {start_x}, 853, 81), plant("plant_{pname}"), linethickness("0"){{ 
-combobox channel("method_{pname}"), bounds(10, 12, 96, 20), items("add", "abs_diff", "gate"), value(1), channeltype("string")
+combobox channel("method_{pname}"), bounds(10, 12, 96, 20), items("add", "abs_diff", "gate"), value(1)
 label bounds(5,40,10,10), text("{pnum}"), colour(20,20,20,255)
-combobox channel("source1_{pname}"), bounds(110, 12, 100, 20), items({analysis_p}), value(1), channeltype("string")
+combobox channel("source1_{pname}"), bounds(110, 12, 100, 20), items({analysis_p}), value(1)
 combobox channel("chan1_{pname}"), bounds(213, 12, 50, 20), items("1", "2", "3", "4"), value(1)
 numberbox bounds(268, 14, 35, 15), channel("rise1_{pname}"), range(0.01, 10.0, 0.01), visible(1), identchannel("rise1_{pname}_id")
 numberbox bounds(306, 14, 35, 15), channel("fall1_{pname}"), range(0.01, 10.0, 0.5), visible(1), identchannel("fall1_{pname}_id")
@@ -157,7 +157,7 @@ hslider bounds(343, 14, 100, 16), channel("thresh1_{pname}"), range(0.0, 1.0, 0.
 hslider bounds(343, 4, 100, 8), channel("display1_{pname}"), range(0.0, 1.0, 0, 1, 0.001), colour(0,0,0,0,0), trackercolour("green"), trackerthickness(1), visible(0), identchannel("display1_{pname}_id")
 combobox channel("triggertype1_{pname}"), bounds(445, 12, 50, 20), items("up", "dwn"), value(1), visible(0), identchannel("triggertype1_{pname}_id")
 
-combobox channel("source2_{pname}"), bounds(110, 34, 100, 20), items({analysis_p}), value(1), channeltype("string")
+combobox channel("source2_{pname}"), bounds(110, 34, 100, 20), items({analysis_p}), value(1)
 combobox channel("chan2_{pname}"), bounds(213, 34, 50, 20), items("1", "2", "3", "4"), value(1)
 numberbox bounds(268, 36, 35, 15), channel("rise2_{pname}"), range(0.01, 10.0, 0.01), visible(1), identchannel("rise2_{pname}_id")
 hslider bounds(268, 34, 75, 15), channel("lowpass2_{pname}"), range(0.01, 10.0, 5.0, 0.35), visible(0), identchannel("lowpass2_{pname}_id")
@@ -192,7 +192,7 @@ label bounds(598, 44, 74, 12), text("rise/fall"), colour(20,20,20,255), visible(
 texteditor bounds(680, 60, 170, 14), channel("note_{pname}"), text("...notes..."), colour(20,20,20,255), fontcolour("white"), popuptext("Notes to remember where this signal is sent to  - what it controls. Will not change signal routing - just help you remember where it goes. Notes saved with DAW project. Do remember to hit *enter* to update the text control.")
 
 rslider bounds(543, 12, 62, 62), text("offset"), channel("offset_{pname}"), range({p_min}, {p_max}, {p_default}, {p_skew}, {p_incr}) , visible(1), identchannel("offset_{pname}_id")
-combobox bounds(543, 1, 55, 12), channel("offsetx_{pname}"), items("-1", "Nornm", "+1"), , value(2), channeltype("string"), visible(1), identchannel("offset_x_{pname}_id")
+combobox bounds(543, 1, 55, 12), channel("offsetx_{pname}"), items("-1", "Norm", "+1"), , value(2), visible(1), identchannel("offset_x_{pname}_id")
 rslider bounds(604, 8, 66, 66), text("{pname}"), channel("{pname}"), range({p_min}, {p_max}, {p_default}, {p_skew}, {p_incr}), identchannel("{pname}_id")
 
 label bounds(680, 8, 55, 12), text("midi"), colour(20,20,20,255)
@@ -225,15 +225,13 @@ for effectname in ['vst_MIDIator', 'vst_mediator']:
     for p in parameters:
         fractionalinstr += 1
         scorefile.write('i4.{fracinstr:02d}	3.1	$SCORELEN "{pname}"\n'.format(fracinstr=fractionalinstr, pname=p[0]))
-    if effectname == 'vst_mediator': 
-        scorefile.write('i 91 0 1 ; reset all learn to zero on init (if song/daw saved with learn enabled)')
     
     #
     
     if effectname == 'vst_MIDIator': 
         plant = plantMIDI
     else: plant = plantOSC
-    print plant
+
     guistring = ''
     x_pos = start_x_pos
     x_pos1 = start_x_pos
@@ -254,7 +252,7 @@ for effectname in ['vst_MIDIator', 'vst_mediator']:
 for i in range(3):
     plot = ['x','y','c'][i]
     ypos = [332, 412, 492][i]
-    plotmenu = 'combobox channel("plot_{plot}"), bounds(270, {ypos}, 90, 18), items({aparms}), value(1), channeltype("string")'.format(plot=plot, ypos=ypos, aparms=analysis_parms_string)
+    plotmenu = 'combobox channel("plot_{plot}"), bounds(270, {ypos}, 90, 18), items({aparms}), value(1)'.format(plot=plot, ypos=ypos, aparms=analysis_parms_string)
     replace_text_between_markers('analyzer.csd', '_{}_'.format(plot), plotmenu)
 
 ##2
@@ -273,7 +271,18 @@ plot_udo = 'opcode Plotchannel, k, S'
 for i in range(len(csound_parms)):
     plot_udo += 'k'
 plot_udo += '\n    Splotchan, '+csound_parms_string+' xin \n'
-plot_udo += '    Splot_x chnget Splotchan \n    kx init 0 \n'
+
+plot_udo += '''    kplot_x chnget Splotchan
+    Sparms[] fillarray "rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", 
+                      "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", 
+                      "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "ra_flux", "ra_crest", 
+                      "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"
+    Splot_x strcpyk Sparms[kplot_x-1]    
+    kx init 0 
+'''
+
+
+
 for i in range(len(csound_parms)):
     cparm = csound_parms[i] 
     aparm = analysis_parms[i]

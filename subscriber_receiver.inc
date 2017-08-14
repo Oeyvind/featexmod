@@ -31,14 +31,19 @@
         Ssourcechn2     sprintf "source2_%s", Sparam
         Schanchn1       sprintf "chan1_%s", Sparam
         Schanchn2       sprintf "chan2_%s", Sparam
-        Source1         chnget Ssourcechn1
-        Source2         chnget Ssourcechn2
-        ksourcechanged1 changed Source1
+        Sources[]       fillarray "rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", 
+                                  "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", 
+                                  "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "ra_flux", "ra_crest", 
+                                  "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"
+        ksource1         chnget Ssourcechn1
+        ksource2         chnget Ssourcechn2
+        Source1 strcpyk Sources[ksource1-1]
+        Source2 strcpyk Sources[ksource2-1]
+        ksourcechanged1 changed ksource1
         puts Source1, ksourcechanged1+1
         ksourcechanged2 changed Source2
         kchan1          chnget Schanchn1
         kchan2          chnget Schanchn2
-        ;printk2 kchan1
         kchanchanged1   changed kchan1
         kchanchanged2   changed kchan2
         kanychanged1    = kchanchanged1 + abs(ksourcechanged1)
@@ -300,7 +305,9 @@ transEnvelope:
         kval1           chnget Stemp1
         kval2           chnget Stemp2
         koffset         chnget Soffsetchn
-        Soffsetx        chnget Soffsetxchn
+        koffsetx        chnget Soffsetxchn
+        Soffsets[]      fillarray "-1", "Norm", "+1"
+        Soffsetx        strcpyk Soffsets[koffsetx-1]
         imin            = 0;chnget Sparam_min
         imax            = 1;chnget Sparam_max
         if strcmpk(Soffsetx, "-1") == 0 then
@@ -315,8 +322,10 @@ transEnvelope:
         kraw1           chnget Srawflag1
         kraw2           chnget Srawflag2
         Smixmeth        sprintf "method_%s", Sparam
-        Smixmethod      chnget Smixmeth
-        if (strcmpk(Smixmethod, "add") == 0) || (strlenk(Smixmethod) == 0) then ; the (if len==0) is a hack for combobox string channel first time init
+        kmixmeth        chnget Smixmeth
+        Smixmethods[]   fillarray "add", "abs_diff", "gate"
+        Smixmethod      strcpyk Smixmethods[kmixmeth-1]
+        if (strcmpk(Smixmethod, "add") == 0) then 
           if (kraw1 == 1) && (kraw2 == 0) then
             kval limit kval1+(kval2*(imax-imin))+koffset1, imin, imax  ; do not autoscale raw values for source 1
           elseif (kraw2 == 1) && (kraw1 == 0) then
@@ -324,7 +333,7 @@ transEnvelope:
           elseif (kraw2 == 1) && (kraw1 == 1) then
             kval limit kval1+kval2+koffset1, imin, imax                ; do not autoscale raw values for either source
           else
-            kval limit ((kval1+kval2)*(imax-imin))+koffset1, imin, imax  ; autoascale normalized values
+            kval limit ((kval1+kval2)*(imax-imin))+koffset1, imin, imax  ; autoscale normalized values
           endif
         elseif strcmpk(Smixmethod, "abs_diff") == 0 then
           if (kraw1 == 1) && (kraw2 == 0) then
