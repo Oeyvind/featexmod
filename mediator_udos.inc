@@ -164,25 +164,23 @@ opcode OscControlLive, 0, SSSSk
 endop
 
 opcode SendOscToDaw, 0, kSkSSSSk
-kenable, Sdaw, klearn_off, Sdevice, Strack, Sparm_num, Sadr, kData  xin
+kenable, Sdaw, klearn_off, Sdevice, Strack, Sparm_num, Sadr, kdata  xin
 if strlen(Sdaw)==0 then
   Sdaw strcpy "123"
 endif
+; reduce send speed
+kdata = int(kdata*1000)/1000
 if (kenable>0) then
   if strcmpk(Sdaw,"Live") == 0 then ; ** Live as DAW
     if klearn_off > 0 then 
       reinit livecontrol
     endif
     livecontrol:
-    puts Sdevice, 1
-    puts Strack, 1
-    puts Sparm_num, 1
-    puts Sadr, 1
-    OscControlLive Sdevice, Strack, Sparm_num, Sadr, kData
+    OscControlLive Sdevice, Strack, Sparm_num, Sadr, kdata
     rireturn
   else ; ** Reaper as DAW
-    kwhen changed kData
-    OSCsend kwhen+1, "127.0.0.1",9000, Sadr, "f", kData
+    kwhen changed kdata
+    OSCsend kwhen+1, "127.0.0.1",9000, Sadr, "f", kdata
   endif
 endif
 endop
