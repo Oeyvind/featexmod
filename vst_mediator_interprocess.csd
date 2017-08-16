@@ -567,6 +567,7 @@ csoundoutput bounds(5, 710, 390, 100), text("Output")
 vst_mediator_score_events.inc
 subscriber_connect.inc
 subscriber_receiver.inc
+mediator_udos.inc
 </CabbageIncludes>
 
 </Cabbage>
