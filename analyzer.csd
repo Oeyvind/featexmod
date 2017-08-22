@@ -93,7 +93,7 @@ csoundoutput bounds(5, 580, 360, 140), text("Output")
 
 
 
-gentable bounds(370,  5, 352, 240), identchannel("displays"), tablenumber(1), tablecolour("lightblue"), tablegridcolour(0,0,0,0), amprange(-.03,1,1), zoom(-1), samplerange(0,22)
+gentable bounds(370,  5, 352, 240), identchannel("displays"), tablenumber(1), tablecolour(173,216,230,100), tablegridcolour(0,0,0,0), outlinethickness(2), amprange(-.03,1,1), zoom(-1), samplerange(0,22)
 
 image bounds(370, 5, 32,240), shape("sharp"), colour(175, 50,255, 40), identchannel("group_amp")	
 label text("noisefloor"), bounds(386, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
@@ -106,18 +106,18 @@ label text("env crest"), bounds(450, 250, 75, 15), align("left"), rotate(1.5708,
 image bounds(450, 5, 16 ,240), shape("sharp"), colour(75,255, 75, 40), identchannel("group_pitch")	
 label text("pitch"), bounds(466, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
 
-image bounds(466, 5, 64,240), shape("sharp"), colour(45, 45,255, 40), identchannel("group_spectral1")	
+image bounds(466, 5, 64,240), shape("sharp"), colour(45, 45,155, 40), identchannel("group_spectral1")	
 label text("centroid"), bounds(482, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
 label text("spread"), bounds(498, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
 label text("skewness"), bounds(514, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
 label text("kurtosis"), bounds(530, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
 
-image bounds(530, 5, 48,240), shape("sharp"), colour(255,255, 50, 20), identchannel("group_spectral2")	
+image bounds(530, 5, 48,240), shape("sharp"), colour(255,200, 100, 40), identchannel("group_spectral2")	
 label text("flatness"), bounds(546, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
 label text("crest"), bounds(562, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
 label text("flux"), bounds(578, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
 
-image bounds(594, 5, 112,240), shape("sharp"), colour(50,200, 255, 20), identchannel("group_mfcc")	
+image bounds(594, 5, 112,240), shape("sharp"), colour(50,200, 255, 40), identchannel("group_mfcc")	
 label text("mfcc1"), bounds(610, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
 label text("2"), bounds(626, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
 label text("3"), bounds(642, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
@@ -142,7 +142,7 @@ label text("0"), bounds(370, 450, 50, 15), align("left"), identchannel("rhythm_i
 label text("0"), bounds(420, 450, 50, 15), align("left"), identchannel("rhythm_consonance")	
 label text("0"), bounds(470, 450, 50, 15), align("left"), identchannel("rhythm_consonance_deviation")
 
-gentable bounds(370, 470, 160, 140), identchannel("rhythm_consonance_tab"), tablenumber(5,6,7), tablecolour("red", "lightblue", "darkolivegreen"), tablegridcolour(0,0,0,0), amprange(-0.15,1,5), amprange(-0.15,1,6), amprange(-0.15,1,7), zoom(-1), samplerange(0,32)
+gentable bounds(370, 470, 160, 140), identchannel("rhythm_consonance_tab"), tablenumber(5,6,7), tablecolour:0(255,0,0,120), tablecolour:1(173,216,230,70), tablecolour:2(85,107,47,100), outlinethickness(1), tablegridcolour(0,0,0,0), amprange(-0.15,1,5), amprange(-0.15,1,6), amprange(-0.15,1,7), zoom(-1), samplerange(0,32)
 label text("latest rhythm ratios"), bounds(370, 620, 200, 15), align("left")
 label text("0"), bounds(370, 640, 50, 15), align("left"), identchannel("rhythmratio1")	
 label text("0"), bounds(420, 640, 50, 15), align("left"), identchannel("rhythmratio2")	
