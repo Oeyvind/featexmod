@@ -850,6 +850,17 @@ kparm6 chnget "parm6"
 kparm7 chnget "parm7"
 kparm8 chnget "parm8"
 
+kupdaterate = 100
+ktrig metro kupdaterate
+kparm1 samphold kparm1, ktrig
+kparm2 samphold kparm2, ktrig
+kparm3 samphold kparm3, ktrig
+kparm4 samphold kparm4, ktrig
+kparm5 samphold kparm5, ktrig
+kparm6 samphold kparm6, ktrig
+kparm7 samphold kparm7, ktrig
+kparm8 samphold kparm8, ktrig
+
 kenable1 chnget "enable_parm1"
 kenable2 chnget "enable_parm2"
 kenable3 chnget "enable_parm3"
