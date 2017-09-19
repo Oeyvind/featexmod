@@ -735,6 +735,10 @@ klearn6 chnget "learn_parm6"
 klearn7 chnget "learn_parm7"
 klearn8 chnget "learn_parm8"
 
+kanylearn_ = klearn1+klearn2+klearn3+klearn4+klearn5+klearn6+klearn7+klearn8
+kanylearn = kanylearn_ > 0  ? 1 : 0
+        chnset kanylearn, "learn_active"
+
 kchan init 0
 kchan = klearn1 > 0 ? 1 : kchan
 kchan = klearn2 > 0 ? 2 : kchan
@@ -841,106 +845,111 @@ endin
 
 instr 99
 
-kparm1 chnget "parm1"
-kparm2 chnget "parm2"
-kparm3 chnget "parm3"
-kparm4 chnget "parm4"
-kparm5 chnget "parm5"
-kparm6 chnget "parm6"
-kparm7 chnget "parm7"
-kparm8 chnget "parm8"
+klearnactive chnget "learn_active"
+if klearnactive == 0 then
 
-kupdaterate = 100
-ktrig metro kupdaterate
-kparm1 samphold kparm1, ktrig
-kparm2 samphold kparm2, ktrig
-kparm3 samphold kparm3, ktrig
-kparm4 samphold kparm4, ktrig
-kparm5 samphold kparm5, ktrig
-kparm6 samphold kparm6, ktrig
-kparm7 samphold kparm7, ktrig
-kparm8 samphold kparm8, ktrig
+ kparm1 chnget "parm1"
+ kparm2 chnget "parm2"
+ kparm3 chnget "parm3"
+ kparm4 chnget "parm4"
+ kparm5 chnget "parm5"
+ kparm6 chnget "parm6"
+ kparm7 chnget "parm7"
+ kparm8 chnget "parm8"
 
-kenable1 chnget "enable_parm1"
-kenable2 chnget "enable_parm2"
-kenable3 chnget "enable_parm3"
-kenable4 chnget "enable_parm4"
-kenable5 chnget "enable_parm5"
-kenable6 chnget "enable_parm6"
-kenable7 chnget "enable_parm7"
-kenable8 chnget "enable_parm8"
+ kupdaterate = 100
+ ktrig metro kupdaterate
+ kparm1 samphold kparm1, ktrig
+ kparm2 samphold kparm2, ktrig
+ kparm3 samphold kparm3, ktrig
+ kparm4 samphold kparm4, ktrig
+ kparm5 samphold kparm5, ktrig
+ kparm6 samphold kparm6, ktrig
+ kparm7 samphold kparm7, ktrig
+ kparm8 samphold kparm8, ktrig
 
-klearn1 chnget "learn_parm1" 
-klearn2 chnget "learn_parm2" 
-klearn3 chnget "learn_parm3" 
-klearn4 chnget "learn_parm4" 
-klearn5 chnget "learn_parm5" 
-klearn6 chnget "learn_parm6" 
-klearn7 chnget "learn_parm7" 
-klearn8 chnget "learn_parm8" 
+ kenable1 chnget "enable_parm1"
+ kenable2 chnget "enable_parm2"
+ kenable3 chnget "enable_parm3"
+ kenable4 chnget "enable_parm4"
+ kenable5 chnget "enable_parm5"
+ kenable6 chnget "enable_parm6"
+ kenable7 chnget "enable_parm7"
+ kenable8 chnget "enable_parm8"
 
-klearn_off1 trigger klearn1, 0.5, 1
-klearn_off2 trigger klearn2, 0.5, 1
-klearn_off3 trigger klearn3, 0.5, 1
-klearn_off4 trigger klearn4, 0.5, 1
-klearn_off5 trigger klearn5, 0.5, 1
-klearn_off6 trigger klearn6, 0.5, 1
-klearn_off7 trigger klearn7, 0.5, 1
-klearn_off8 trigger klearn8, 0.5, 1
+ klearn1 chnget "learn_parm1" 
+ klearn2 chnget "learn_parm2" 
+ klearn3 chnget "learn_parm3" 
+ klearn4 chnget "learn_parm4" 
+ klearn5 chnget "learn_parm5" 
+ klearn6 chnget "learn_parm6" 
+ klearn7 chnget "learn_parm7" 
+ klearn8 chnget "learn_parm8" 
 
-Sdevice1 chnget "parm1_device"
-Sdevice2 chnget "parm2_device"
-Sdevice3 chnget "parm3_device"
-Sdevice4 chnget "parm4_device"
-Sdevice5 chnget "parm5_device"
-Sdevice6 chnget "parm6_device"
-Sdevice7 chnget "parm7_device"
-Sdevice8 chnget "parm8_device"
+ klearn_off1 trigger klearn1, 0.5, 1
+ klearn_off2 trigger klearn2, 0.5, 1
+ klearn_off3 trigger klearn3, 0.5, 1
+ klearn_off4 trigger klearn4, 0.5, 1
+ klearn_off5 trigger klearn5, 0.5, 1
+ klearn_off6 trigger klearn6, 0.5, 1
+ klearn_off7 trigger klearn7, 0.5, 1
+ klearn_off8 trigger klearn8, 0.5, 1
 
-Strack1 chnget "parm1_track"
-Strack2 chnget "parm2_track"
-Strack3 chnget "parm3_track"
-Strack4 chnget "parm4_track"
-Strack5 chnget "parm5_track"
-Strack6 chnget "parm6_track"
-Strack7 chnget "parm7_track"
-Strack8 chnget "parm8_track"
+ Sdevice1 chnget "parm1_device"
+ Sdevice2 chnget "parm2_device"
+ Sdevice3 chnget "parm3_device"
+ Sdevice4 chnget "parm4_device"
+ Sdevice5 chnget "parm5_device"
+ Sdevice6 chnget "parm6_device"
+ Sdevice7 chnget "parm7_device"
+ Sdevice8 chnget "parm8_device"
 
-Sparm_num1 chnget "parm1_num"
-Sparm_num2 chnget "parm2_num"
-Sparm_num3 chnget "parm3_num"
-Sparm_num4 chnget "parm4_num"
-Sparm_num5 chnget "parm5_num"
-Sparm_num6 chnget "parm6_num"
-Sparm_num7 chnget "parm7_num"
-Sparm_num8 chnget "parm8_num"
+ Strack1 chnget "parm1_track"
+ Strack2 chnget "parm2_track"
+ Strack3 chnget "parm3_track"
+ Strack4 chnget "parm4_track"
+ Strack5 chnget "parm5_track"
+ Strack6 chnget "parm6_track"
+ Strack7 chnget "parm7_track"
+ Strack8 chnget "parm8_track"
 
-Sadr1 chnget "parm1_adr"
-Sadr2 chnget "parm2_adr"
-Sadr3 chnget "parm3_adr"
-Sadr4 chnget "parm4_adr"
-Sadr5 chnget "parm5_adr"
-Sadr6 chnget "parm6_adr"
-Sadr7 chnget "parm7_adr"
-Sadr8 chnget "parm8_adr"
+ Sparm_num1 chnget "parm1_num"
+ Sparm_num2 chnget "parm2_num"
+ Sparm_num3 chnget "parm3_num"
+ Sparm_num4 chnget "parm4_num"
+ Sparm_num5 chnget "parm5_num"
+ Sparm_num6 chnget "parm6_num"
+ Sparm_num7 chnget "parm7_num"
+ Sparm_num8 chnget "parm8_num"
 
-Sdaw1 chnget "parm1_daw"        
-Sdaw2 chnget "parm2_daw"        
-Sdaw3 chnget "parm3_daw"        
-Sdaw4 chnget "parm4_daw"        
-Sdaw5 chnget "parm5_daw"        
-Sdaw6 chnget "parm6_daw"        
-Sdaw7 chnget "parm7_daw"        
-Sdaw8 chnget "parm8_daw"        
+ Sadr1 chnget "parm1_adr"
+ Sadr2 chnget "parm2_adr"
+ Sadr3 chnget "parm3_adr"
+ Sadr4 chnget "parm4_adr"
+ Sadr5 chnget "parm5_adr"
+ Sadr6 chnget "parm6_adr"
+ Sadr7 chnget "parm7_adr"
+ Sadr8 chnget "parm8_adr"
 
-SendOscToDaw kenable1, Sdaw1, klearn_off1, Sdevice1, Strack1, Sparm_num1, Sadr1, kparm1
-SendOscToDaw kenable2, Sdaw2, klearn_off2, Sdevice2, Strack2, Sparm_num2, Sadr2, kparm2
-SendOscToDaw kenable3, Sdaw3, klearn_off3, Sdevice3, Strack3, Sparm_num3, Sadr3, kparm3
-SendOscToDaw kenable4, Sdaw4, klearn_off4, Sdevice4, Strack4, Sparm_num4, Sadr4, kparm4
-SendOscToDaw kenable5, Sdaw5, klearn_off5, Sdevice5, Strack5, Sparm_num5, Sadr5, kparm5
-SendOscToDaw kenable6, Sdaw6, klearn_off6, Sdevice6, Strack6, Sparm_num6, Sadr6, kparm6
-SendOscToDaw kenable7, Sdaw7, klearn_off7, Sdevice7, Strack7, Sparm_num7, Sadr7, kparm7
-SendOscToDaw kenable8, Sdaw8, klearn_off8, Sdevice8, Strack8, Sparm_num8, Sadr8, kparm8
+ Sdaw1 chnget "parm1_daw"        
+ Sdaw2 chnget "parm2_daw"        
+ Sdaw3 chnget "parm3_daw"        
+ Sdaw4 chnget "parm4_daw"        
+ Sdaw5 chnget "parm5_daw"        
+ Sdaw6 chnget "parm6_daw"        
+ Sdaw7 chnget "parm7_daw"        
+ Sdaw8 chnget "parm8_daw"        
+
+ SendOscToDaw kenable1, Sdaw1, klearn_off1, Sdevice1, Strack1, Sparm_num1, Sadr1, kparm1
+ SendOscToDaw kenable2, Sdaw2, klearn_off2, Sdevice2, Strack2, Sparm_num2, Sadr2, kparm2
+ SendOscToDaw kenable3, Sdaw3, klearn_off3, Sdevice3, Strack3, Sparm_num3, Sadr3, kparm3
+ SendOscToDaw kenable4, Sdaw4, klearn_off4, Sdevice4, Strack4, Sparm_num4, Sadr4, kparm4
+ SendOscToDaw kenable5, Sdaw5, klearn_off5, Sdevice5, Strack5, Sparm_num5, Sadr5, kparm5
+ SendOscToDaw kenable6, Sdaw6, klearn_off6, Sdevice6, Strack6, Sparm_num6, Sadr6, kparm6
+ SendOscToDaw kenable7, Sdaw7, klearn_off7, Sdevice7, Strack7, Sparm_num7, Sadr7, kparm7
+ SendOscToDaw kenable8, Sdaw8, klearn_off8, Sdevice8, Strack8, Sparm_num8, Sadr8, kparm8
+
+endif
 
 endin
 
