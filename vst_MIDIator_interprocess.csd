@@ -645,7 +645,8 @@ chnset Sset1, Sparm$N._id
 
 #define MIXMETHOD_GUI_UPDATE(N) #
 Smixmethchn$N. sprintf "method_parm%i", $N. 
-Smixmeth$N. chnget Smixmethchn$N.
+kmixmeth$N. chnget Smixmethchn$N.
+Smixmeth$N. strcpyk Smixmethods[kmixmeth$N.-1]
 if (changed(Smixmeth$N.) > 0) || (konce == 1) then
 if strcmpk(Smixmeth$N., "gate") == 0 then
 Sset1 sprintfk "visible(%i)", 0
@@ -665,6 +666,7 @@ endif
 
 instr 90
 konce init 1
+Smixmethods[] fillarray "add", "abs_diff", "gate"
 $MIXMETHOD_GUI_UPDATE(1)
 $MIXMETHOD_GUI_UPDATE(2)
 $MIXMETHOD_GUI_UPDATE(3)
@@ -677,7 +679,6 @@ konce = 0
 endin
 
 instr 98
-ain     inch 1
 kmetro metro 1
 ktime timeinsts
 printk2 kmetro*ktime
