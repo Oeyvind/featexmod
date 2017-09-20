@@ -143,7 +143,7 @@ label text("0"), bounds(370, 450, 50, 15), align("left"), identchannel("rhythm_i
 label text("0"), bounds(420, 450, 50, 15), align("left"), identchannel("rhythm_consonance")	
 label text("0"), bounds(470, 450, 50, 15), align("left"), identchannel("rhythm_consonance_deviation")
 
-gentable bounds(370, 470, 160, 140), identchannel("rhythm_consonance_tab"), tablenumber(5,6,7), tablecolour:0(255,0,0,120), tablecolour:1(173,216,230,70), tablecolour:2(85,107,47,100), outlinethickness(1), tablegridcolour(0,0,0,0), amprange(-0.15,1,5), amprange(-0.15,1,6), amprange(-0.15,1,7), zoom(-1), samplerange(0,32)
+gentable bounds(370, 470, 160, 140), identchannel("rhythm_consonance_tab"), tablenumber(5,6,7), tablecolour:0(255,0,0,160), tablecolour:1(173,216,230,70), tablecolour:2(85,107,47,100), outlinethickness(1), tablegridcolour(0,0,0,0), amprange(-0.15,1,5), amprange(-0.15,1,6), amprange(-0.15,1,7), zoom(-1), samplerange(0,32)
 label text("latest rhythm ratios"), bounds(370, 620, 200, 15), align("left")
 label text("0"), bounds(370, 640, 50, 15), align("left"), identchannel("rhythmratio1")	
 label text("0"), bounds(420, 640, 50, 15), align("left"), identchannel("rhythmratio2")	
@@ -159,8 +159,9 @@ label text("0"), bounds(540, 450, 50, 15), align("left"), identchannel("rhythmau
 label text("0"), bounds(600, 450, 50, 15), align("left"), identchannel("rhythmautoflux")	
 
 ; (normal width 160)
-;gentable bounds(540, 470, 256, 140), identchannel("rhythm_autocorr"), tablenumber(10,11,12,13), tablecolour("darkolivegreen", "lightblue", "red", "yellow"), tablegridcolour(0,0,0,0), amprange(-0.15,1,10), amprange(-0.15,1,11), amprange(-0.15,1,12), amprange(-0.15,1,13), zoom(-1), samplerange(0,128)
-gentable bounds(540, 470, 256, 140), identchannel("rhythm_autocorr"), tablenumber(10,11,12,13,14), tablecolour("darkolivegreen", "lightblue", "red", "yellow", "blue"), tablegridcolour(0,0,0,0), amprange(-5,40,10), amprange(-5,40,11), amprange(0,1,12), amprange(0,1,13), amprange(0,1.5,14), zoom(-1), samplerange(0,64)
+;gentable bounds(540, 470, 256, 140), identchannel("rhythm_autocorr"), tablenumber(10,11,12,13,14), tablecolour:0(85,107,47,50), tablecolour:1(73,216,230,50), tablecolour:2(255,0,0,50), tablecolour:3(255,255,0,50), tablecolour:4(0,0,255,50), outlinethickness(2), tablebackgroundcolour(0,0,0,0), tablegridcolour(0,0,0,0), amprange(-0.1,1.5,10), amprange(-0.1,1.5,11), amprange(-0.1,1.5,12), amprange(-0.1,1.5,13), amprange(-0.1,1.5,14), zoom(-1), samplerange(0,255)
+gentable bounds(540, 470, 256, 140), identchannel("rhythm_autocorr"), tablenumber(10,11), tablecolour:0(85,107,47,50), tablecolour:1(73,216,230,50), outlinethickness(2), tablebackgroundcolour(0,0,0,0), tablegridcolour(0,0,0,0), amprange(-0.1,1.5,10), amprange(-0.1,1.5,11), zoom(-1), samplerange(0,255)
+;gentable bounds(540, 470, 256, 140), identchannel("rhythm_autocorr"), tablenumber(10), tablecolour:0(85,107,47,50), outlinethickness(2), tablebackgroundcolour(0,0,0,0), tablegridcolour(0,0,0,0), amprange(-0.1,1.5,10), zoom(-1), samplerange(0,255)
 
 
 <CabbageIncludes>
@@ -190,7 +191,7 @@ analyze_chn_init.inc
         gi12    ftgen   12, 0, 512, -2, 0 ; rhythm autocorr display
         gi13    ftgen   13, 0, 512, -2, 0 ; rhythm autocorr display
         ;gi14    ftgen   14, 0, 128, -2, 0 ; rhythm autocorr display
-        gi_iot_hist    ftgen   14, 0, 128, -2, 0 ; iot_histogram
+        ;gi_iot_hist    ftgen   14, 0, 128, -2, 0 ; iot_histogram
         ;gi15    ftgen   15, 0, 512, -2, 0 ; rhythm autocorr display
         
 
@@ -280,19 +281,22 @@ analyze_chn_init.inc
         endif
 
         if krnewframe4*kenableDisplay > 0 then
-        /*        
+                
         copya2ftab (kRhythmAuto*0.2)+0.85, gi10
+        kmax maxarray kRhythmAuto
+        kmin minarray kRhythmAuto
         kRhythmAuto2Displ[] = gkMuteArr
         kRhythmAuto2Displ slicearray kRhythmAuto2, 0, ira_fftsize/4
         copya2ftab (kRhythmAuto2Displ*0.2)+0.7, gi11
         kRhythmAuto4Displ[] = gkMuteArr
         kRhythmAuto4Displ slicearray kRhythmAuto4, 0, ira_fftsize/8
         copya2ftab (kRhythmAuto4Displ*0.2)+0.55, gi12
-        copya2ftab kRhythmAutoCombo*0.75, gi13
-        */
-        copya2ftab kHist, gi10
-        copya2ftab kHist2+20, gi11
- 	chnset	"tablenumber(10,11,12,13,14)", "rhythm_autocorr"	; update table display	
+        
+        ;copya2ftab (kHist*0.2)+0.1, gi10
+        ;copya2ftab (kHist2*0.2)+.2, gi11
+ 	;chnset	"tablenumber(10,11,12,13,14)", "rhythm_autocorr"	; update table display	
+ 	chnset	"tablenumber(10,11)", "rhythm_autocorr"	; update table display	
+ 	
 
  	SrautocrestD sprintfk "text(%.2f)", krhythm_ac_crest
  	chnset	SrautocrestD, "rhythmautocrest"	; update gui	
