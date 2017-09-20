@@ -81,17 +81,16 @@
         ktime           timeinsts
         kprevaTranTime  init 0
         katranDensity   init 0
-;Control segment for LEDs displaying transient detection:
+        
+; transient hold, statistics etc 
         ktrigButn       trigger	krms_tran0, 0.5, 0
         if ktrigButn > 0 then
         katranTime      = ktime-kprevaTranTime
         kprevaTranTime  = ktime
         katranDensity_t divz 1, katranTime, 1           ; this will be accurate for slow tempi, but not if you play e.g. two fast consecutive transients followed by a puase
-	                reinit lightTransient
         endif
-lightTransient:
+holdTransient:
         kamp_trans_hold linseg 1,0.05,1,0,0,1,0
-                        chnset kamp_trans_hold, "transientDisplay"
 rireturn
 
         katran1second   delayk krms_tran0, 1

@@ -52,8 +52,9 @@ rslider bounds(80, 226, 65, 65), text("Thresh"), channel("amp_transientThresh"),
 rslider bounds(145, 226, 65, 65), text("DecThresh"), channel("amp_transientDecThresh"), range(0, 12, 4) 
 ;rslider bounds(210, 226, 65, 65), text("DecTime"), channel("amp_transientDecTime"), range(0.1, 2.0, 0.5) 
 rslider bounds(275, 226, 65, 65), text("DblLimit"), channel("amp_transientDoubleLimit"), range(0.02, 1.0, 0.05, 0.35, 0.01) 
-label text("amp"), bounds(15, 230, 70, 12)
-checkbox channel("transientDisplay"),bounds(42, 245, 15, 15), value(0)
+;label text("amp"), bounds(15, 230, 70, 12)
+;checkbox channel("transientDisplay"),bounds(42, 245, 15, 15), value(0)
+
 
 label text("plot"), bounds(5, 295, 40, 15), align("left")
 button bounds(40, 295, 50, 15), channel("plotenable"), text("not","plot"), value(0), colour("gray"), fontcolour("blue")

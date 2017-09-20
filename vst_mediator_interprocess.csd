@@ -777,7 +777,6 @@ kskiplive2 strindexk Stest, "selected"
 kskiplive = (kskiplive1+kskiplive2 > 0 ? 1 : 0)
 
 ; filter any messages we don't ever want to parse from Reaper
-Stest strcpyk gSmess[k(0)]
 kskipreaper1 strindexk Stest, "last_touched"
 kskipreaper2 strindexk Stest, "error"
 kskipreaper3 strindexk Stest, "/vu"
