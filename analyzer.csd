@@ -164,13 +164,6 @@ gentable bounds(540, 470, 256, 140), identchannel("rhythm_autocorr"), tablenumbe
 ;gentable bounds(540, 470, 256, 140), identchannel("rhythm_autocorr"), tablenumber(10), tablecolour:0(85,107,47,50), outlinethickness(2), tablebackgroundcolour(0,0,0,0), tablegridcolour(0,0,0,0), amprange(-0.1,1.5,10), zoom(-1), samplerange(0,255)
 
 
-<CabbageIncludes>
-analyze_udos.inc
-analyze_audio.inc
-analyze_send.inc
-analyze_chn_init.inc
-</CabbageIncludes>
-
 </Cabbage>
 <CsoundSynthesizer>
 <CsOptions>

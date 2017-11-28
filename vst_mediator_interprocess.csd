@@ -17,7 +17,7 @@
 
 <Cabbage>
 form size(863, 810), caption("VST_OSC_mediator"), pluginID("vosc")
-image bounds(0, 0, 863, 810),  shape("sharp"), colour(5,15,20)
+image bounds(0, 0, 863, 810),  shape("sharp"), colour(35,45,60)
 label text("port"), bounds(10, 10, 80, 12), identchannel("port_id")
 
 numberbox bounds(685, 10, 35, 15), channel("oscrate"), range(1, 100, 50)
