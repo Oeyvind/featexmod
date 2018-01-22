@@ -381,11 +381,14 @@ transEnvelope:
         kgate_in        chnget SgateIn
         SampleHold      sprintf "sh_parm%i", imod_num-1
         ksh             chnget SampleHold
-        if ksh == 0 then
+        klearnactive chnget "learn_active"
+        if klearnactive == 0 then
+          if ksh == 0 then
                         chnset kval, Sparam
-        else
-        if kgate_in > 0 then
+          else
+            if kgate_in > 0 then
                         chnset kval, Sparam
-        endif
+            endif
+          endif
         endif
 	endin
