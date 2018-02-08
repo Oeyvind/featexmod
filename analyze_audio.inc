@@ -405,7 +405,8 @@ if (kdoflag > 0) && (kflag > 0) then
         kArrAlog[klogndx] = 1
         od
       	kflatness		divz exp(sumarray(log(kArrAlog))/giFftTabSize),  (ksumAmp/giFftTabSize), 0
-        kflux                   = 1-(sumarray(kArrCorr)/(sqrt(sumarray(kArrA^2))*sqrt(sumarray(kArrAprev^2))))
+        ;kflux                   = 1-(sumarray(kArrCorr)/(sqrt(sumarray(kArrA^2))*sqrt(sumarray(kArrAprev^2))))
+	kflux                   = 1-(divz(sumarray(kArrCorr),(sqrt(sumarray(kArrA^2))*sqrt(sumarray(kArrAprev^2))),0))
 	kdoflag 		= 0
 
 
