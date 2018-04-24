@@ -75,7 +75,7 @@ start_x_pos = 30
 start_y_pos = 5
 plant_height = 85
 
-plantOSC = '''groupbox bounds({start_y}, {start_x}, 853, 81), plant("plant_{pname}"), linethickness("0"){{ 
+plantOSC = '''groupbox bounds({start_y}, {start_x}, 853, 81), colour(75,85,90), plant("plant_{pname}"), linethickness("0"){{ 
 combobox channel("method_{pname}"), bounds(10, 12, 96, 20), items("add", "abs_diff", "gate"), value(1)
 label bounds(5,40,10,10), text("{pnum}"), colour(20,20,20,255)
 combobox channel("source1_{pname}"), bounds(110, 12, 100, 20), items({analysis_p}), value(1)
@@ -142,7 +142,7 @@ texteditor bounds(790, 50, 50, 14), channel("{pname}_daw"), text("parm_daw"), co
 }}
 
 '''
-plantMIDI = '''groupbox bounds({start_y}, {start_x}, 853, 81), plant("plant_{pname}"), linethickness("0"){{ 
+plantMIDI = '''groupbox bounds({start_y}, {start_x}, 853, 81), colour(75,85,90), plant("plant_{pname}"), linethickness("0"){{ 
 combobox channel("method_{pname}"), bounds(10, 12, 96, 20), items("add", "abs_diff", "gate"), value(1)
 label bounds(5,40,10,10), text("{pnum}"), colour(20,20,20,255)
 combobox channel("source1_{pname}"), bounds(110, 12, 100, 20), items({analysis_p}), value(1)
