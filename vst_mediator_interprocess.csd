@@ -16,8 +16,9 @@
 ;    If not, see <http://www.gnu.org/licenses/>.
 
 <Cabbage>
-form size(863, 810), caption("VST_OSC_mediator"), pluginID("vosc")
-image bounds(0, 0, 863, 810),  shape("sharp"), colour(75,85,90)
+form size(863, 1410), caption("VST_OSC_mediator"), pluginID("vosc")
+;image bounds(0, 0, 863, 810),  shape("sharp"), colour(75,85,90)
+
 label text("port"), bounds(10, 10, 80, 12), identchannel("port_id")
 
 nslider bounds(685, 10, 35, 15), channel("oscrate"), range(1, 100, 50)
@@ -560,10 +561,546 @@ texteditor bounds(790, 50, 50, 14), channel("parm8_daw"), text("parm_daw"), colo
 }
 
 
-;next x position available below plants is 710
+groupbox bounds(5, 710, 853, 81), colour(75,85,90), plant("plant_parm9"), linethickness("0"){ 
+combobox channel("method_parm9"), bounds(10, 12, 96, 20), items("add", "abs_diff", "gate"), value(1)
+label bounds(5,40,10,10), text("9"), colour(20,20,20,255)
+combobox channel("source1_parm9"), bounds(110, 12, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1)
+combobox channel("chan1_parm9"), bounds(213, 12, 50, 20), items("1", "2", "3", "4"), value(1)
+nslider bounds(268, 14, 35, 15), channel("rise1_parm9"), range(0.01, 10.0, 0.01), visible(1), identchannel("rise1_parm9_id")
+nslider bounds(306, 14, 35, 15), channel("fall1_parm9"), range(0.01, 10.0, 0.5), visible(1), identchannel("fall1_parm9_id")
+hslider bounds(343, 12, 86, 20), channel("scale1_parm9"), range(-1.0, 1.0, 0, 1, 0.001), visible(1), identchannel("scale1_parm9_id")
+combobox bounds(423, 12, 42, 18), channel("scale1_x_parm9"), items("x1","x2","x10"), visible(1), identchannel("scale1_x_parm9_id")
+hslider bounds(459, 12, 86, 20), channel("curve1_parm9"), range(-5.0, 5.0, 0), identchannel("curve1_parm9_id")
+hslider bounds(268, 14, 75, 15), channel("lowpass1_parm9"), range(0.01, 10.0, 5.0, 0.35), visible(0), identchannel("lowpass1_parm9_id")
+hslider bounds(343, 14, 100, 16), channel("thresh1_parm9"), range(0.0, 1.0, 0.5, 1, 0.001),trackercolour("green"), visible(0), identchannel("thresh1_parm9_id")
+hslider bounds(343, 4, 100, 8), channel("display1_parm9"), range(0.0, 1.0, 0, 1, 0.001), colour(0,0,0,0,0), trackercolour("green"), trackerthickness(1), visible(0), identchannel("display1_parm9_id")
+combobox channel("triggertype1_parm9"), bounds(445, 12, 50, 20), items("up", "dwn"), value(1), visible(0), identchannel("triggertype1_parm9_id")
+
+combobox channel("source2_parm9"), bounds(110, 34, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1)
+combobox channel("chan2_parm9"), bounds(213, 34, 50, 20), items("1", "2", "3", "4"), value(1)
+nslider bounds(268, 36, 35, 15), channel("rise2_parm9"), range(0.01, 10.0, 0.01), visible(1), identchannel("rise2_parm9_id")
+hslider bounds(268, 34, 75, 15), channel("lowpass2_parm9"), range(0.01, 10.0, 5.0, 0.35), visible(0), identchannel("lowpass2_parm9_id")
+nslider bounds(306, 36, 35, 15), channel("fall2_parm9"), range(0.01, 10.0, 0.5), visible(1), identchannel("fall2_parm9_id")
+hslider bounds(343, 34, 86, 20), channel("scale2_parm9"), range(-1.0, 1.0, 0, 1, 0.001), visible(1), identchannel("scale2_parm9_id")
+hslider bounds(343, 34, 100, 16), channel("thresh2_parm9"), range(0.0, 1.0, 0.6, 1, 0.001), trackercolour("red"), visible(0), identchannel("thresh2_parm9_id")
+hslider bounds(343, 50, 100, 8), channel("display2_parm9"), range(0.0, 1.0, 0, 1, 0.001), colour(0,0,0,0,0), trackercolour("red"), trackerthickness(1), visible(0), identchannel("display2_parm9_id")
+combobox channel("triggertype2_parm9"), bounds(445, 34, 50, 20), items("up", "dwn"), value(2), visible(0), identchannel("triggertype2_parm9_id")
+combobox bounds(423, 34, 42, 18), channel("scale2_x_parm9"), items("x1","x2", "x10"),  visible(1), identchannel("scale2_x_parm9_id")
+hslider bounds(459, 34, 86, 20), channel("curve2_parm9"), range(-5.0, 5.0, 0), visible(1), identchannel("curve2_parm9_id")
+checkbox bounds(508, 25, 40, 25), channel("gate_parm9"), value(1), visible(0), identchannel("gate_parm9_id")
+checkbox bounds(558, 25, 25, 25), channel("sh_parm9"), value(0), visible(0), colour("blue"), identchannel("sh_parm9_id")
+nslider bounds(598, 25, 35, 15), channel("outrise_parm9"), range(0.00, 10.0, 0.00), visible(0), identchannel("outrise_parm9_id")
+nslider bounds(636, 25, 35, 15), channel("outfall_parm9"), range(0.00, 10.0, 0.00), visible(0), identchannel("outfall_parm9_id")
+
+label bounds(10, 58, 96, 12), text("mixmeth"), colour(20,20,20,255)
+label bounds(110, 58, 100, 12), text("source"), colour(20,20,20,255)
+label bounds(213, 58, 50, 12), text("chan"), colour(20,20,20,255)
+label bounds(266, 58, 76, 12), text("rise/fall"), colour(20,20,20,255), visible(1), identchannel("riselabel_parm9_id")
+label bounds(266, 58, 76, 12), text("lowpass"), colour(20,20,20,255), visible(0), identchannel("lowpasslabel_parm9_id")
+label bounds(346, 58, 110, 12), text("scale"), colour(20,20,20,255), visible(1), identchannel("scalelabel_parm9_id")
+label bounds(346, 58, 93, 12), text("thresh"), colour(20,20,20,255), visible(0), identchannel("threshlabel_parm9_id")
+label bounds(446, 58, 48, 12), text("trig"), colour(20,20,20,255), visible(0), identchannel("triglabel_parm9_id")
+label bounds(462, 58, 81, 12), text("curve"), colour(20,20,20,255), visible(1), identchannel("curvelabel_parm9_id")
+image bounds(466, 59, 10, 11),  file("convex.png"), visible(1), identchannel("convexlabel_parm9_id")
+image bounds(528, 59, 10, 11),  file("concave.png"), visible(1), identchannel("concavelabel_parm9_id")
+label bounds(502, 58, 50, 12), text("status"), colour(20,20,20,255), visible(0), identchannel("statuslabel_parm9_id")
+label bounds(559, 58, 30, 12), text("s/h"), colour(20,20,20,255), visible(0), identchannel("shlabel_parm9_id")
+label bounds(559, 70, 30, 12), text("\/"), colour(20,20,20,255), visible(0), identchannel("shlabel2_parm9_id")
+label bounds(598, 8, 74, 12), text("midi env"), colour(20,20,20,255), visible(0), identchannel("midienvlabel_parm9_id")
+label bounds(598, 44, 74, 12), text("rise/fall"), colour(20,20,20,255), visible(0), identchannel("outriselabel_parm9_id")
+texteditor bounds(680, 60, 170, 14), channel("note_parm9"), text("...notes..."), colour(20,20,20,255), fontcolour("white"), popuptext("Notes to remember where this signal is sent to  - what it controls. Will not change signal routing - just help you remember where it goes. Notes saved with DAW project. Do remember to hit *enter* to update the text control.")
+
+rslider bounds(543, 12, 62, 62), text("offset"), channel("offset_parm9"), range(0.0, 1.0, 0.5, 1, 0.001) , visible(1), identchannel("offset_parm9_id")
+combobox bounds(543, 1, 55, 12), channel("offsetx_parm9"), items("-1", "Norm", "+1"), , value(2), visible(1), identchannel("offset_x_parm9_id")
+rslider bounds(604, 8, 66, 66), text("parm9"), channel("parm9"), range(0.0, 1.0, 0.5, 1, 0.001), identchannel("parm9_id")
+
+label bounds(680, 8, 55, 12), text("OSC"), colour(20,20,20,255)
+checkbox bounds(742, 8, 12, 12), text("enable"), channel("enable_parm9"), value(1)
+
+button channel("learn_parm9"),bounds(760, 8, 40, 15), text("learn"), colour:0("black"), colour:1("green"), latching(1)
+
+texteditor bounds(680, 25, 170, 14), channel("parm9_name"), text("parm_name"), colour(20,20,20,255), fontcolour("white"), identchannel("parm9_name_id")
+texteditor bounds(680, 42, 170, 14), channel("parm9_adr"), text("parm_adr"), colour(20,20,20,255), fontcolour("white"), identchannel("parm9_adr_id")
+texteditor bounds(790, 20, 50, 14), channel("parm9_device"), text("parm_device"), colour(20,20,20,255), fontcolour("white"), identchannel("parm9_device_id"), visible(0)
+texteditor bounds(790, 30, 50, 14), channel("parm9_track"), text("parm_track"), colour(20,20,20,255), fontcolour("white"), identchannel("parm9_track_id"), visible(0)
+texteditor bounds(790, 40, 50, 14), channel("parm9_num"), text("parm_num"), colour(20,20,20,255), fontcolour("white"), identchannel("parm9_num_id"), visible(0)
+texteditor bounds(790, 50, 50, 14), channel("parm9_daw"), text("parm_daw"), colour(20,20,20,255), fontcolour("white"), identchannel("parm9_daw_id"), visible(0)
+}
+
+
+groupbox bounds(5, 795, 853, 81), colour(75,85,90), plant("plant_parm10"), linethickness("0"){ 
+combobox channel("method_parm10"), bounds(10, 12, 96, 20), items("add", "abs_diff", "gate"), value(1)
+label bounds(5,40,10,10), text("10"), colour(20,20,20,255)
+combobox channel("source1_parm10"), bounds(110, 12, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1)
+combobox channel("chan1_parm10"), bounds(213, 12, 50, 20), items("1", "2", "3", "4"), value(1)
+nslider bounds(268, 14, 35, 15), channel("rise1_parm10"), range(0.01, 10.0, 0.01), visible(1), identchannel("rise1_parm10_id")
+nslider bounds(306, 14, 35, 15), channel("fall1_parm10"), range(0.01, 10.0, 0.5), visible(1), identchannel("fall1_parm10_id")
+hslider bounds(343, 12, 86, 20), channel("scale1_parm10"), range(-1.0, 1.0, 0, 1, 0.001), visible(1), identchannel("scale1_parm10_id")
+combobox bounds(423, 12, 42, 18), channel("scale1_x_parm10"), items("x1","x2","x10"), visible(1), identchannel("scale1_x_parm10_id")
+hslider bounds(459, 12, 86, 20), channel("curve1_parm10"), range(-5.0, 5.0, 0), identchannel("curve1_parm10_id")
+hslider bounds(268, 14, 75, 15), channel("lowpass1_parm10"), range(0.01, 10.0, 5.0, 0.35), visible(0), identchannel("lowpass1_parm10_id")
+hslider bounds(343, 14, 100, 16), channel("thresh1_parm10"), range(0.0, 1.0, 0.5, 1, 0.001),trackercolour("green"), visible(0), identchannel("thresh1_parm10_id")
+hslider bounds(343, 4, 100, 8), channel("display1_parm10"), range(0.0, 1.0, 0, 1, 0.001), colour(0,0,0,0,0), trackercolour("green"), trackerthickness(1), visible(0), identchannel("display1_parm10_id")
+combobox channel("triggertype1_parm10"), bounds(445, 12, 50, 20), items("up", "dwn"), value(1), visible(0), identchannel("triggertype1_parm10_id")
+
+combobox channel("source2_parm10"), bounds(110, 34, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1)
+combobox channel("chan2_parm10"), bounds(213, 34, 50, 20), items("1", "2", "3", "4"), value(1)
+nslider bounds(268, 36, 35, 15), channel("rise2_parm10"), range(0.01, 10.0, 0.01), visible(1), identchannel("rise2_parm10_id")
+hslider bounds(268, 34, 75, 15), channel("lowpass2_parm10"), range(0.01, 10.0, 5.0, 0.35), visible(0), identchannel("lowpass2_parm10_id")
+nslider bounds(306, 36, 35, 15), channel("fall2_parm10"), range(0.01, 10.0, 0.5), visible(1), identchannel("fall2_parm10_id")
+hslider bounds(343, 34, 86, 20), channel("scale2_parm10"), range(-1.0, 1.0, 0, 1, 0.001), visible(1), identchannel("scale2_parm10_id")
+hslider bounds(343, 34, 100, 16), channel("thresh2_parm10"), range(0.0, 1.0, 0.6, 1, 0.001), trackercolour("red"), visible(0), identchannel("thresh2_parm10_id")
+hslider bounds(343, 50, 100, 8), channel("display2_parm10"), range(0.0, 1.0, 0, 1, 0.001), colour(0,0,0,0,0), trackercolour("red"), trackerthickness(1), visible(0), identchannel("display2_parm10_id")
+combobox channel("triggertype2_parm10"), bounds(445, 34, 50, 20), items("up", "dwn"), value(2), visible(0), identchannel("triggertype2_parm10_id")
+combobox bounds(423, 34, 42, 18), channel("scale2_x_parm10"), items("x1","x2", "x10"),  visible(1), identchannel("scale2_x_parm10_id")
+hslider bounds(459, 34, 86, 20), channel("curve2_parm10"), range(-5.0, 5.0, 0), visible(1), identchannel("curve2_parm10_id")
+checkbox bounds(508, 25, 40, 25), channel("gate_parm10"), value(1), visible(0), identchannel("gate_parm10_id")
+checkbox bounds(558, 25, 25, 25), channel("sh_parm10"), value(0), visible(0), colour("blue"), identchannel("sh_parm10_id")
+nslider bounds(598, 25, 35, 15), channel("outrise_parm10"), range(0.00, 10.0, 0.00), visible(0), identchannel("outrise_parm10_id")
+nslider bounds(636, 25, 35, 15), channel("outfall_parm10"), range(0.00, 10.0, 0.00), visible(0), identchannel("outfall_parm10_id")
+
+label bounds(10, 58, 96, 12), text("mixmeth"), colour(20,20,20,255)
+label bounds(110, 58, 100, 12), text("source"), colour(20,20,20,255)
+label bounds(213, 58, 50, 12), text("chan"), colour(20,20,20,255)
+label bounds(266, 58, 76, 12), text("rise/fall"), colour(20,20,20,255), visible(1), identchannel("riselabel_parm10_id")
+label bounds(266, 58, 76, 12), text("lowpass"), colour(20,20,20,255), visible(0), identchannel("lowpasslabel_parm10_id")
+label bounds(346, 58, 110, 12), text("scale"), colour(20,20,20,255), visible(1), identchannel("scalelabel_parm10_id")
+label bounds(346, 58, 93, 12), text("thresh"), colour(20,20,20,255), visible(0), identchannel("threshlabel_parm10_id")
+label bounds(446, 58, 48, 12), text("trig"), colour(20,20,20,255), visible(0), identchannel("triglabel_parm10_id")
+label bounds(462, 58, 81, 12), text("curve"), colour(20,20,20,255), visible(1), identchannel("curvelabel_parm10_id")
+image bounds(466, 59, 10, 11),  file("convex.png"), visible(1), identchannel("convexlabel_parm10_id")
+image bounds(528, 59, 10, 11),  file("concave.png"), visible(1), identchannel("concavelabel_parm10_id")
+label bounds(502, 58, 50, 12), text("status"), colour(20,20,20,255), visible(0), identchannel("statuslabel_parm10_id")
+label bounds(559, 58, 30, 12), text("s/h"), colour(20,20,20,255), visible(0), identchannel("shlabel_parm10_id")
+label bounds(559, 70, 30, 12), text("\/"), colour(20,20,20,255), visible(0), identchannel("shlabel2_parm10_id")
+label bounds(598, 8, 74, 12), text("midi env"), colour(20,20,20,255), visible(0), identchannel("midienvlabel_parm10_id")
+label bounds(598, 44, 74, 12), text("rise/fall"), colour(20,20,20,255), visible(0), identchannel("outriselabel_parm10_id")
+texteditor bounds(680, 60, 170, 14), channel("note_parm10"), text("...notes..."), colour(20,20,20,255), fontcolour("white"), popuptext("Notes to remember where this signal is sent to  - what it controls. Will not change signal routing - just help you remember where it goes. Notes saved with DAW project. Do remember to hit *enter* to update the text control.")
+
+rslider bounds(543, 12, 62, 62), text("offset"), channel("offset_parm10"), range(0.0, 1.0, 0.5, 1, 0.001) , visible(1), identchannel("offset_parm10_id")
+combobox bounds(543, 1, 55, 12), channel("offsetx_parm10"), items("-1", "Norm", "+1"), , value(2), visible(1), identchannel("offset_x_parm10_id")
+rslider bounds(604, 8, 66, 66), text("parm10"), channel("parm10"), range(0.0, 1.0, 0.5, 1, 0.001), identchannel("parm10_id")
+
+label bounds(680, 8, 55, 12), text("OSC"), colour(20,20,20,255)
+checkbox bounds(742, 8, 12, 12), text("enable"), channel("enable_parm10"), value(1)
+
+button channel("learn_parm10"),bounds(760, 8, 40, 15), text("learn"), colour:0("black"), colour:1("green"), latching(1)
+
+texteditor bounds(680, 25, 170, 14), channel("parm10_name"), text("parm_name"), colour(20,20,20,255), fontcolour("white"), identchannel("parm10_name_id")
+texteditor bounds(680, 42, 170, 14), channel("parm10_adr"), text("parm_adr"), colour(20,20,20,255), fontcolour("white"), identchannel("parm10_adr_id")
+texteditor bounds(790, 20, 50, 14), channel("parm10_device"), text("parm_device"), colour(20,20,20,255), fontcolour("white"), identchannel("parm10_device_id"), visible(0)
+texteditor bounds(790, 30, 50, 14), channel("parm10_track"), text("parm_track"), colour(20,20,20,255), fontcolour("white"), identchannel("parm10_track_id"), visible(0)
+texteditor bounds(790, 40, 50, 14), channel("parm10_num"), text("parm_num"), colour(20,20,20,255), fontcolour("white"), identchannel("parm10_num_id"), visible(0)
+texteditor bounds(790, 50, 50, 14), channel("parm10_daw"), text("parm_daw"), colour(20,20,20,255), fontcolour("white"), identchannel("parm10_daw_id"), visible(0)
+}
+
+
+groupbox bounds(5, 880, 853, 81), colour(75,85,90), plant("plant_parm11"), linethickness("0"){ 
+combobox channel("method_parm11"), bounds(10, 12, 96, 20), items("add", "abs_diff", "gate"), value(1)
+label bounds(5,40,10,10), text("11"), colour(20,20,20,255)
+combobox channel("source1_parm11"), bounds(110, 12, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1)
+combobox channel("chan1_parm11"), bounds(213, 12, 50, 20), items("1", "2", "3", "4"), value(1)
+nslider bounds(268, 14, 35, 15), channel("rise1_parm11"), range(0.01, 10.0, 0.01), visible(1), identchannel("rise1_parm11_id")
+nslider bounds(306, 14, 35, 15), channel("fall1_parm11"), range(0.01, 10.0, 0.5), visible(1), identchannel("fall1_parm11_id")
+hslider bounds(343, 12, 86, 20), channel("scale1_parm11"), range(-1.0, 1.0, 0, 1, 0.001), visible(1), identchannel("scale1_parm11_id")
+combobox bounds(423, 12, 42, 18), channel("scale1_x_parm11"), items("x1","x2","x10"), visible(1), identchannel("scale1_x_parm11_id")
+hslider bounds(459, 12, 86, 20), channel("curve1_parm11"), range(-5.0, 5.0, 0), identchannel("curve1_parm11_id")
+hslider bounds(268, 14, 75, 15), channel("lowpass1_parm11"), range(0.01, 10.0, 5.0, 0.35), visible(0), identchannel("lowpass1_parm11_id")
+hslider bounds(343, 14, 100, 16), channel("thresh1_parm11"), range(0.0, 1.0, 0.5, 1, 0.001),trackercolour("green"), visible(0), identchannel("thresh1_parm11_id")
+hslider bounds(343, 4, 100, 8), channel("display1_parm11"), range(0.0, 1.0, 0, 1, 0.001), colour(0,0,0,0,0), trackercolour("green"), trackerthickness(1), visible(0), identchannel("display1_parm11_id")
+combobox channel("triggertype1_parm11"), bounds(445, 12, 50, 20), items("up", "dwn"), value(1), visible(0), identchannel("triggertype1_parm11_id")
+
+combobox channel("source2_parm11"), bounds(110, 34, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1)
+combobox channel("chan2_parm11"), bounds(213, 34, 50, 20), items("1", "2", "3", "4"), value(1)
+nslider bounds(268, 36, 35, 15), channel("rise2_parm11"), range(0.01, 10.0, 0.01), visible(1), identchannel("rise2_parm11_id")
+hslider bounds(268, 34, 75, 15), channel("lowpass2_parm11"), range(0.01, 10.0, 5.0, 0.35), visible(0), identchannel("lowpass2_parm11_id")
+nslider bounds(306, 36, 35, 15), channel("fall2_parm11"), range(0.01, 10.0, 0.5), visible(1), identchannel("fall2_parm11_id")
+hslider bounds(343, 34, 86, 20), channel("scale2_parm11"), range(-1.0, 1.0, 0, 1, 0.001), visible(1), identchannel("scale2_parm11_id")
+hslider bounds(343, 34, 100, 16), channel("thresh2_parm11"), range(0.0, 1.0, 0.6, 1, 0.001), trackercolour("red"), visible(0), identchannel("thresh2_parm11_id")
+hslider bounds(343, 50, 100, 8), channel("display2_parm11"), range(0.0, 1.0, 0, 1, 0.001), colour(0,0,0,0,0), trackercolour("red"), trackerthickness(1), visible(0), identchannel("display2_parm11_id")
+combobox channel("triggertype2_parm11"), bounds(445, 34, 50, 20), items("up", "dwn"), value(2), visible(0), identchannel("triggertype2_parm11_id")
+combobox bounds(423, 34, 42, 18), channel("scale2_x_parm11"), items("x1","x2", "x10"),  visible(1), identchannel("scale2_x_parm11_id")
+hslider bounds(459, 34, 86, 20), channel("curve2_parm11"), range(-5.0, 5.0, 0), visible(1), identchannel("curve2_parm11_id")
+checkbox bounds(508, 25, 40, 25), channel("gate_parm11"), value(1), visible(0), identchannel("gate_parm11_id")
+checkbox bounds(558, 25, 25, 25), channel("sh_parm11"), value(0), visible(0), colour("blue"), identchannel("sh_parm11_id")
+nslider bounds(598, 25, 35, 15), channel("outrise_parm11"), range(0.00, 10.0, 0.00), visible(0), identchannel("outrise_parm11_id")
+nslider bounds(636, 25, 35, 15), channel("outfall_parm11"), range(0.00, 10.0, 0.00), visible(0), identchannel("outfall_parm11_id")
+
+label bounds(10, 58, 96, 12), text("mixmeth"), colour(20,20,20,255)
+label bounds(110, 58, 100, 12), text("source"), colour(20,20,20,255)
+label bounds(213, 58, 50, 12), text("chan"), colour(20,20,20,255)
+label bounds(266, 58, 76, 12), text("rise/fall"), colour(20,20,20,255), visible(1), identchannel("riselabel_parm11_id")
+label bounds(266, 58, 76, 12), text("lowpass"), colour(20,20,20,255), visible(0), identchannel("lowpasslabel_parm11_id")
+label bounds(346, 58, 110, 12), text("scale"), colour(20,20,20,255), visible(1), identchannel("scalelabel_parm11_id")
+label bounds(346, 58, 93, 12), text("thresh"), colour(20,20,20,255), visible(0), identchannel("threshlabel_parm11_id")
+label bounds(446, 58, 48, 12), text("trig"), colour(20,20,20,255), visible(0), identchannel("triglabel_parm11_id")
+label bounds(462, 58, 81, 12), text("curve"), colour(20,20,20,255), visible(1), identchannel("curvelabel_parm11_id")
+image bounds(466, 59, 10, 11),  file("convex.png"), visible(1), identchannel("convexlabel_parm11_id")
+image bounds(528, 59, 10, 11),  file("concave.png"), visible(1), identchannel("concavelabel_parm11_id")
+label bounds(502, 58, 50, 12), text("status"), colour(20,20,20,255), visible(0), identchannel("statuslabel_parm11_id")
+label bounds(559, 58, 30, 12), text("s/h"), colour(20,20,20,255), visible(0), identchannel("shlabel_parm11_id")
+label bounds(559, 70, 30, 12), text("\/"), colour(20,20,20,255), visible(0), identchannel("shlabel2_parm11_id")
+label bounds(598, 8, 74, 12), text("midi env"), colour(20,20,20,255), visible(0), identchannel("midienvlabel_parm11_id")
+label bounds(598, 44, 74, 12), text("rise/fall"), colour(20,20,20,255), visible(0), identchannel("outriselabel_parm11_id")
+texteditor bounds(680, 60, 170, 14), channel("note_parm11"), text("...notes..."), colour(20,20,20,255), fontcolour("white"), popuptext("Notes to remember where this signal is sent to  - what it controls. Will not change signal routing - just help you remember where it goes. Notes saved with DAW project. Do remember to hit *enter* to update the text control.")
+
+rslider bounds(543, 12, 62, 62), text("offset"), channel("offset_parm11"), range(0.0, 1.0, 0.5, 1, 0.001) , visible(1), identchannel("offset_parm11_id")
+combobox bounds(543, 1, 55, 12), channel("offsetx_parm11"), items("-1", "Norm", "+1"), , value(2), visible(1), identchannel("offset_x_parm11_id")
+rslider bounds(604, 8, 66, 66), text("parm11"), channel("parm11"), range(0.0, 1.0, 0.5, 1, 0.001), identchannel("parm11_id")
+
+label bounds(680, 8, 55, 12), text("OSC"), colour(20,20,20,255)
+checkbox bounds(742, 8, 12, 12), text("enable"), channel("enable_parm11"), value(1)
+
+button channel("learn_parm11"),bounds(760, 8, 40, 15), text("learn"), colour:0("black"), colour:1("green"), latching(1)
+
+texteditor bounds(680, 25, 170, 14), channel("parm11_name"), text("parm_name"), colour(20,20,20,255), fontcolour("white"), identchannel("parm11_name_id")
+texteditor bounds(680, 42, 170, 14), channel("parm11_adr"), text("parm_adr"), colour(20,20,20,255), fontcolour("white"), identchannel("parm11_adr_id")
+texteditor bounds(790, 20, 50, 14), channel("parm11_device"), text("parm_device"), colour(20,20,20,255), fontcolour("white"), identchannel("parm11_device_id"), visible(0)
+texteditor bounds(790, 30, 50, 14), channel("parm11_track"), text("parm_track"), colour(20,20,20,255), fontcolour("white"), identchannel("parm11_track_id"), visible(0)
+texteditor bounds(790, 40, 50, 14), channel("parm11_num"), text("parm_num"), colour(20,20,20,255), fontcolour("white"), identchannel("parm11_num_id"), visible(0)
+texteditor bounds(790, 50, 50, 14), channel("parm11_daw"), text("parm_daw"), colour(20,20,20,255), fontcolour("white"), identchannel("parm11_daw_id"), visible(0)
+}
+
+
+groupbox bounds(5, 965, 853, 81), colour(75,85,90), plant("plant_parm12"), linethickness("0"){ 
+combobox channel("method_parm12"), bounds(10, 12, 96, 20), items("add", "abs_diff", "gate"), value(1)
+label bounds(5,40,10,10), text("12"), colour(20,20,20,255)
+combobox channel("source1_parm12"), bounds(110, 12, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1)
+combobox channel("chan1_parm12"), bounds(213, 12, 50, 20), items("1", "2", "3", "4"), value(1)
+nslider bounds(268, 14, 35, 15), channel("rise1_parm12"), range(0.01, 10.0, 0.01), visible(1), identchannel("rise1_parm12_id")
+nslider bounds(306, 14, 35, 15), channel("fall1_parm12"), range(0.01, 10.0, 0.5), visible(1), identchannel("fall1_parm12_id")
+hslider bounds(343, 12, 86, 20), channel("scale1_parm12"), range(-1.0, 1.0, 0, 1, 0.001), visible(1), identchannel("scale1_parm12_id")
+combobox bounds(423, 12, 42, 18), channel("scale1_x_parm12"), items("x1","x2","x10"), visible(1), identchannel("scale1_x_parm12_id")
+hslider bounds(459, 12, 86, 20), channel("curve1_parm12"), range(-5.0, 5.0, 0), identchannel("curve1_parm12_id")
+hslider bounds(268, 14, 75, 15), channel("lowpass1_parm12"), range(0.01, 10.0, 5.0, 0.35), visible(0), identchannel("lowpass1_parm12_id")
+hslider bounds(343, 14, 100, 16), channel("thresh1_parm12"), range(0.0, 1.0, 0.5, 1, 0.001),trackercolour("green"), visible(0), identchannel("thresh1_parm12_id")
+hslider bounds(343, 4, 100, 8), channel("display1_parm12"), range(0.0, 1.0, 0, 1, 0.001), colour(0,0,0,0,0), trackercolour("green"), trackerthickness(1), visible(0), identchannel("display1_parm12_id")
+combobox channel("triggertype1_parm12"), bounds(445, 12, 50, 20), items("up", "dwn"), value(1), visible(0), identchannel("triggertype1_parm12_id")
+
+combobox channel("source2_parm12"), bounds(110, 34, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1)
+combobox channel("chan2_parm12"), bounds(213, 34, 50, 20), items("1", "2", "3", "4"), value(1)
+nslider bounds(268, 36, 35, 15), channel("rise2_parm12"), range(0.01, 10.0, 0.01), visible(1), identchannel("rise2_parm12_id")
+hslider bounds(268, 34, 75, 15), channel("lowpass2_parm12"), range(0.01, 10.0, 5.0, 0.35), visible(0), identchannel("lowpass2_parm12_id")
+nslider bounds(306, 36, 35, 15), channel("fall2_parm12"), range(0.01, 10.0, 0.5), visible(1), identchannel("fall2_parm12_id")
+hslider bounds(343, 34, 86, 20), channel("scale2_parm12"), range(-1.0, 1.0, 0, 1, 0.001), visible(1), identchannel("scale2_parm12_id")
+hslider bounds(343, 34, 100, 16), channel("thresh2_parm12"), range(0.0, 1.0, 0.6, 1, 0.001), trackercolour("red"), visible(0), identchannel("thresh2_parm12_id")
+hslider bounds(343, 50, 100, 8), channel("display2_parm12"), range(0.0, 1.0, 0, 1, 0.001), colour(0,0,0,0,0), trackercolour("red"), trackerthickness(1), visible(0), identchannel("display2_parm12_id")
+combobox channel("triggertype2_parm12"), bounds(445, 34, 50, 20), items("up", "dwn"), value(2), visible(0), identchannel("triggertype2_parm12_id")
+combobox bounds(423, 34, 42, 18), channel("scale2_x_parm12"), items("x1","x2", "x10"),  visible(1), identchannel("scale2_x_parm12_id")
+hslider bounds(459, 34, 86, 20), channel("curve2_parm12"), range(-5.0, 5.0, 0), visible(1), identchannel("curve2_parm12_id")
+checkbox bounds(508, 25, 40, 25), channel("gate_parm12"), value(1), visible(0), identchannel("gate_parm12_id")
+checkbox bounds(558, 25, 25, 25), channel("sh_parm12"), value(0), visible(0), colour("blue"), identchannel("sh_parm12_id")
+nslider bounds(598, 25, 35, 15), channel("outrise_parm12"), range(0.00, 10.0, 0.00), visible(0), identchannel("outrise_parm12_id")
+nslider bounds(636, 25, 35, 15), channel("outfall_parm12"), range(0.00, 10.0, 0.00), visible(0), identchannel("outfall_parm12_id")
+
+label bounds(10, 58, 96, 12), text("mixmeth"), colour(20,20,20,255)
+label bounds(110, 58, 100, 12), text("source"), colour(20,20,20,255)
+label bounds(213, 58, 50, 12), text("chan"), colour(20,20,20,255)
+label bounds(266, 58, 76, 12), text("rise/fall"), colour(20,20,20,255), visible(1), identchannel("riselabel_parm12_id")
+label bounds(266, 58, 76, 12), text("lowpass"), colour(20,20,20,255), visible(0), identchannel("lowpasslabel_parm12_id")
+label bounds(346, 58, 110, 12), text("scale"), colour(20,20,20,255), visible(1), identchannel("scalelabel_parm12_id")
+label bounds(346, 58, 93, 12), text("thresh"), colour(20,20,20,255), visible(0), identchannel("threshlabel_parm12_id")
+label bounds(446, 58, 48, 12), text("trig"), colour(20,20,20,255), visible(0), identchannel("triglabel_parm12_id")
+label bounds(462, 58, 81, 12), text("curve"), colour(20,20,20,255), visible(1), identchannel("curvelabel_parm12_id")
+image bounds(466, 59, 10, 11),  file("convex.png"), visible(1), identchannel("convexlabel_parm12_id")
+image bounds(528, 59, 10, 11),  file("concave.png"), visible(1), identchannel("concavelabel_parm12_id")
+label bounds(502, 58, 50, 12), text("status"), colour(20,20,20,255), visible(0), identchannel("statuslabel_parm12_id")
+label bounds(559, 58, 30, 12), text("s/h"), colour(20,20,20,255), visible(0), identchannel("shlabel_parm12_id")
+label bounds(559, 70, 30, 12), text("\/"), colour(20,20,20,255), visible(0), identchannel("shlabel2_parm12_id")
+label bounds(598, 8, 74, 12), text("midi env"), colour(20,20,20,255), visible(0), identchannel("midienvlabel_parm12_id")
+label bounds(598, 44, 74, 12), text("rise/fall"), colour(20,20,20,255), visible(0), identchannel("outriselabel_parm12_id")
+texteditor bounds(680, 60, 170, 14), channel("note_parm12"), text("...notes..."), colour(20,20,20,255), fontcolour("white"), popuptext("Notes to remember where this signal is sent to  - what it controls. Will not change signal routing - just help you remember where it goes. Notes saved with DAW project. Do remember to hit *enter* to update the text control.")
+
+rslider bounds(543, 12, 62, 62), text("offset"), channel("offset_parm12"), range(0.0, 1.0, 0.5, 1, 0.001) , visible(1), identchannel("offset_parm12_id")
+combobox bounds(543, 1, 55, 12), channel("offsetx_parm12"), items("-1", "Norm", "+1"), , value(2), visible(1), identchannel("offset_x_parm12_id")
+rslider bounds(604, 8, 66, 66), text("parm12"), channel("parm12"), range(0.0, 1.0, 0.5, 1, 0.001), identchannel("parm12_id")
+
+label bounds(680, 8, 55, 12), text("OSC"), colour(20,20,20,255)
+checkbox bounds(742, 8, 12, 12), text("enable"), channel("enable_parm12"), value(1)
+
+button channel("learn_parm12"),bounds(760, 8, 40, 15), text("learn"), colour:0("black"), colour:1("green"), latching(1)
+
+texteditor bounds(680, 25, 170, 14), channel("parm12_name"), text("parm_name"), colour(20,20,20,255), fontcolour("white"), identchannel("parm12_name_id")
+texteditor bounds(680, 42, 170, 14), channel("parm12_adr"), text("parm_adr"), colour(20,20,20,255), fontcolour("white"), identchannel("parm12_adr_id")
+texteditor bounds(790, 20, 50, 14), channel("parm12_device"), text("parm_device"), colour(20,20,20,255), fontcolour("white"), identchannel("parm12_device_id"), visible(0)
+texteditor bounds(790, 30, 50, 14), channel("parm12_track"), text("parm_track"), colour(20,20,20,255), fontcolour("white"), identchannel("parm12_track_id"), visible(0)
+texteditor bounds(790, 40, 50, 14), channel("parm12_num"), text("parm_num"), colour(20,20,20,255), fontcolour("white"), identchannel("parm12_num_id"), visible(0)
+texteditor bounds(790, 50, 50, 14), channel("parm12_daw"), text("parm_daw"), colour(20,20,20,255), fontcolour("white"), identchannel("parm12_daw_id"), visible(0)
+}
+
+
+groupbox bounds(5, 1050, 853, 81), colour(75,85,90), plant("plant_parm13"), linethickness("0"){ 
+combobox channel("method_parm13"), bounds(10, 12, 96, 20), items("add", "abs_diff", "gate"), value(1)
+label bounds(5,40,10,10), text("13"), colour(20,20,20,255)
+combobox channel("source1_parm13"), bounds(110, 12, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1)
+combobox channel("chan1_parm13"), bounds(213, 12, 50, 20), items("1", "2", "3", "4"), value(1)
+nslider bounds(268, 14, 35, 15), channel("rise1_parm13"), range(0.01, 10.0, 0.01), visible(1), identchannel("rise1_parm13_id")
+nslider bounds(306, 14, 35, 15), channel("fall1_parm13"), range(0.01, 10.0, 0.5), visible(1), identchannel("fall1_parm13_id")
+hslider bounds(343, 12, 86, 20), channel("scale1_parm13"), range(-1.0, 1.0, 0, 1, 0.001), visible(1), identchannel("scale1_parm13_id")
+combobox bounds(423, 12, 42, 18), channel("scale1_x_parm13"), items("x1","x2","x10"), visible(1), identchannel("scale1_x_parm13_id")
+hslider bounds(459, 12, 86, 20), channel("curve1_parm13"), range(-5.0, 5.0, 0), identchannel("curve1_parm13_id")
+hslider bounds(268, 14, 75, 15), channel("lowpass1_parm13"), range(0.01, 10.0, 5.0, 0.35), visible(0), identchannel("lowpass1_parm13_id")
+hslider bounds(343, 14, 100, 16), channel("thresh1_parm13"), range(0.0, 1.0, 0.5, 1, 0.001),trackercolour("green"), visible(0), identchannel("thresh1_parm13_id")
+hslider bounds(343, 4, 100, 8), channel("display1_parm13"), range(0.0, 1.0, 0, 1, 0.001), colour(0,0,0,0,0), trackercolour("green"), trackerthickness(1), visible(0), identchannel("display1_parm13_id")
+combobox channel("triggertype1_parm13"), bounds(445, 12, 50, 20), items("up", "dwn"), value(1), visible(0), identchannel("triggertype1_parm13_id")
+
+combobox channel("source2_parm13"), bounds(110, 34, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1)
+combobox channel("chan2_parm13"), bounds(213, 34, 50, 20), items("1", "2", "3", "4"), value(1)
+nslider bounds(268, 36, 35, 15), channel("rise2_parm13"), range(0.01, 10.0, 0.01), visible(1), identchannel("rise2_parm13_id")
+hslider bounds(268, 34, 75, 15), channel("lowpass2_parm13"), range(0.01, 10.0, 5.0, 0.35), visible(0), identchannel("lowpass2_parm13_id")
+nslider bounds(306, 36, 35, 15), channel("fall2_parm13"), range(0.01, 10.0, 0.5), visible(1), identchannel("fall2_parm13_id")
+hslider bounds(343, 34, 86, 20), channel("scale2_parm13"), range(-1.0, 1.0, 0, 1, 0.001), visible(1), identchannel("scale2_parm13_id")
+hslider bounds(343, 34, 100, 16), channel("thresh2_parm13"), range(0.0, 1.0, 0.6, 1, 0.001), trackercolour("red"), visible(0), identchannel("thresh2_parm13_id")
+hslider bounds(343, 50, 100, 8), channel("display2_parm13"), range(0.0, 1.0, 0, 1, 0.001), colour(0,0,0,0,0), trackercolour("red"), trackerthickness(1), visible(0), identchannel("display2_parm13_id")
+combobox channel("triggertype2_parm13"), bounds(445, 34, 50, 20), items("up", "dwn"), value(2), visible(0), identchannel("triggertype2_parm13_id")
+combobox bounds(423, 34, 42, 18), channel("scale2_x_parm13"), items("x1","x2", "x10"),  visible(1), identchannel("scale2_x_parm13_id")
+hslider bounds(459, 34, 86, 20), channel("curve2_parm13"), range(-5.0, 5.0, 0), visible(1), identchannel("curve2_parm13_id")
+checkbox bounds(508, 25, 40, 25), channel("gate_parm13"), value(1), visible(0), identchannel("gate_parm13_id")
+checkbox bounds(558, 25, 25, 25), channel("sh_parm13"), value(0), visible(0), colour("blue"), identchannel("sh_parm13_id")
+nslider bounds(598, 25, 35, 15), channel("outrise_parm13"), range(0.00, 10.0, 0.00), visible(0), identchannel("outrise_parm13_id")
+nslider bounds(636, 25, 35, 15), channel("outfall_parm13"), range(0.00, 10.0, 0.00), visible(0), identchannel("outfall_parm13_id")
+
+label bounds(10, 58, 96, 12), text("mixmeth"), colour(20,20,20,255)
+label bounds(110, 58, 100, 12), text("source"), colour(20,20,20,255)
+label bounds(213, 58, 50, 12), text("chan"), colour(20,20,20,255)
+label bounds(266, 58, 76, 12), text("rise/fall"), colour(20,20,20,255), visible(1), identchannel("riselabel_parm13_id")
+label bounds(266, 58, 76, 12), text("lowpass"), colour(20,20,20,255), visible(0), identchannel("lowpasslabel_parm13_id")
+label bounds(346, 58, 110, 12), text("scale"), colour(20,20,20,255), visible(1), identchannel("scalelabel_parm13_id")
+label bounds(346, 58, 93, 12), text("thresh"), colour(20,20,20,255), visible(0), identchannel("threshlabel_parm13_id")
+label bounds(446, 58, 48, 12), text("trig"), colour(20,20,20,255), visible(0), identchannel("triglabel_parm13_id")
+label bounds(462, 58, 81, 12), text("curve"), colour(20,20,20,255), visible(1), identchannel("curvelabel_parm13_id")
+image bounds(466, 59, 10, 11),  file("convex.png"), visible(1), identchannel("convexlabel_parm13_id")
+image bounds(528, 59, 10, 11),  file("concave.png"), visible(1), identchannel("concavelabel_parm13_id")
+label bounds(502, 58, 50, 12), text("status"), colour(20,20,20,255), visible(0), identchannel("statuslabel_parm13_id")
+label bounds(559, 58, 30, 12), text("s/h"), colour(20,20,20,255), visible(0), identchannel("shlabel_parm13_id")
+label bounds(559, 70, 30, 12), text("\/"), colour(20,20,20,255), visible(0), identchannel("shlabel2_parm13_id")
+label bounds(598, 8, 74, 12), text("midi env"), colour(20,20,20,255), visible(0), identchannel("midienvlabel_parm13_id")
+label bounds(598, 44, 74, 12), text("rise/fall"), colour(20,20,20,255), visible(0), identchannel("outriselabel_parm13_id")
+texteditor bounds(680, 60, 170, 14), channel("note_parm13"), text("...notes..."), colour(20,20,20,255), fontcolour("white"), popuptext("Notes to remember where this signal is sent to  - what it controls. Will not change signal routing - just help you remember where it goes. Notes saved with DAW project. Do remember to hit *enter* to update the text control.")
+
+rslider bounds(543, 12, 62, 62), text("offset"), channel("offset_parm13"), range(0.0, 1.0, 0.5, 1, 0.001) , visible(1), identchannel("offset_parm13_id")
+combobox bounds(543, 1, 55, 12), channel("offsetx_parm13"), items("-1", "Norm", "+1"), , value(2), visible(1), identchannel("offset_x_parm13_id")
+rslider bounds(604, 8, 66, 66), text("parm13"), channel("parm13"), range(0.0, 1.0, 0.5, 1, 0.001), identchannel("parm13_id")
+
+label bounds(680, 8, 55, 12), text("OSC"), colour(20,20,20,255)
+checkbox bounds(742, 8, 12, 12), text("enable"), channel("enable_parm13"), value(1)
+
+button channel("learn_parm13"),bounds(760, 8, 40, 15), text("learn"), colour:0("black"), colour:1("green"), latching(1)
+
+texteditor bounds(680, 25, 170, 14), channel("parm13_name"), text("parm_name"), colour(20,20,20,255), fontcolour("white"), identchannel("parm13_name_id")
+texteditor bounds(680, 42, 170, 14), channel("parm13_adr"), text("parm_adr"), colour(20,20,20,255), fontcolour("white"), identchannel("parm13_adr_id")
+texteditor bounds(790, 20, 50, 14), channel("parm13_device"), text("parm_device"), colour(20,20,20,255), fontcolour("white"), identchannel("parm13_device_id"), visible(0)
+texteditor bounds(790, 30, 50, 14), channel("parm13_track"), text("parm_track"), colour(20,20,20,255), fontcolour("white"), identchannel("parm13_track_id"), visible(0)
+texteditor bounds(790, 40, 50, 14), channel("parm13_num"), text("parm_num"), colour(20,20,20,255), fontcolour("white"), identchannel("parm13_num_id"), visible(0)
+texteditor bounds(790, 50, 50, 14), channel("parm13_daw"), text("parm_daw"), colour(20,20,20,255), fontcolour("white"), identchannel("parm13_daw_id"), visible(0)
+}
+
+
+groupbox bounds(5, 1135, 853, 81), colour(75,85,90), plant("plant_parm14"), linethickness("0"){ 
+combobox channel("method_parm14"), bounds(10, 12, 96, 20), items("add", "abs_diff", "gate"), value(1)
+label bounds(5,40,10,10), text("14"), colour(20,20,20,255)
+combobox channel("source1_parm14"), bounds(110, 12, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1)
+combobox channel("chan1_parm14"), bounds(213, 12, 50, 20), items("1", "2", "3", "4"), value(1)
+nslider bounds(268, 14, 35, 15), channel("rise1_parm14"), range(0.01, 10.0, 0.01), visible(1), identchannel("rise1_parm14_id")
+nslider bounds(306, 14, 35, 15), channel("fall1_parm14"), range(0.01, 10.0, 0.5), visible(1), identchannel("fall1_parm14_id")
+hslider bounds(343, 12, 86, 20), channel("scale1_parm14"), range(-1.0, 1.0, 0, 1, 0.001), visible(1), identchannel("scale1_parm14_id")
+combobox bounds(423, 12, 42, 18), channel("scale1_x_parm14"), items("x1","x2","x10"), visible(1), identchannel("scale1_x_parm14_id")
+hslider bounds(459, 12, 86, 20), channel("curve1_parm14"), range(-5.0, 5.0, 0), identchannel("curve1_parm14_id")
+hslider bounds(268, 14, 75, 15), channel("lowpass1_parm14"), range(0.01, 10.0, 5.0, 0.35), visible(0), identchannel("lowpass1_parm14_id")
+hslider bounds(343, 14, 100, 16), channel("thresh1_parm14"), range(0.0, 1.0, 0.5, 1, 0.001),trackercolour("green"), visible(0), identchannel("thresh1_parm14_id")
+hslider bounds(343, 4, 100, 8), channel("display1_parm14"), range(0.0, 1.0, 0, 1, 0.001), colour(0,0,0,0,0), trackercolour("green"), trackerthickness(1), visible(0), identchannel("display1_parm14_id")
+combobox channel("triggertype1_parm14"), bounds(445, 12, 50, 20), items("up", "dwn"), value(1), visible(0), identchannel("triggertype1_parm14_id")
+
+combobox channel("source2_parm14"), bounds(110, 34, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1)
+combobox channel("chan2_parm14"), bounds(213, 34, 50, 20), items("1", "2", "3", "4"), value(1)
+nslider bounds(268, 36, 35, 15), channel("rise2_parm14"), range(0.01, 10.0, 0.01), visible(1), identchannel("rise2_parm14_id")
+hslider bounds(268, 34, 75, 15), channel("lowpass2_parm14"), range(0.01, 10.0, 5.0, 0.35), visible(0), identchannel("lowpass2_parm14_id")
+nslider bounds(306, 36, 35, 15), channel("fall2_parm14"), range(0.01, 10.0, 0.5), visible(1), identchannel("fall2_parm14_id")
+hslider bounds(343, 34, 86, 20), channel("scale2_parm14"), range(-1.0, 1.0, 0, 1, 0.001), visible(1), identchannel("scale2_parm14_id")
+hslider bounds(343, 34, 100, 16), channel("thresh2_parm14"), range(0.0, 1.0, 0.6, 1, 0.001), trackercolour("red"), visible(0), identchannel("thresh2_parm14_id")
+hslider bounds(343, 50, 100, 8), channel("display2_parm14"), range(0.0, 1.0, 0, 1, 0.001), colour(0,0,0,0,0), trackercolour("red"), trackerthickness(1), visible(0), identchannel("display2_parm14_id")
+combobox channel("triggertype2_parm14"), bounds(445, 34, 50, 20), items("up", "dwn"), value(2), visible(0), identchannel("triggertype2_parm14_id")
+combobox bounds(423, 34, 42, 18), channel("scale2_x_parm14"), items("x1","x2", "x10"),  visible(1), identchannel("scale2_x_parm14_id")
+hslider bounds(459, 34, 86, 20), channel("curve2_parm14"), range(-5.0, 5.0, 0), visible(1), identchannel("curve2_parm14_id")
+checkbox bounds(508, 25, 40, 25), channel("gate_parm14"), value(1), visible(0), identchannel("gate_parm14_id")
+checkbox bounds(558, 25, 25, 25), channel("sh_parm14"), value(0), visible(0), colour("blue"), identchannel("sh_parm14_id")
+nslider bounds(598, 25, 35, 15), channel("outrise_parm14"), range(0.00, 10.0, 0.00), visible(0), identchannel("outrise_parm14_id")
+nslider bounds(636, 25, 35, 15), channel("outfall_parm14"), range(0.00, 10.0, 0.00), visible(0), identchannel("outfall_parm14_id")
+
+label bounds(10, 58, 96, 12), text("mixmeth"), colour(20,20,20,255)
+label bounds(110, 58, 100, 12), text("source"), colour(20,20,20,255)
+label bounds(213, 58, 50, 12), text("chan"), colour(20,20,20,255)
+label bounds(266, 58, 76, 12), text("rise/fall"), colour(20,20,20,255), visible(1), identchannel("riselabel_parm14_id")
+label bounds(266, 58, 76, 12), text("lowpass"), colour(20,20,20,255), visible(0), identchannel("lowpasslabel_parm14_id")
+label bounds(346, 58, 110, 12), text("scale"), colour(20,20,20,255), visible(1), identchannel("scalelabel_parm14_id")
+label bounds(346, 58, 93, 12), text("thresh"), colour(20,20,20,255), visible(0), identchannel("threshlabel_parm14_id")
+label bounds(446, 58, 48, 12), text("trig"), colour(20,20,20,255), visible(0), identchannel("triglabel_parm14_id")
+label bounds(462, 58, 81, 12), text("curve"), colour(20,20,20,255), visible(1), identchannel("curvelabel_parm14_id")
+image bounds(466, 59, 10, 11),  file("convex.png"), visible(1), identchannel("convexlabel_parm14_id")
+image bounds(528, 59, 10, 11),  file("concave.png"), visible(1), identchannel("concavelabel_parm14_id")
+label bounds(502, 58, 50, 12), text("status"), colour(20,20,20,255), visible(0), identchannel("statuslabel_parm14_id")
+label bounds(559, 58, 30, 12), text("s/h"), colour(20,20,20,255), visible(0), identchannel("shlabel_parm14_id")
+label bounds(559, 70, 30, 12), text("\/"), colour(20,20,20,255), visible(0), identchannel("shlabel2_parm14_id")
+label bounds(598, 8, 74, 12), text("midi env"), colour(20,20,20,255), visible(0), identchannel("midienvlabel_parm14_id")
+label bounds(598, 44, 74, 12), text("rise/fall"), colour(20,20,20,255), visible(0), identchannel("outriselabel_parm14_id")
+texteditor bounds(680, 60, 170, 14), channel("note_parm14"), text("...notes..."), colour(20,20,20,255), fontcolour("white"), popuptext("Notes to remember where this signal is sent to  - what it controls. Will not change signal routing - just help you remember where it goes. Notes saved with DAW project. Do remember to hit *enter* to update the text control.")
+
+rslider bounds(543, 12, 62, 62), text("offset"), channel("offset_parm14"), range(0.0, 1.0, 0.5, 1, 0.001) , visible(1), identchannel("offset_parm14_id")
+combobox bounds(543, 1, 55, 12), channel("offsetx_parm14"), items("-1", "Norm", "+1"), , value(2), visible(1), identchannel("offset_x_parm14_id")
+rslider bounds(604, 8, 66, 66), text("parm14"), channel("parm14"), range(0.0, 1.0, 0.5, 1, 0.001), identchannel("parm14_id")
+
+label bounds(680, 8, 55, 12), text("OSC"), colour(20,20,20,255)
+checkbox bounds(742, 8, 12, 12), text("enable"), channel("enable_parm14"), value(1)
+
+button channel("learn_parm14"),bounds(760, 8, 40, 15), text("learn"), colour:0("black"), colour:1("green"), latching(1)
+
+texteditor bounds(680, 25, 170, 14), channel("parm14_name"), text("parm_name"), colour(20,20,20,255), fontcolour("white"), identchannel("parm14_name_id")
+texteditor bounds(680, 42, 170, 14), channel("parm14_adr"), text("parm_adr"), colour(20,20,20,255), fontcolour("white"), identchannel("parm14_adr_id")
+texteditor bounds(790, 20, 50, 14), channel("parm14_device"), text("parm_device"), colour(20,20,20,255), fontcolour("white"), identchannel("parm14_device_id"), visible(0)
+texteditor bounds(790, 30, 50, 14), channel("parm14_track"), text("parm_track"), colour(20,20,20,255), fontcolour("white"), identchannel("parm14_track_id"), visible(0)
+texteditor bounds(790, 40, 50, 14), channel("parm14_num"), text("parm_num"), colour(20,20,20,255), fontcolour("white"), identchannel("parm14_num_id"), visible(0)
+texteditor bounds(790, 50, 50, 14), channel("parm14_daw"), text("parm_daw"), colour(20,20,20,255), fontcolour("white"), identchannel("parm14_daw_id"), visible(0)
+}
+
+
+groupbox bounds(5, 1220, 853, 81), colour(75,85,90), plant("plant_parm15"), linethickness("0"){ 
+combobox channel("method_parm15"), bounds(10, 12, 96, 20), items("add", "abs_diff", "gate"), value(1)
+label bounds(5,40,10,10), text("15"), colour(20,20,20,255)
+combobox channel("source1_parm15"), bounds(110, 12, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1)
+combobox channel("chan1_parm15"), bounds(213, 12, 50, 20), items("1", "2", "3", "4"), value(1)
+nslider bounds(268, 14, 35, 15), channel("rise1_parm15"), range(0.01, 10.0, 0.01), visible(1), identchannel("rise1_parm15_id")
+nslider bounds(306, 14, 35, 15), channel("fall1_parm15"), range(0.01, 10.0, 0.5), visible(1), identchannel("fall1_parm15_id")
+hslider bounds(343, 12, 86, 20), channel("scale1_parm15"), range(-1.0, 1.0, 0, 1, 0.001), visible(1), identchannel("scale1_parm15_id")
+combobox bounds(423, 12, 42, 18), channel("scale1_x_parm15"), items("x1","x2","x10"), visible(1), identchannel("scale1_x_parm15_id")
+hslider bounds(459, 12, 86, 20), channel("curve1_parm15"), range(-5.0, 5.0, 0), identchannel("curve1_parm15_id")
+hslider bounds(268, 14, 75, 15), channel("lowpass1_parm15"), range(0.01, 10.0, 5.0, 0.35), visible(0), identchannel("lowpass1_parm15_id")
+hslider bounds(343, 14, 100, 16), channel("thresh1_parm15"), range(0.0, 1.0, 0.5, 1, 0.001),trackercolour("green"), visible(0), identchannel("thresh1_parm15_id")
+hslider bounds(343, 4, 100, 8), channel("display1_parm15"), range(0.0, 1.0, 0, 1, 0.001), colour(0,0,0,0,0), trackercolour("green"), trackerthickness(1), visible(0), identchannel("display1_parm15_id")
+combobox channel("triggertype1_parm15"), bounds(445, 12, 50, 20), items("up", "dwn"), value(1), visible(0), identchannel("triggertype1_parm15_id")
+
+combobox channel("source2_parm15"), bounds(110, 34, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1)
+combobox channel("chan2_parm15"), bounds(213, 34, 50, 20), items("1", "2", "3", "4"), value(1)
+nslider bounds(268, 36, 35, 15), channel("rise2_parm15"), range(0.01, 10.0, 0.01), visible(1), identchannel("rise2_parm15_id")
+hslider bounds(268, 34, 75, 15), channel("lowpass2_parm15"), range(0.01, 10.0, 5.0, 0.35), visible(0), identchannel("lowpass2_parm15_id")
+nslider bounds(306, 36, 35, 15), channel("fall2_parm15"), range(0.01, 10.0, 0.5), visible(1), identchannel("fall2_parm15_id")
+hslider bounds(343, 34, 86, 20), channel("scale2_parm15"), range(-1.0, 1.0, 0, 1, 0.001), visible(1), identchannel("scale2_parm15_id")
+hslider bounds(343, 34, 100, 16), channel("thresh2_parm15"), range(0.0, 1.0, 0.6, 1, 0.001), trackercolour("red"), visible(0), identchannel("thresh2_parm15_id")
+hslider bounds(343, 50, 100, 8), channel("display2_parm15"), range(0.0, 1.0, 0, 1, 0.001), colour(0,0,0,0,0), trackercolour("red"), trackerthickness(1), visible(0), identchannel("display2_parm15_id")
+combobox channel("triggertype2_parm15"), bounds(445, 34, 50, 20), items("up", "dwn"), value(2), visible(0), identchannel("triggertype2_parm15_id")
+combobox bounds(423, 34, 42, 18), channel("scale2_x_parm15"), items("x1","x2", "x10"),  visible(1), identchannel("scale2_x_parm15_id")
+hslider bounds(459, 34, 86, 20), channel("curve2_parm15"), range(-5.0, 5.0, 0), visible(1), identchannel("curve2_parm15_id")
+checkbox bounds(508, 25, 40, 25), channel("gate_parm15"), value(1), visible(0), identchannel("gate_parm15_id")
+checkbox bounds(558, 25, 25, 25), channel("sh_parm15"), value(0), visible(0), colour("blue"), identchannel("sh_parm15_id")
+nslider bounds(598, 25, 35, 15), channel("outrise_parm15"), range(0.00, 10.0, 0.00), visible(0), identchannel("outrise_parm15_id")
+nslider bounds(636, 25, 35, 15), channel("outfall_parm15"), range(0.00, 10.0, 0.00), visible(0), identchannel("outfall_parm15_id")
+
+label bounds(10, 58, 96, 12), text("mixmeth"), colour(20,20,20,255)
+label bounds(110, 58, 100, 12), text("source"), colour(20,20,20,255)
+label bounds(213, 58, 50, 12), text("chan"), colour(20,20,20,255)
+label bounds(266, 58, 76, 12), text("rise/fall"), colour(20,20,20,255), visible(1), identchannel("riselabel_parm15_id")
+label bounds(266, 58, 76, 12), text("lowpass"), colour(20,20,20,255), visible(0), identchannel("lowpasslabel_parm15_id")
+label bounds(346, 58, 110, 12), text("scale"), colour(20,20,20,255), visible(1), identchannel("scalelabel_parm15_id")
+label bounds(346, 58, 93, 12), text("thresh"), colour(20,20,20,255), visible(0), identchannel("threshlabel_parm15_id")
+label bounds(446, 58, 48, 12), text("trig"), colour(20,20,20,255), visible(0), identchannel("triglabel_parm15_id")
+label bounds(462, 58, 81, 12), text("curve"), colour(20,20,20,255), visible(1), identchannel("curvelabel_parm15_id")
+image bounds(466, 59, 10, 11),  file("convex.png"), visible(1), identchannel("convexlabel_parm15_id")
+image bounds(528, 59, 10, 11),  file("concave.png"), visible(1), identchannel("concavelabel_parm15_id")
+label bounds(502, 58, 50, 12), text("status"), colour(20,20,20,255), visible(0), identchannel("statuslabel_parm15_id")
+label bounds(559, 58, 30, 12), text("s/h"), colour(20,20,20,255), visible(0), identchannel("shlabel_parm15_id")
+label bounds(559, 70, 30, 12), text("\/"), colour(20,20,20,255), visible(0), identchannel("shlabel2_parm15_id")
+label bounds(598, 8, 74, 12), text("midi env"), colour(20,20,20,255), visible(0), identchannel("midienvlabel_parm15_id")
+label bounds(598, 44, 74, 12), text("rise/fall"), colour(20,20,20,255), visible(0), identchannel("outriselabel_parm15_id")
+texteditor bounds(680, 60, 170, 14), channel("note_parm15"), text("...notes..."), colour(20,20,20,255), fontcolour("white"), popuptext("Notes to remember where this signal is sent to  - what it controls. Will not change signal routing - just help you remember where it goes. Notes saved with DAW project. Do remember to hit *enter* to update the text control.")
+
+rslider bounds(543, 12, 62, 62), text("offset"), channel("offset_parm15"), range(0.0, 1.0, 0.5, 1, 0.001) , visible(1), identchannel("offset_parm15_id")
+combobox bounds(543, 1, 55, 12), channel("offsetx_parm15"), items("-1", "Norm", "+1"), , value(2), visible(1), identchannel("offset_x_parm15_id")
+rslider bounds(604, 8, 66, 66), text("parm15"), channel("parm15"), range(0.0, 1.0, 0.5, 1, 0.001), identchannel("parm15_id")
+
+label bounds(680, 8, 55, 12), text("OSC"), colour(20,20,20,255)
+checkbox bounds(742, 8, 12, 12), text("enable"), channel("enable_parm15"), value(1)
+
+button channel("learn_parm15"),bounds(760, 8, 40, 15), text("learn"), colour:0("black"), colour:1("green"), latching(1)
+
+texteditor bounds(680, 25, 170, 14), channel("parm15_name"), text("parm_name"), colour(20,20,20,255), fontcolour("white"), identchannel("parm15_name_id")
+texteditor bounds(680, 42, 170, 14), channel("parm15_adr"), text("parm_adr"), colour(20,20,20,255), fontcolour("white"), identchannel("parm15_adr_id")
+texteditor bounds(790, 20, 50, 14), channel("parm15_device"), text("parm_device"), colour(20,20,20,255), fontcolour("white"), identchannel("parm15_device_id"), visible(0)
+texteditor bounds(790, 30, 50, 14), channel("parm15_track"), text("parm_track"), colour(20,20,20,255), fontcolour("white"), identchannel("parm15_track_id"), visible(0)
+texteditor bounds(790, 40, 50, 14), channel("parm15_num"), text("parm_num"), colour(20,20,20,255), fontcolour("white"), identchannel("parm15_num_id"), visible(0)
+texteditor bounds(790, 50, 50, 14), channel("parm15_daw"), text("parm_daw"), colour(20,20,20,255), fontcolour("white"), identchannel("parm15_daw_id"), visible(0)
+}
+
+
+groupbox bounds(5, 1305, 853, 81), colour(75,85,90), plant("plant_parm16"), linethickness("0"){ 
+combobox channel("method_parm16"), bounds(10, 12, 96, 20), items("add", "abs_diff", "gate"), value(1)
+label bounds(5,40,10,10), text("16"), colour(20,20,20,255)
+combobox channel("source1_parm16"), bounds(110, 12, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1)
+combobox channel("chan1_parm16"), bounds(213, 12, 50, 20), items("1", "2", "3", "4"), value(1)
+nslider bounds(268, 14, 35, 15), channel("rise1_parm16"), range(0.01, 10.0, 0.01), visible(1), identchannel("rise1_parm16_id")
+nslider bounds(306, 14, 35, 15), channel("fall1_parm16"), range(0.01, 10.0, 0.5), visible(1), identchannel("fall1_parm16_id")
+hslider bounds(343, 12, 86, 20), channel("scale1_parm16"), range(-1.0, 1.0, 0, 1, 0.001), visible(1), identchannel("scale1_parm16_id")
+combobox bounds(423, 12, 42, 18), channel("scale1_x_parm16"), items("x1","x2","x10"), visible(1), identchannel("scale1_x_parm16_id")
+hslider bounds(459, 12, 86, 20), channel("curve1_parm16"), range(-5.0, 5.0, 0), identchannel("curve1_parm16_id")
+hslider bounds(268, 14, 75, 15), channel("lowpass1_parm16"), range(0.01, 10.0, 5.0, 0.35), visible(0), identchannel("lowpass1_parm16_id")
+hslider bounds(343, 14, 100, 16), channel("thresh1_parm16"), range(0.0, 1.0, 0.5, 1, 0.001),trackercolour("green"), visible(0), identchannel("thresh1_parm16_id")
+hslider bounds(343, 4, 100, 8), channel("display1_parm16"), range(0.0, 1.0, 0, 1, 0.001), colour(0,0,0,0,0), trackercolour("green"), trackerthickness(1), visible(0), identchannel("display1_parm16_id")
+combobox channel("triggertype1_parm16"), bounds(445, 12, 50, 20), items("up", "dwn"), value(1), visible(0), identchannel("triggertype1_parm16_id")
+
+combobox channel("source2_parm16"), bounds(110, 34, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1)
+combobox channel("chan2_parm16"), bounds(213, 34, 50, 20), items("1", "2", "3", "4"), value(1)
+nslider bounds(268, 36, 35, 15), channel("rise2_parm16"), range(0.01, 10.0, 0.01), visible(1), identchannel("rise2_parm16_id")
+hslider bounds(268, 34, 75, 15), channel("lowpass2_parm16"), range(0.01, 10.0, 5.0, 0.35), visible(0), identchannel("lowpass2_parm16_id")
+nslider bounds(306, 36, 35, 15), channel("fall2_parm16"), range(0.01, 10.0, 0.5), visible(1), identchannel("fall2_parm16_id")
+hslider bounds(343, 34, 86, 20), channel("scale2_parm16"), range(-1.0, 1.0, 0, 1, 0.001), visible(1), identchannel("scale2_parm16_id")
+hslider bounds(343, 34, 100, 16), channel("thresh2_parm16"), range(0.0, 1.0, 0.6, 1, 0.001), trackercolour("red"), visible(0), identchannel("thresh2_parm16_id")
+hslider bounds(343, 50, 100, 8), channel("display2_parm16"), range(0.0, 1.0, 0, 1, 0.001), colour(0,0,0,0,0), trackercolour("red"), trackerthickness(1), visible(0), identchannel("display2_parm16_id")
+combobox channel("triggertype2_parm16"), bounds(445, 34, 50, 20), items("up", "dwn"), value(2), visible(0), identchannel("triggertype2_parm16_id")
+combobox bounds(423, 34, 42, 18), channel("scale2_x_parm16"), items("x1","x2", "x10"),  visible(1), identchannel("scale2_x_parm16_id")
+hslider bounds(459, 34, 86, 20), channel("curve2_parm16"), range(-5.0, 5.0, 0), visible(1), identchannel("curve2_parm16_id")
+checkbox bounds(508, 25, 40, 25), channel("gate_parm16"), value(1), visible(0), identchannel("gate_parm16_id")
+checkbox bounds(558, 25, 25, 25), channel("sh_parm16"), value(0), visible(0), colour("blue"), identchannel("sh_parm16_id")
+nslider bounds(598, 25, 35, 15), channel("outrise_parm16"), range(0.00, 10.0, 0.00), visible(0), identchannel("outrise_parm16_id")
+nslider bounds(636, 25, 35, 15), channel("outfall_parm16"), range(0.00, 10.0, 0.00), visible(0), identchannel("outfall_parm16_id")
+
+label bounds(10, 58, 96, 12), text("mixmeth"), colour(20,20,20,255)
+label bounds(110, 58, 100, 12), text("source"), colour(20,20,20,255)
+label bounds(213, 58, 50, 12), text("chan"), colour(20,20,20,255)
+label bounds(266, 58, 76, 12), text("rise/fall"), colour(20,20,20,255), visible(1), identchannel("riselabel_parm16_id")
+label bounds(266, 58, 76, 12), text("lowpass"), colour(20,20,20,255), visible(0), identchannel("lowpasslabel_parm16_id")
+label bounds(346, 58, 110, 12), text("scale"), colour(20,20,20,255), visible(1), identchannel("scalelabel_parm16_id")
+label bounds(346, 58, 93, 12), text("thresh"), colour(20,20,20,255), visible(0), identchannel("threshlabel_parm16_id")
+label bounds(446, 58, 48, 12), text("trig"), colour(20,20,20,255), visible(0), identchannel("triglabel_parm16_id")
+label bounds(462, 58, 81, 12), text("curve"), colour(20,20,20,255), visible(1), identchannel("curvelabel_parm16_id")
+image bounds(466, 59, 10, 11),  file("convex.png"), visible(1), identchannel("convexlabel_parm16_id")
+image bounds(528, 59, 10, 11),  file("concave.png"), visible(1), identchannel("concavelabel_parm16_id")
+label bounds(502, 58, 50, 12), text("status"), colour(20,20,20,255), visible(0), identchannel("statuslabel_parm16_id")
+label bounds(559, 58, 30, 12), text("s/h"), colour(20,20,20,255), visible(0), identchannel("shlabel_parm16_id")
+label bounds(559, 70, 30, 12), text("\/"), colour(20,20,20,255), visible(0), identchannel("shlabel2_parm16_id")
+label bounds(598, 8, 74, 12), text("midi env"), colour(20,20,20,255), visible(0), identchannel("midienvlabel_parm16_id")
+label bounds(598, 44, 74, 12), text("rise/fall"), colour(20,20,20,255), visible(0), identchannel("outriselabel_parm16_id")
+texteditor bounds(680, 60, 170, 14), channel("note_parm16"), text("...notes..."), colour(20,20,20,255), fontcolour("white"), popuptext("Notes to remember where this signal is sent to  - what it controls. Will not change signal routing - just help you remember where it goes. Notes saved with DAW project. Do remember to hit *enter* to update the text control.")
+
+rslider bounds(543, 12, 62, 62), text("offset"), channel("offset_parm16"), range(0.0, 1.0, 0.5, 1, 0.001) , visible(1), identchannel("offset_parm16_id")
+combobox bounds(543, 1, 55, 12), channel("offsetx_parm16"), items("-1", "Norm", "+1"), , value(2), visible(1), identchannel("offset_x_parm16_id")
+rslider bounds(604, 8, 66, 66), text("parm16"), channel("parm16"), range(0.0, 1.0, 0.5, 1, 0.001), identchannel("parm16_id")
+
+label bounds(680, 8, 55, 12), text("OSC"), colour(20,20,20,255)
+checkbox bounds(742, 8, 12, 12), text("enable"), channel("enable_parm16"), value(1)
+
+button channel("learn_parm16"),bounds(760, 8, 40, 15), text("learn"), colour:0("black"), colour:1("green"), latching(1)
+
+texteditor bounds(680, 25, 170, 14), channel("parm16_name"), text("parm_name"), colour(20,20,20,255), fontcolour("white"), identchannel("parm16_name_id")
+texteditor bounds(680, 42, 170, 14), channel("parm16_adr"), text("parm_adr"), colour(20,20,20,255), fontcolour("white"), identchannel("parm16_adr_id")
+texteditor bounds(790, 20, 50, 14), channel("parm16_device"), text("parm_device"), colour(20,20,20,255), fontcolour("white"), identchannel("parm16_device_id"), visible(0)
+texteditor bounds(790, 30, 50, 14), channel("parm16_track"), text("parm_track"), colour(20,20,20,255), fontcolour("white"), identchannel("parm16_track_id"), visible(0)
+texteditor bounds(790, 40, 50, 14), channel("parm16_num"), text("parm_num"), colour(20,20,20,255), fontcolour("white"), identchannel("parm16_num_id"), visible(0)
+texteditor bounds(790, 50, 50, 14), channel("parm16_daw"), text("parm_daw"), colour(20,20,20,255), fontcolour("white"), identchannel("parm16_daw_id"), visible(0)
+}
+
+
+;next x position available below plants is 1390
 ; <<<<<<< AUTOGENERATED TEXT: DO NOT EDIT THE PRECEDING LINES <<<<<<<
 
-csoundoutput bounds(5, 710, 390, 100), text("Output")
+;csoundoutput bounds(5, 710, 390, 100), text("Output")
 
 <CabbageIncludes>
 vst_mediator_score_events.inc
@@ -686,6 +1223,28 @@ endif
 endif
 #
 
+#define OSC_OUT(N) #
+ Spm$N. sprintf "parm%i", $N.
+ kparm$N. chnget Spm$N.
+ kparm$N. samphold kparm$N., ktrig
+ Sen$N. sprintf "enable_parm%i", $N.
+ kenable$N. chnget Sen$N.
+ Slrn$N. sprintf "learn_parm%i", $N.
+ klearn$N. chnget Slrn$N. 
+ klearn_off$N. trigger klearn$N., 0.5, 1
+ Spmdev$N. sprintf "parm%i_device", $N.
+ Sdevice$N. chnget Spmdev$N.
+ Spmtrk$N. sprintf "parm%i_track", $N.
+ Strack$N. chnget Spmtrk$N.
+ Spmnum$N. sprintf "parm%i_num", $N.
+ Sparm_num$N. chnget Spmnum$N.
+ Spmadr$N. sprintf "parm%i_adr", $N.
+ Sadr$N. chnget Spmadr$N.
+ Spmdaw$N. sprintf "parm%i_daw", $N.
+ Sdaw$N. chnget Spmdaw$N.        
+ SendOscToDaw kenable$N., Sdaw$N., klearn_off$N., Sdevice$N., Strack$N., Sparm_num$N., Sadr$N., kparm$N.
+#
+
 #include "mediator_udos.inc"
 #include "subscriber_connect.inc"                   ; instr 2,3
 #include "subscriber_receiver.inc"                  ; instr 4,5,6,7,8
@@ -701,6 +1260,14 @@ $MIXMETHOD_GUI_UPDATE(5)
 $MIXMETHOD_GUI_UPDATE(6)
 $MIXMETHOD_GUI_UPDATE(7)
 $MIXMETHOD_GUI_UPDATE(8)
+$MIXMETHOD_GUI_UPDATE(9)
+$MIXMETHOD_GUI_UPDATE(10)
+$MIXMETHOD_GUI_UPDATE(11)
+$MIXMETHOD_GUI_UPDATE(12)
+$MIXMETHOD_GUI_UPDATE(13)
+$MIXMETHOD_GUI_UPDATE(14)
+$MIXMETHOD_GUI_UPDATE(15)
+$MIXMETHOD_GUI_UPDATE(16)
 konce = 0
 endin
 
@@ -716,6 +1283,14 @@ chnset kzero, "learn_parm5"
 chnset kzero, "learn_parm6"
 chnset kzero, "learn_parm7"
 chnset kzero, "learn_parm8"
+chnset kzero, "learn_parm9"
+chnset kzero, "learn_parm10"
+chnset kzero, "learn_parm11"
+chnset kzero, "learn_parm12"
+chnset kzero, "learn_parm13"
+chnset kzero, "learn_parm14"
+chnset kzero, "learn_parm15"
+chnset kzero, "learn_parm16"
 endin
 
 ;****************************************************************
@@ -735,6 +1310,14 @@ klearn5 chnget "learn_parm5"
 klearn6 chnget "learn_parm6"
 klearn7 chnget "learn_parm7"
 klearn8 chnget "learn_parm8"
+klearn9 chnget "learn_parm9"
+klearn10 chnget "learn_parm10"
+klearn11 chnget "learn_parm11"
+klearn12 chnget "learn_parm12"
+klearn13 chnget "learn_parm13"
+klearn14 chnget "learn_parm14"
+klearn15 chnget "learn_parm15"
+klearn16 chnget "learn_parm16"
 
 kanylearn_ = klearn1+klearn2+klearn3+klearn4+klearn5+klearn6+klearn7+klearn8
 kanylearn = kanylearn_ > 0  ? 1 : 0
@@ -749,7 +1332,15 @@ kchan = klearn5 > 0 ? 5 : kchan
 kchan = klearn6 > 0 ? 6 : kchan
 kchan = klearn7 > 0 ? 7 : kchan
 kchan = klearn8 > 0 ? 8 : kchan
-ksum = klearn1+klearn2+klearn3+klearn4+klearn5+klearn6+klearn7+klearn8
+kchan = klearn9 > 0 ? 9 : kchan
+kchan = klearn10 > 0 ? 10 : kchan
+kchan = klearn11 > 0 ? 11 : kchan
+kchan = klearn12 > 0 ? 12 : kchan
+kchan = klearn13 > 0 ? 13 : kchan
+kchan = klearn14 > 0 ? 14 : kchan
+kchan = klearn15 > 0 ? 15 : kchan
+kchan = klearn16 > 0 ? 16 : kchan
+ksum = klearn1+klearn2+klearn3+klearn4+klearn5+klearn6+klearn7+klearn8+klearn9+klearn10+klearn11+klearn12+klearn13+klearn14+klearn15+klearn16
 kchan = ksum == 0 ? 0 : kchan
 kchan_old init 0
 
@@ -845,109 +1436,32 @@ endin
 
 instr 99
 
+
+ 
+
 klearnactive chnget "learn_active"
 if klearnactive == 0 then
 
- kparm1 chnget "parm1"
- kparm2 chnget "parm2"
- kparm3 chnget "parm3"
- kparm4 chnget "parm4"
- kparm5 chnget "parm5"
- kparm6 chnget "parm6"
- kparm7 chnget "parm7"
- kparm8 chnget "parm8"
-
  kupdaterate chnget "oscrate"
  ktrig metro kupdaterate
- kparm1 samphold kparm1, ktrig
- kparm2 samphold kparm2, ktrig
- kparm3 samphold kparm3, ktrig
- kparm4 samphold kparm4, ktrig
- kparm5 samphold kparm5, ktrig
- kparm6 samphold kparm6, ktrig
- kparm7 samphold kparm7, ktrig
- kparm8 samphold kparm8, ktrig
 
- kenable1 chnget "enable_parm1"
- kenable2 chnget "enable_parm2"
- kenable3 chnget "enable_parm3"
- kenable4 chnget "enable_parm4"
- kenable5 chnget "enable_parm5"
- kenable6 chnget "enable_parm6"
- kenable7 chnget "enable_parm7"
- kenable8 chnget "enable_parm8"
+ $OSC_OUT(1)
+ $OSC_OUT(2)
+ $OSC_OUT(3)
+ $OSC_OUT(4)
+ $OSC_OUT(5)
+ $OSC_OUT(6)
+ $OSC_OUT(7)
+ $OSC_OUT(8)
+ $OSC_OUT(9)
+ $OSC_OUT(10)
+ $OSC_OUT(11)
+ $OSC_OUT(12)
+ $OSC_OUT(13)
+ $OSC_OUT(14)
+ $OSC_OUT(15)
+ $OSC_OUT(16)
 
- klearn1 chnget "learn_parm1" 
- klearn2 chnget "learn_parm2" 
- klearn3 chnget "learn_parm3" 
- klearn4 chnget "learn_parm4" 
- klearn5 chnget "learn_parm5" 
- klearn6 chnget "learn_parm6" 
- klearn7 chnget "learn_parm7" 
- klearn8 chnget "learn_parm8" 
-
- klearn_off1 trigger klearn1, 0.5, 1
- klearn_off2 trigger klearn2, 0.5, 1
- klearn_off3 trigger klearn3, 0.5, 1
- klearn_off4 trigger klearn4, 0.5, 1
- klearn_off5 trigger klearn5, 0.5, 1
- klearn_off6 trigger klearn6, 0.5, 1
- klearn_off7 trigger klearn7, 0.5, 1
- klearn_off8 trigger klearn8, 0.5, 1
-
- Sdevice1 chnget "parm1_device"
- Sdevice2 chnget "parm2_device"
- Sdevice3 chnget "parm3_device"
- Sdevice4 chnget "parm4_device"
- Sdevice5 chnget "parm5_device"
- Sdevice6 chnget "parm6_device"
- Sdevice7 chnget "parm7_device"
- Sdevice8 chnget "parm8_device"
-
- Strack1 chnget "parm1_track"
- Strack2 chnget "parm2_track"
- Strack3 chnget "parm3_track"
- Strack4 chnget "parm4_track"
- Strack5 chnget "parm5_track"
- Strack6 chnget "parm6_track"
- Strack7 chnget "parm7_track"
- Strack8 chnget "parm8_track"
-
- Sparm_num1 chnget "parm1_num"
- Sparm_num2 chnget "parm2_num"
- Sparm_num3 chnget "parm3_num"
- Sparm_num4 chnget "parm4_num"
- Sparm_num5 chnget "parm5_num"
- Sparm_num6 chnget "parm6_num"
- Sparm_num7 chnget "parm7_num"
- Sparm_num8 chnget "parm8_num"
-
- Sadr1 chnget "parm1_adr"
- Sadr2 chnget "parm2_adr"
- Sadr3 chnget "parm3_adr"
- Sadr4 chnget "parm4_adr"
- Sadr5 chnget "parm5_adr"
- Sadr6 chnget "parm6_adr"
- Sadr7 chnget "parm7_adr"
- Sadr8 chnget "parm8_adr"
-
- Sdaw1 chnget "parm1_daw"        
- Sdaw2 chnget "parm2_daw"        
- Sdaw3 chnget "parm3_daw"        
- Sdaw4 chnget "parm4_daw"        
- Sdaw5 chnget "parm5_daw"        
- Sdaw6 chnget "parm6_daw"        
- Sdaw7 chnget "parm7_daw"        
- Sdaw8 chnget "parm8_daw"        
-
- SendOscToDaw kenable1, Sdaw1, klearn_off1, Sdevice1, Strack1, Sparm_num1, Sadr1, kparm1
- SendOscToDaw kenable2, Sdaw2, klearn_off2, Sdevice2, Strack2, Sparm_num2, Sadr2, kparm2
- SendOscToDaw kenable3, Sdaw3, klearn_off3, Sdevice3, Strack3, Sparm_num3, Sadr3, kparm3
- SendOscToDaw kenable4, Sdaw4, klearn_off4, Sdevice4, Strack4, Sparm_num4, Sadr4, kparm4
- SendOscToDaw kenable5, Sdaw5, klearn_off5, Sdevice5, Strack5, Sparm_num5, Sadr5, kparm5
- SendOscToDaw kenable6, Sdaw6, klearn_off6, Sdevice6, Strack6, Sparm_num6, Sadr6, kparm6
- SendOscToDaw kenable7, Sdaw7, klearn_off7, Sdevice7, Strack7, Sparm_num7, Sadr7, kparm7
- SendOscToDaw kenable8, Sdaw8, klearn_off8, Sdevice8, Strack8, Sparm_num8, Sadr8, kparm8
 
 endif
 
