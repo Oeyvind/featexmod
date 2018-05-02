@@ -158,7 +158,7 @@ texteditor bounds(790, 50, 50, 14), channel("parm2_daw"), text("parm_daw"), colo
 }
 
 
-groupbox bounds(5, 200, 853, 81), plant("plant_parm3"), linethickness("0"){ 
+groupbox bounds(5, 200, 853, 81), colour(75,85,90), plant("plant_parm3"), linethickness("0"){ 
 combobox channel("method_parm3"), bounds(10, 12, 96, 20), items("add", "abs_diff", "gate"), value(1)
 label bounds(5,40,10,10), text("3"), colour(20,20,20,255)
 combobox channel("source1_parm3"), bounds(110, 12, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1)
@@ -225,7 +225,7 @@ texteditor bounds(790, 50, 50, 14), channel("parm3_daw"), text("parm_daw"), colo
 }
 
 
-groupbox bounds(5, 285, 853, 81), plant("plant_parm4"), linethickness("0"){ 
+groupbox bounds(5, 285, 853, 81), colour(75,85,90), plant("plant_parm4"), linethickness("0"){ 
 combobox channel("method_parm4"), bounds(10, 12, 96, 20), items("add", "abs_diff", "gate"), value(1)
 label bounds(5,40,10,10), text("4"), colour(20,20,20,255)
 combobox channel("source1_parm4"), bounds(110, 12, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1)
@@ -292,7 +292,7 @@ texteditor bounds(790, 50, 50, 14), channel("parm4_daw"), text("parm_daw"), colo
 }
 
 
-groupbox bounds(5, 370, 853, 81), plant("plant_parm5"), linethickness("0"){ 
+groupbox bounds(5, 370, 853, 81), colour(75,85,90), plant("plant_parm5"), linethickness("0"){ 
 combobox channel("method_parm5"), bounds(10, 12, 96, 20), items("add", "abs_diff", "gate"), value(1)
 label bounds(5,40,10,10), text("5"), colour(20,20,20,255)
 combobox channel("source1_parm5"), bounds(110, 12, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1)
@@ -359,7 +359,7 @@ texteditor bounds(790, 50, 50, 14), channel("parm5_daw"), text("parm_daw"), colo
 }
 
 
-groupbox bounds(5, 455, 853, 81), plant("plant_parm6"), linethickness("0"){ 
+groupbox bounds(5, 455, 853, 81), colour(75,85,90), plant("plant_parm6"), linethickness("0"){ 
 combobox channel("method_parm6"), bounds(10, 12, 96, 20), items("add", "abs_diff", "gate"), value(1)
 label bounds(5,40,10,10), text("6"), colour(20,20,20,255)
 combobox channel("source1_parm6"), bounds(110, 12, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1)
@@ -426,7 +426,7 @@ texteditor bounds(790, 50, 50, 14), channel("parm6_daw"), text("parm_daw"), colo
 }
 
 
-groupbox bounds(5, 540, 853, 81), plant("plant_parm7"), linethickness("0"){ 
+groupbox bounds(5, 540, 853, 81), colour(75,85,90), plant("plant_parm7"), linethickness("0"){ 
 combobox channel("method_parm7"), bounds(10, 12, 96, 20), items("add", "abs_diff", "gate"), value(1)
 label bounds(5,40,10,10), text("7"), colour(20,20,20,255)
 combobox channel("source1_parm7"), bounds(110, 12, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1)
@@ -493,7 +493,7 @@ texteditor bounds(790, 50, 50, 14), channel("parm7_daw"), text("parm_daw"), colo
 }
 
 
-groupbox bounds(5, 625, 853, 81), plant("plant_parm8"), linethickness("0"){ 
+groupbox bounds(5, 625, 853, 81), colour(75,85,90), plant("plant_parm8"), linethickness("0"){ 
 combobox channel("method_parm8"), bounds(10, 12, 96, 20), items("add", "abs_diff", "gate"), value(1)
 label bounds(5,40,10,10), text("8"), colour(20,20,20,255)
 combobox channel("source1_parm8"), bounds(110, 12, 100, 20), items("rms", "rms_dB", "transient", "trans_dens", "env_crest", "env_dyn", "pitch", "s_centroid", "s_spread", "s_skewness", "s_kurtosis", "s_flatness", "s_crest", "s_flux", "rhythm_irreg", "rhythm_cons", "rhyt_con_dev", "ra_flux", "ra_crest", "mfcc1", "mfcc2", "mfcc3", "mfcc_diff"), value(1)
