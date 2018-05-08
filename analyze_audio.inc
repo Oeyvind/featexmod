@@ -20,11 +20,11 @@
 ; allowing better sensitivity to utterances starting with a sibliant.
 	kpreEqHiShelfFq	        chnget "preEqHiShelfFq"
 	kpreEqHiShelfGain	chnget "preEqHiShelfGain"
-	kpreEqLoShelfFq	        chnget "preEqLoShelfFq"
-	kpreEqLoShelfGain	chnget "preEqLoShelfGain"
+	;kpreEqLoShelfFq	        chnget "preEqLoShelfFq"
+	;kpreEqLoShelfGain	chnget "preEqLoShelfGain"
 	
         a1preEq	                pareq a1, kpreEqHiShelfFq, ampdb(kpreEqHiShelfGain), 0.7,  2
-        a1preEq	                pareq a1preEq, kpreEqHiShelfFq, ampdb(kpreEqLoShelfGain), 0.7,  1
+        ;a1preEq	                pareq a1preEq, kpreEqHiShelfFq, ampdb(kpreEqLoShelfGain), 0.7,  1
         ;kautogain               = ampdbfs(-kpreEqHiShelfGain)
         ;a1preEq                 = a1preEq*kautogain
 ; ***************

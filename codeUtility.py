@@ -124,9 +124,9 @@ label bounds(598, 8, 74, 12), text("midi env"), colour(20,20,20,255), visible(0)
 label bounds(598, 44, 74, 12), text("rise/fall"), colour(20,20,20,255), visible(0), identchannel("outriselabel_{pname}_id")
 texteditor bounds(680, 60, 170, 14), channel("note_{pname}"), text("...notes..."), colour(20,20,20,255), fontcolour("white"), popuptext("Notes to remember where this signal is sent to  - what it controls. Will not change signal routing - just help you remember where it goes. Notes saved with DAW project. Do remember to hit *enter* to update the text control.")
 
-rslider bounds(543, 12, 62, 62), text("offset"), channel("offset_{pname}"), range({p_min}, {p_max}, {p_default}, {p_skew}, {p_incr}) , visible(1), identchannel("offset_{pname}_id")
+rslider bounds(543, 12, 62, 62), text("offset"), channel("offset_{pname}"), range({p_min}, {p_max}, {p_default}, {p_skew}, {p_incr}), trackerinsideradius(0.5), trackeroutsideradius(1), trackercolour("ForestGreen"), visible(1), identchannel("offset_{pname}_id")
 combobox bounds(543, 1, 55, 12), channel("offsetx_{pname}"), items("-1", "Norm", "+1"), , value(2), visible(1), identchannel("offset_x_{pname}_id")
-rslider bounds(604, 8, 66, 66), text("{pname}"), channel("{pname}"), range({p_min}, {p_max}, {p_default}, {p_skew}, {p_incr}), identchannel("{pname}_id")
+rslider bounds(604, 8, 66, 66), text("{pname}"), channel("{pname}"), range({p_min}, {p_max}, {p_default}, {p_skew}, {p_incr}), trackerinsideradius(0.5), trackeroutsideradius(1), trackercolour("ForestGreen"), identchannel("{pname}_id")
 
 label bounds(680, 8, 55, 12), text("OSC"), colour(20,20,20,255)
 checkbox bounds(742, 8, 12, 12), text("enable"), channel("enable_{pname}"), value(1)
@@ -191,9 +191,9 @@ label bounds(598, 8, 74, 12), text("midi env"), colour(20,20,20,255), visible(0)
 label bounds(598, 44, 74, 12), text("rise/fall"), colour(20,20,20,255), visible(0), identchannel("outriselabel_{pname}_id")
 texteditor bounds(680, 60, 170, 14), channel("note_{pname}"), text("...notes..."), colour(20,20,20,255), fontcolour("white"), popuptext("Notes to remember where this signal is sent to  - what it controls. Will not change signal routing - just help you remember where it goes. Notes saved with DAW project. Do remember to hit *enter* to update the text control.")
 
-rslider bounds(543, 12, 62, 62), text("offset"), channel("offset_{pname}"), range({p_min}, {p_max}, {p_default}, {p_skew}, {p_incr}) , visible(1), identchannel("offset_{pname}_id")
+rslider bounds(543, 12, 62, 62), text("offset"), channel("offset_{pname}"), range({p_min}, {p_max}, {p_default}, {p_skew}, {p_incr}), trackerinsideradius(0.5), trackeroutsideradius(1), trackercolour("ForestGreen"), visible(1), identchannel("offset_{pname}_id")
 combobox bounds(543, 1, 55, 12), channel("offsetx_{pname}"), items("-1", "Norm", "+1"), , value(2), visible(1), identchannel("offset_x_{pname}_id")
-rslider bounds(604, 8, 66, 66), text("{pname}"), channel("{pname}"), range({p_min}, {p_max}, {p_default}, {p_skew}, {p_incr}), identchannel("{pname}_id")
+rslider bounds(604, 8, 66, 66), text("{pname}"), channel("{pname}"), range({p_min}, {p_max}, {p_default}, {p_skew}, {p_incr}), trackerinsideradius(0.5), trackeroutsideradius(1), trackercolour("ForestGreen"), identchannel("{pname}_id")
 
 label bounds(680, 8, 55, 12), text("midi"), colour(20,20,20,255)
 checkbox bounds(742, 8, 12, 12), text("enable"), channel("enable_{pname}"), value(1)
