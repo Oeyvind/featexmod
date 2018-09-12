@@ -1319,7 +1319,7 @@ klearn14 chnget "learn_parm14"
 klearn15 chnget "learn_parm15"
 klearn16 chnget "learn_parm16"
 
-kanylearn_ = klearn1+klearn2+klearn3+klearn4+klearn5+klearn6+klearn7+klearn8
+kanylearn_ = klearn1+klearn2+klearn3+klearn4+klearn5+klearn6+klearn7+klearn8+klearn9+klearn10+klearn11+klearn12+klearn13+klearn14+klearn15+klearn16
 kanylearn = kanylearn_ > 0  ? 1 : 0
         chnset kanylearn, "learn_active"
 
