@@ -77,7 +77,7 @@ plant_height = 85
 
 plantOSC = '''groupbox bounds({start_y}, {start_x}, 853, 81), colour(75,85,90), plant("plant_{pname}"), linethickness("0"){{ 
 combobox channel("method_{pname}"), bounds(10, 12, 96, 20), items("add", "abs_diff", "gate"), value(1)
-label bounds(5,40,10,10), text("{pnum}"), colour(20,20,20,255)
+label bounds(5,40,20,10), text("{pnum}"), colour(20,20,20,255)
 combobox channel("source1_{pname}"), bounds(110, 12, 100, 20), items({analysis_p}), value(1)
 combobox channel("chan1_{pname}"), bounds(213, 12, 50, 20), items("1", "2", "3", "4"), value(1)
 nslider bounds(268, 14, 35, 15), channel("rise1_{pname}"), range(0.01, 10.0, 0.01), visible(1), identchannel("rise1_{pname}_id")
@@ -144,7 +144,7 @@ texteditor bounds(790, 50, 50, 14), channel("{pname}_daw"), text("parm_daw"), co
 '''
 plantMIDI = '''groupbox bounds({start_y}, {start_x}, 853, 81), colour(75,85,90), plant("plant_{pname}"), linethickness("0"){{ 
 combobox channel("method_{pname}"), bounds(10, 12, 96, 20), items("add", "abs_diff", "gate"), value(1)
-label bounds(5,40,10,10), text("{pnum}"), colour(20,20,20,255)
+label bounds(5,40,20,10), text("{pnum}"), colour(20,20,20,255)
 combobox channel("source1_{pname}"), bounds(110, 12, 100, 20), items({analysis_p}), value(1)
 combobox channel("chan1_{pname}"), bounds(213, 12, 50, 20), items("1", "2", "3", "4"), value(1)
 nslider bounds(268, 14, 35, 15), channel("rise1_{pname}"), range(0.01, 10.0, 0.01), visible(1), identchannel("rise1_{pname}_id")
