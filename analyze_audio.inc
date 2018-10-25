@@ -202,7 +202,7 @@ endif
 
 ;*************************************
 ; ** rhythm autocorrelation
-
+/*
 ; sinoid trigger envelope, allows (soft) rhythmic deviation from strict pattern
 ishapedur = 0.1
 ;ktest metro 1
@@ -296,7 +296,7 @@ krhythm_ac_max4 = maxarray(kRhythmAuto4)
 krhythm_ac_crest4 = limit((krhythm_ac_rms4/(log2(knumtransients4+1)+1))*20, 0, 1) ; some empirical adjustment here... (!)
 
 krhythm_ac_crest = (krhythm_ac_crest1+krhythm_ac_crest2+krhythm_ac_crest4)/3
-
+*/
 
 
 ; ***************

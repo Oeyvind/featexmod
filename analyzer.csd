@@ -279,6 +279,9 @@ analyze_udos.inc
  	chnset	SadynD, "envDyn"	; update gui	
         endif
 
+kra_flux = 0
+krhythm_ac_crest = 0
+/* disable rhythm autocorr for now, possible bug in udo
         if krnewframe4*kenableDisplay > 0 then
                 
         copya2ftab (kRhythmAuto*0.2)+0.85, gi10
@@ -302,7 +305,7 @@ analyze_udos.inc
  	SrafluxD sprintfk "text(%.2f)", kra_flux
  	
         endif
-
+*/
         if krms_tran0*kenableDisplay>0 then
         krc_indx init 0
  	SrcomplexD sprintfk "text(%.2f)", krhythm_consonance
@@ -399,7 +402,9 @@ send:
         kmonitor        chnget "pitchMonitor"
         atest           oscili interp(krms)*kmonitor, kcps, giSine
                         outs atest, atest
+
 skip:
+
         endin
 
 ;**************************

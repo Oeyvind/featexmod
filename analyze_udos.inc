@@ -323,7 +323,7 @@ if krclock > 0 then
     ;kFFT = kFFT*(1/ifftsize)                    ; normalize
     kFFT2[] = pows(kFFT)                        ; square mags
     kFFT3[] slicearray kFFT2, 0, ifftsize-1      
-    kFFT4[] r2c kFFT3
+    kFFT4[] r2c kFFT3                           ; SOMETHING OFF HERE IN 6.12
     kFFT4[0] = 0                                 ; zero first bin
     kAuto0[] rifft kFFT4                         ; and back
     kAuto0 = kAuto0 * kAuto0                    ; square result
@@ -331,6 +331,7 @@ if krclock > 0 then
     kbase = (kAuto[0]>0?kAuto[0]:1)
     kAuto = (kAuto/kbase)*kShape*(1/kShape[0])  ; normalize 
     kndx = 0
+
     while kndx <ifftsize -1 do
     if kAuto[kndx] > 0 then
     kAuto[kndx] = sqrt(kAuto[kndx])
@@ -347,6 +348,7 @@ if krclock > 0 then
     kcorrSum = 0
     kprevSum = 0
     kthisSum = 0
+
     while kndx2 < ifftsize-1 do
       kAutomax max kAuto[kndx2], kAuto[kndx2-1], kAuto[kndx2+1]
       kAutoPrevmax max kAutoPrev[kndx2], kAutoPrev[kndx2-1], kAutoPrev[kndx2+1]
@@ -363,6 +365,7 @@ if krclock > 0 then
 
 endif
 knewframe trigger knewframe, 0.5, 0
+
 xout kAuto, knewframe, knumtransients_out, kflux
 endop
 
