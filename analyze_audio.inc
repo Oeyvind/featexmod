@@ -47,7 +47,7 @@
         klowscaler      = limit(dbfsamp(krms)-knoiseFloor_dB, 0, isecond_dB)/isecond_dB      ; scaler to fade out different things towards the noise floor
         krms_dB_n       = (krms_dB/abs(knoiseFloor_dB))+1
 
-        icrestrate      = 4
+        icrestrate      = 10
         kcrestmetro     metro icrestrate
         krms_max        init 0
         krms_max        max krms_max, krms
@@ -58,8 +58,8 @@
         kcrestArr[kcrestindex] = krms_max
         kcrest_max      maxarray kcrestArr ; get max out of N last values
         kenv_crest0     divz kcrest_max, krms, 1
-	kcrestrise      = (kgate2 > 0 ? 1 : 10) ; slow response when signal is low
-	kcrestfall      = (kgate2 > 0 ? 3 : 8) ; slow response when signal is low
+	kcrestrise      = (kgate2 > 0 ? 1 : 1) ; STATIC .. was slow response when signal is low
+	kcrestfall      = (kgate2 > 0 ? 3 : 3) ; STATIC .. was slow response when signal is low
         kcrestA         = 0.001^(1/(kcrestrise*kr))
         kcrestB         = 0.001^(1/(kcrestfall*kr))
         kenv_crest      init 0

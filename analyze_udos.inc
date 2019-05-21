@@ -234,7 +234,7 @@ else
   knom1 = iAnom2[kndx1]
   kden1 = iAden2[kndx1]
 
-  if kndx1 < lenarray(iAnom2) then
+  if kndx1 < lenarray(iAnom2)-1 then
     knom1next = iAnom2[kndx1+1]
     kden1next = iAden2[kndx1+1]
   else
