@@ -1362,7 +1362,7 @@ ilabelinstr = 95
 
 ; filter any messages we don't ever want to parse from Live
 Stest strcpyk gSmess[k(0)]
-kskiplive1 strindexk Stest, "track"
+kskiplive1 =0;strindexk Stest, "track"
 kskiplive2 strindexk Stest, "selected"
 kskiplive = (kskiplive1+kskiplive2 > 0 ? 1 : 0)
 

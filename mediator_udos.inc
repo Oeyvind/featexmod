@@ -119,7 +119,16 @@ endop
 ;inputs Sdevice, Strack, Sparm_num, Sadr, kData1
 opcode OscControlLive, 0, SSSSk
   Sdevice, Strack, Sparm_num, Sadr, kData xin
-
+  ktrigd changed Sdevice 
+  ktrigt changed Strack 
+  ktrigp changed Sparm_num 
+  ktriga changed Sadr
+  ktrig = ktrigd+ktrigt+ktrigp+ktriga 
+  printk2 ktrig, 10
+  if ktrig > 0 then
+    reinit stringupdate
+  endif
+  stringupdate:
   if strlen(Sdevice)==0 then
     Sdevice strcpy "123"
   endif
@@ -153,6 +162,7 @@ opcode OscControlLive, 0, SSSSk
     Sadr_d strsub Sadr, 0, strindex(Sadr,"param")-1
     OSCsend kwhen+1, "127.0.0.1",9000, Sadr_d, "iiif", strtod(Strack), strtod(Sdevice), strtod(Sparm_num), kData
   endif
+  rireturn
   /*
   mute ii tracknum, val
   vol/pan if tracknum, val
