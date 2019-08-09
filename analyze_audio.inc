@@ -512,9 +512,9 @@ endif
         kcps_n          = divz(kcps, kpitch_high, 1)
         kpitch_n        = limit(divz(kcps-kpitch_low, kpitch_high-kpitch_low, 1), 0, 1)    ; normalized and offset
         kcentroid_n     = kcentroidf / (sr*0.15)
-        kspread_n       = kspread / (sr*0.15);(sr*0.2)
-        kskewness_n     = kskewness / 20
-        kurtosis_n      = kurtosis / 250
+        kspread_n       = kspread / (sr*0.15)
+        kskewness_n     = kskewness / (sr*0.0005)
+        kurtosis_n      = kurtosis / (sr*0.006)
         kflatness_n     = kflatness * 3
         kcrest_n        = kcrest / 250
         kflux_n         = kfluxf * 4
