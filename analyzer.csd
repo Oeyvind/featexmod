@@ -16,7 +16,7 @@
 ;    If not, see <http://www.gnu.org/licenses/>.
 
 <Cabbage>
-form size(805, 725), caption("Analyzer"), pluginID("anlz");, guirefresh(10) 
+form size(805, 725), caption("Analyzer"), pluginId("anlz");, guiRefresh(10) 
 image bounds(0, 0, 805, 725), shape("sharp"), colour(5,15,20)
 
 label text("channel"), bounds(15, 16, 75, 12)
@@ -57,8 +57,8 @@ rslider bounds(275, 226, 65, 65), text("DblLimit"), channel("amp_transientDouble
 
 
 label text("plot"), bounds(5, 295, 40, 15), align("left")
-button bounds(40, 295, 50, 15), channel("plotenable"), text("not","plot"), value(0), colour("gray"), fontcolour("blue")
-button bounds(90, 295, 50, 15), channel("plotclear"), text("clear","-"), value(0), colour("gray"), fontcolour("blue"), latched(0)
+button bounds(40, 295, 50, 15), channel("plotenable"), text("not","plot"), value(0), colour("gray"), fontColour("blue")
+button bounds(90, 295, 50, 15), channel("plotclear"), text("clear","-"), value(0), colour("gray"), fontColour("blue"), latched(0)
 label text("update"), bounds(160, 295, 100, 15), align("left")
 combobox channel("plotupdatemethod"), bounds(215, 295, 70, 15), items("metro", "transient"), value(1)
 nslider bounds(290, 295, 40, 15), channel("plotmetrorate"), range(1, 50, 10)
@@ -88,37 +88,37 @@ nslider bounds(270, 535, 40, 15), channel("plot_c_scale"), range(0.0, 99, 1.0)
 nslider bounds(320, 535, 40, 15), channel("plot_c_offset"), range(-1.0, 1.0, 0.0)
 
 image bounds(5, 315, 260, 260), shape("sharp"), colour(0, 0, 0)
-image bounds(-100, -100, 1, 1), widgetarray("plot", 200), shape("ellipse"), colour(255, 255, 255)
+image bounds(-100, -100, 1, 1), widgetArray("plot", 200), shape("ellipse"), colour(255, 255, 255)
 
 csoundoutput bounds(5, 580, 360, 140), text("Output")
 
 
 
-gentable bounds(370,  5, 352, 240), identchannel("displays"), tablenumber(1), tablecolour(173,216,230,100), tablegridcolour(0,0,0,0), outlinethickness(2), amprange(-.03,1,1), zoom(-1), samplerange(0,22)
+gentable bounds(370,  5, 352, 240), identChannel("displays"), tableNumber(1), tableColour(173,216,230,100), tableGridColour(0,0,0,0), outlineThickness(2), ampRange(-.03,1,1), zoom(-1), sampleRange(0,22)
 
-image bounds(370, 5, 32,240), shape("sharp"), colour(175, 50,255, 40), identchannel("group_amp")	
+image bounds(370, 5, 32,240), shape("sharp"), colour(175, 50,255, 40), identChannel("group_amp")	
 label text("noisefloor"), bounds(386, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
 label text("krms"), bounds(402, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
 
-image bounds(418, 5, 32,240), shape("sharp"), colour(175, 50, 155, 40), identchannel("group_env")	
+image bounds(418, 5, 32,240), shape("sharp"), colour(175, 50, 155, 40), identChannel("group_env")	
 label text("trans dens"), bounds(434, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
 label text("env crest"), bounds(450, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
 
-image bounds(450, 5, 16 ,240), shape("sharp"), colour(75,255, 75, 40), identchannel("group_pitch")	
+image bounds(450, 5, 16 ,240), shape("sharp"), colour(75,255, 75, 40), identChannel("group_pitch")	
 label text("pitch"), bounds(466, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
 
-image bounds(466, 5, 64,240), shape("sharp"), colour(45, 45,155, 40), identchannel("group_spectral1")	
+image bounds(466, 5, 64,240), shape("sharp"), colour(45, 45,155, 40), identChannel("group_spectral1")	
 label text("centroid"), bounds(482, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
 label text("spread"), bounds(498, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
 label text("skewness"), bounds(514, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
 label text("kurtosis"), bounds(530, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
 
-image bounds(530, 5, 48,240), shape("sharp"), colour(255,200, 100, 40), identchannel("group_spectral2")	
+image bounds(530, 5, 48,240), shape("sharp"), colour(255,200, 100, 40), identChannel("group_spectral2")	
 label text("flatness"), bounds(546, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
 label text("crest"), bounds(562, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
 label text("flux"), bounds(578, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
 
-image bounds(594, 5, 112,240), shape("sharp"), colour(50,200, 255, 40), identchannel("group_mfcc")	
+image bounds(594, 5, 112,240), shape("sharp"), colour(50,200, 255, 40), identChannel("group_mfcc")	
 label text("mfcc1"), bounds(610, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
 label text("2"), bounds(626, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
 label text("3"), bounds(642, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
@@ -128,26 +128,26 @@ label text("6"), bounds(690, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
 label text("mfccdiff"), bounds(706, 250, 75, 15), align("left"), rotate(1.5708, 0, 0)
 
 label text("trans dens"), bounds(370, 340, 100, 15), align("left")
-label text("0"), bounds(370, 360, 50, 15), align("left"), identchannel("ampTransDensity")	
+label text("0"), bounds(370, 360, 50, 15), align("left"), identChannel("ampTransDensity")	
 label text("env crest"), bounds(470, 340, 100, 15), align("left")
-label text("0"), bounds(470, 360, 50, 15), align("left"), identchannel("envCrest")	
+label text("0"), bounds(470, 360, 50, 15), align("left"), identChannel("envCrest")	
 label text("env dyn"), bounds(570, 340, 100, 15), align("left")
-label text("0"), bounds(570, 360, 50, 15), align("left"), identchannel("envDyn")	
+label text("0"), bounds(570, 360, 50, 15), align("left"), identChannel("envDyn")	
 
 
 label text("rhythm relations"), bounds(370, 410, 200, 15), align("left")
-label text("irreg"), bounds(370, 430, 50, 15), align("left"), fontcolour("red")
-label text("conso"), bounds(420, 430, 50, 15), align("left"), fontcolour("lightblue")
+label text("irreg"), bounds(370, 430, 50, 15), align("left"), fontColour("red")
+label text("conso"), bounds(420, 430, 50, 15), align("left"), fontColour("lightblue")
 label text("dev"), bounds(470, 430, 50, 15), align("left")
-label text("0"), bounds(370, 450, 50, 15), align("left"), identchannel("rhythm_irregularity")	
-label text("0"), bounds(420, 450, 50, 15), align("left"), identchannel("rhythm_consonance")	
-label text("0"), bounds(470, 450, 50, 15), align("left"), identchannel("rhythm_consonance_deviation")
+label text("0"), bounds(370, 450, 50, 15), align("left"), identChannel("rhythm_irregularity")	
+label text("0"), bounds(420, 450, 50, 15), align("left"), identChannel("rhythm_consonance")	
+label text("0"), bounds(470, 450, 50, 15), align("left"), identChannel("rhythm_consonance_deviation")
 
-gentable bounds(370, 470, 160, 140), identchannel("rhythm_consonance_tab"), tablenumber(5,6,7), tablecolour:0(255,0,0,160), tablecolour:1(173,216,230,70), tablecolour:2(85,107,47,100), outlinethickness(1), tablegridcolour(0,0,0,0), amprange(-0.15,1,5), amprange(-0.15,1,6), amprange(-0.15,1,7), zoom(-1), samplerange(0,32)
+gentable bounds(370, 470, 160, 140), identChannel("rhythm_consonance_tab"), tableNumber(5,6,7), tableColour:0(255,0,0,160), tableColour:1(173,216,230,70), tableColour:2(85,107,47,100), outlineThickness(1), tableGridColour(0,0,0,0), ampRange(-0.15,1,5), ampRange(-0.15,1,6), ampRange(-0.15,1,7), zoom(-1), sampleRange(0,32)
 label text("latest rhythm ratios"), bounds(370, 620, 200, 15), align("left")
-label text("0"), bounds(370, 640, 50, 15), align("left"), identchannel("rhythmratio1")	
-label text("0"), bounds(420, 640, 50, 15), align("left"), identchannel("rhythmratio2")	
-label text("0"), bounds(470, 640, 50, 15), align("left"), identchannel("rhythmratio3")	
+label text("0"), bounds(370, 640, 50, 15), align("left"), identChannel("rhythmratio1")	
+label text("0"), bounds(420, 640, 50, 15), align("left"), identChannel("rhythmratio2")	
+label text("0"), bounds(470, 640, 50, 15), align("left"), identChannel("rhythmratio3")	
 
 
 label text("rhythm autocorrelation"), bounds(540, 410, 200, 15), align("left")
@@ -155,13 +155,11 @@ label text("rhythm autocorrelation"), bounds(540, 410, 200, 15), align("left")
 label text("rcrest"), bounds(540, 430, 50, 15), align("left")
 label text("rflux"), bounds(600, 430, 50, 15), align("left")
 
-label text("0"), bounds(540, 450, 50, 15), align("left"), identchannel("rhythmautocrest")	
-label text("0"), bounds(600, 450, 50, 15), align("left"), identchannel("rhythmautoflux")	
+label text("0"), bounds(540, 450, 50, 15), align("left"), identChannel("rhythmautocrest")	
+label text("0"), bounds(600, 450, 50, 15), align("left"), identChannel("rhythmautoflux")	
 
 ; (normal width 160)
-;gentable bounds(540, 470, 256, 140), identchannel("rhythm_autocorr"), tablenumber(10,11,12,13,14), tablecolour:0(85,107,47,50), tablecolour:1(73,216,230,50), tablecolour:2(255,0,0,50), tablecolour:3(255,255,0,50), tablecolour:4(0,0,255,50), outlinethickness(2), tablebackgroundcolour(0,0,0,0), tablegridcolour(0,0,0,0), amprange(-0.1,1.5,10), amprange(-0.1,1.5,11), amprange(-0.1,1.5,12), amprange(-0.1,1.5,13), amprange(-0.1,1.5,14), zoom(-1), samplerange(0,255)
-gentable bounds(540, 470, 256, 140), identchannel("rhythm_autocorr"), tablenumber(10,11), tablecolour:0(85,107,47,50), tablecolour:1(73,216,230,50), outlinethickness(2), tablebackgroundcolour(0,0,0,0), tablegridcolour(0,0,0,0), amprange(-0.1,1.5,10), amprange(-0.1,1.5,11), zoom(-1), samplerange(0,255)
-;gentable bounds(540, 470, 256, 140), identchannel("rhythm_autocorr"), tablenumber(10), tablecolour:0(85,107,47,50), outlinethickness(2), tablebackgroundcolour(0,0,0,0), tablegridcolour(0,0,0,0), amprange(-0.1,1.5,10), zoom(-1), samplerange(0,255)
+gentable bounds(540, 470, 256, 140), identChannel("rhythm_autocorr"), tableNumber(10,11), tableColour:0(85,107,47,50), tableColour:1(73,216,230,50), outlineThickness(2), tableBackgroundColour(0,0,0,0), tableGridColour(0,0,0,0), ampRange(-0.1,1.5,10), ampRange(-0.1,1.5,11), zoom(-1), sampleRange(0,255)
 
 
 <CabbageIncludes>
@@ -270,7 +268,7 @@ analyze_udos.inc
         kupd    metro 100
         kenableDisplay chnget "enableDisplay"
         if kupd*kenableDisplay > 0 then
- 	chnset	"tablenumber(1)", "displays"	; update table display	
+ 	chnset	"tableNumber(1)", "displays"	; update table display	
  	SatranD sprintfk "text(%.1f)", katransDensEnv
  	chnset	SatranD, "ampTransDensity"	; update gui	
  	SacrestD sprintfk "text(%.1f)", kenv_crest1
@@ -296,8 +294,7 @@ krhythm_ac_crest = 0
         
         ;copya2ftab (kHist*0.2)+0.1, gi10
         ;copya2ftab (kHist2*0.2)+.2, gi11
- 	;chnset	"tablenumber(10,11,12,13,14)", "rhythm_autocorr"	; update table display	
- 	chnset	"tablenumber(10,11)", "rhythm_autocorr"	; update table display	
+ 	chnset	"tableNumber(10,11)", "rhythm_autocorr"	; update table display	
  	
 
  	SrautocrestD sprintfk "text(%.2f)", krhythm_ac_crest
