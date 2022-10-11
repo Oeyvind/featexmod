@@ -16,7 +16,7 @@
 ;    If not, see <http://www.gnu.org/licenses/>.
 
 <Cabbage>
-form size(863, 1410), caption("VST_OSC_mediator"), pluginId("vosc"),colour(75,85,90)
+form size(873, 1410), caption("VST_OSC_mediator"), pluginId("vosc"),colour(75,85,90)
 ;image bounds(0, 0, 863, 810),  shape("sharp"), colour(75,85,90)
 
 label text("port"), bounds(10, 10, 80, 12), identChannel("port_id")

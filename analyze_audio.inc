@@ -87,7 +87,8 @@
         if ktrigButn > 0 then
         katranTime      = ktime-kprevaTranTime
         kprevaTranTime  = ktime
-        katranDensity_t divz 1, katranTime, 1           ; this will be accurate for slow tempi, but not if you play e.g. two fast consecutive transients followed by a puase
+        katranDensity_t divz 1, katranTime, 1           ; this will be accurate for slow tempi, but not if you play e.g. two fast consecutive transients followed by a pause
+	reinit holdTransient
         endif
 holdTransient:
         kamp_trans_hold linseg 1,0.05,1,0,0,1,0
