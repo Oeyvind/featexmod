@@ -1240,7 +1240,9 @@ endif
  Spmnum$N. sprintf "parm%i_num", $N.
  Sparm_num$N. chnget Spmnum$N.
  Spmadr$N. sprintf "parm%i_adr", $N.
- Sadr$N. chnget Spmadr$N.
+Sadr$N. chnget Spmadr$N.
+ktemporaw$N. strindexk Sadr$N., "tempo/raw"
+kparm$N. = ktemporaw$N. > -1 ? kparm$N.*300 : kparm$N.
  Spmdaw$N. sprintf "parm%i_daw", $N.
  Sdaw$N. chnget Spmdaw$N.
  SendOscToDaw kenable$N., Sdaw$N., klearn_off$N., Sdevice$N., Strack$N., Sparm_num$N., Sadr$N., kparm$N.

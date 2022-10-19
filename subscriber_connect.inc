@@ -21,8 +21,8 @@
         kmetro          metro 1
         if (gkhandle == -1) && (kmetro == 1) then
         gkport          += 1
-                        event "i", -3, 0.1, 1, gkport
-                        event "i", 3, 0.2, -1, gkport
+                        ;event "i", -3, 0.1, 1, gkport
+                        event "i", 3, 0.1, .1, gkport
         endif
         endin
 
@@ -30,8 +30,11 @@
         iport           = p4
         iport           = 7001+iport
         print iport
-	gihandle        OSCinit iport
-	gkhandle = gihandle
+;	gihandle        OSCinit iport
+	Smess[] init 30
+    	Smess, ka OSCraw iport
+
+	gkhandle = iport
 	Sport  sprintf {{text("port %i")}}, iport
 	                chnset Sport, "port_id"
         endin
