@@ -35,8 +35,10 @@
     	Smess, ka OSCraw iport
 
 	gkhandle = iport
-	Sport  sprintf {{text("port %i")}}, iport
-	                chnset Sport, "port_id"
+;	Sport  sprintf {{text("port %i")}}, iport
+;	                chnset Sport, "port_id"
+        Sport sprintf "port %i", iport
+        cabbageSet "port_id", "text"
         endin
 
 
