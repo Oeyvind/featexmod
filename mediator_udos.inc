@@ -203,7 +203,7 @@ if (kenable>0) then
 
     kwhen changed kdata
     if kwhen > 0 then
-      Sdest[kindex] = Sadr
+      Sdest[kindex] strcpyk Sadr
       kData[kindex][0] = kdata
       kindex += 1	
 
@@ -211,6 +211,7 @@ if (kenable>0) then
       ;if kindex > lenarray(Sdest)-1 then
         OSCbundle  rnd31:k(1,1)+2, "127.0.0.1", 9000, Sdest, Stype, kData
         ;printarray(Sdest)
+        ;printarray(kData)
         Sdest = Sdest_empty
         kData *= 0
         kindex = 0
