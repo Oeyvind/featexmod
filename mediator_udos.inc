@@ -175,13 +175,6 @@ endop
 
 opcode SendOscToDaw, 0, kSkSSSSk
 kenable, Sdaw, klearn_off, Sdevice, Strack, Sparm_num, Sadr, kdata  xin
-kData[][] init 10,1
-Sdest[] init 10
-Stype[] fillarray "f","f","f","f","f","f","f","f","f","f"
-Sdest_empty[] fillarray "","","","","","","","","",""    
-ktrig metro chnget:k("oscrate")
-kindex init 0
-
 if strlen(Sdaw)==0 then
   Sdaw strcpy "123"
 endif
@@ -196,30 +189,8 @@ if (kenable>0) then
     OscControlLive Sdevice, Strack, Sparm_num, Sadr, kdata
     rireturn
   else ; ** Reaper as DAW
-/* single messages (non-bundle), enable these two lines and disable the next if-paragraph
     kwhen changed kdata
     OSCsend kwhen+1, "127.0.0.1",9000, Sadr, "f", kdata
-*/
-
-    kwhen changed kdata
-    if kwhen > 0 then
-      Sdest[kindex] strcpyk Sadr
-      kData[kindex][0] = kdata
-      kindex += 1	
-
-      if kindex > lenarray(Sdest)-1 || ktrig > 0 then
-      ;if kindex > lenarray(Sdest)-1 then
-        OSCbundle  rnd31:k(1,1)+2, "127.0.0.1", 9000, Sdest, Stype, kData
-        ;printarray(Sdest)
-        ;printarray(kData)
-        Sdest = Sdest_empty
-        kData *= 0
-        kindex = 0
-      endif
-    endif
-
   endif
 endif
 endop
-
-    
